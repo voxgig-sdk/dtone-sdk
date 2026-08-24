@@ -1,0 +1,27 @@
+# API Information
+
+
+main: {
+  kit: {
+    info: {
+      description: "DT One Digital Vending Services (DVS) API. Draft OpenAPI spec authored by Voxgig from the public docs at https://developers.dtone.com/ ."
+      security: {
+        in: "header"
+        name: "Authorization"
+        prefix: "Basic"
+        scheme: "BasicAuth"
+        type: "http"
+      }
+      servers: [
+        {
+          url: "https://dvs-api.dtone.com/v1"
+        }
+      ]
+      summary: "DT One Digital Vending Services (DVS) API."
+      title: "DT One DVS API"
+      version: "1.0.0"
+      website: "https://dvs-api.dtone.com"
+    }
+  }
+}
+

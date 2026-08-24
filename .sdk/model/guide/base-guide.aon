@@ -1,0 +1,18 @@
+# Guide
+
+guide: {
+  metrics: count: entity: 1
+  metrics: count: path: 2
+  metrics: count: method: 2
+
+  entity: service: {
+    path: "/services": {
+      op: list: method: *GET
+    }
+    path: "/services/{service_id}": {
+      rename: param: "service_id": *"id"
+      op: load: method: *GET
+    }
+  }
+
+}

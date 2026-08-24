@@ -1,0 +1,29 @@
+{
+  "existing": {
+    "service": {
+      "SERVICE00": {
+        "id": "SERVICE00",
+        "name": "s1f",
+        "subservices": []
+      },
+      "SERVICE01": {
+        "id": "SERVICE01",
+        "name": "s3d",
+        "subservices": []
+      },
+      "SERVICE02": {
+        "id": "SERVICE02",
+        "name": "s5b",
+        "subservices": []
+      }
+    }
+  },
+  "new": {
+    "service": {
+      "service_ref01": {
+        "name": "s79",
+        "subservices": []
+      }
+    }
+  }
+}

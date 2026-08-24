@@ -1,0 +1,113 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DT One DVS API",
+    "version": "1.0.0",
+    "description": "DT One Digital Vending Services (DVS) API. Draft OpenAPI spec authored by Voxgig from the public docs at https://developers.dtone.com/ ."
+  },
+  "servers": [
+    { "url": "https://dvs-api.dtone.com/v1" }
+  ],
+  "security": [
+    { "BasicAuth": [] }
+  ],
+  "paths": {
+    "/services": {
+      "get": {
+        "operationId": "getServices",
+        "summary": "List services",
+        "security": [ { "BasicAuth": [] } ],
+        "parameters": [
+          {
+            "name": "country_iso_code",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "default": 1 }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 50 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A page of services",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Service" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/services/{service_id}": {
+      "get": {
+        "operationId": "getServiceById",
+        "summary": "Retrieve a service by id",
+        "security": [ { "BasicAuth": [] } ],
+        "parameters": [
+          {
+            "name": "service_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer", "minimum": 1 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The service",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Service" }
+              }
+            }
+          },
+          "404": {
+            "description": "Service not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic",
+        "description": "The API key is the username, the API secret is the password."
+      }
+    },
+    "schemas": {
+      "Subservice": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" }
+        }
+      },
+      "Service": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "subservices": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Subservice" }
+          }
+        }
+      }
+    }
+  }
+}

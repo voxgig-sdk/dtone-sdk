@@ -1,0 +1,124 @@
+# Entity: service
+
+main: kit: entity: service: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "id"
+      req: false
+      type: "`$INTEGER`"
+    }
+    {
+      name: "name"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "subservices"
+      req: false
+      type: "`$ARRAY`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "service"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "country_iso_code"
+                orig: "country_iso_code"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 1
+                kind: "query"
+                name: "page"
+                orig: "page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 50
+                kind: "query"
+                name: "per_page"
+                orig: "per_page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/services"
+          parts: [
+            "services"
+          ]
+          select: {
+            exist: [
+              "country_iso_code"
+              "page"
+              "per_page"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "id"
+                orig: "service_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/services/{service_id}"
+          parts: [
+            "services"
+            "{id}"
+          ]
+          rename: {
+            param: {
+              service_id: "id"
+            }
+          }
+          select: {
+            exist: [
+              "id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}
