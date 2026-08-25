@@ -22,3 +22,11 @@
 # A published package name that does not follow the derivation:
 #
 #   main: kit: target: ts: publish: registry: package: '@scope/name'
+
+# Seneca provider plugin, generated out-of-tree into the sibling repo. No
+# existing senecajs/seneca-dtone-provider to fork, so a plain (non-adopt)
+# folder.
+main: kit: target: 'seneca-provider': output: {
+  path: '../../seneca/dtone-provider'
+  sdkrel: '../../voxgig-sdk/dtone-sdk'
+}
