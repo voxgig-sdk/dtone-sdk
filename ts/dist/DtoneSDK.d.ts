@@ -1,4 +1,16 @@
+import { BalanceEntity } from './entity/BalanceEntity';
+import { BenefitTypeEntity } from './entity/BenefitTypeEntity';
+import { CampaignEntity } from './entity/CampaignEntity';
+import { CountryEntity } from './entity/CountryEntity';
+import { CreditPartyBenefitEntity } from './entity/CreditPartyBenefitEntity';
+import { CreditPartyStatusEntity } from './entity/CreditPartyStatusEntity';
+import { MobileNumberLookupEntity } from './entity/MobileNumberLookupEntity';
+import { OperatorEntity } from './entity/OperatorEntity';
+import { ProductEntity } from './entity/ProductEntity';
+import { PromotionEntity } from './entity/PromotionEntity';
 import { ServiceEntity } from './entity/ServiceEntity';
+import { StatementInquiryEntity } from './entity/StatementInquiryEntity';
+import { TransactionEntity } from './entity/TransactionEntity';
 export type * from './DtoneTypes';
 import { inspect } from 'node:util';
 import type { Context, Feature } from './types';
@@ -44,7 +56,19 @@ declare class DtoneSDK {
         data?: undefined;
     }>;
     graphql(query: string, variables?: any, ctrl?: any): Promise<any>;
+    Balance(entopts?: Record<string, any>): BalanceEntity;
+    BenefitType(entopts?: Record<string, any>): BenefitTypeEntity;
+    Campaign(entopts?: Record<string, any>): CampaignEntity;
+    Country(entopts?: Record<string, any>): CountryEntity;
+    CreditPartyBenefit(entopts?: Record<string, any>): CreditPartyBenefitEntity;
+    CreditPartyStatus(entopts?: Record<string, any>): CreditPartyStatusEntity;
+    MobileNumberLookup(entopts?: Record<string, any>): MobileNumberLookupEntity;
+    Operator(entopts?: Record<string, any>): OperatorEntity;
+    Product(entopts?: Record<string, any>): ProductEntity;
+    Promotion(entopts?: Record<string, any>): PromotionEntity;
     Service(entopts?: Record<string, any>): ServiceEntity;
+    StatementInquiry(entopts?: Record<string, any>): StatementInquiryEntity;
+    Transaction(entopts?: Record<string, any>): TransactionEntity;
     static test(testoptsarg?: any, sdkoptsarg?: any): DtoneSDK;
     tester(testopts?: any, sdkopts?: any): DtoneSDK;
     toJSON(): {

@@ -1,0 +1,22 @@
+{
+  "existing": {
+    "benefit_type": {
+      "BENEFIT_TYPE00": {
+        "name": "sa"
+      },
+      "BENEFIT_TYPE01": {
+        "name": "s14"
+      },
+      "BENEFIT_TYPE02": {
+        "name": "s1e"
+      }
+    }
+  },
+  "new": {
+    "benefit_type": {
+      "benefit_type_ref01": {
+        "name": "s28"
+      }
+    }
+  }
+}

@@ -32,8 +32,44 @@ func init() {
 	core.NewTestFeatureFunc = func() core.Feature {
 		return feature.NewTestFeature()
 	}
+	core.NewBalanceEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewBalanceEntity(client, entopts)
+	}
+	core.NewBenefitTypeEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewBenefitTypeEntity(client, entopts)
+	}
+	core.NewCampaignEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewCampaignEntity(client, entopts)
+	}
+	core.NewCountryEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewCountryEntity(client, entopts)
+	}
+	core.NewCreditPartyBenefitEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewCreditPartyBenefitEntity(client, entopts)
+	}
+	core.NewCreditPartyStatusEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewCreditPartyStatusEntity(client, entopts)
+	}
+	core.NewMobileNumberLookupEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewMobileNumberLookupEntity(client, entopts)
+	}
+	core.NewOperatorEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewOperatorEntity(client, entopts)
+	}
+	core.NewProductEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewProductEntity(client, entopts)
+	}
+	core.NewPromotionEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewPromotionEntity(client, entopts)
+	}
 	core.NewServiceEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
 		return entity.NewServiceEntity(client, entopts)
+	}
+	core.NewStatementInquiryEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewStatementInquiryEntity(client, entopts)
+	}
+	core.NewTransactionEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewTransactionEntity(client, entopts)
 	}
 }
 

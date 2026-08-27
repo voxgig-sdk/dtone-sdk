@@ -7,17 +7,18 @@ main: kit: entity: service: {
   fields: [
     {
       name: "id"
-      req: false
+      req: true
+      short: "Service identifier."
       type: "`$INTEGER`"
     }
     {
       name: "name"
-      req: false
+      req: true
       type: "`$STRING`"
     }
     {
       name: "subservices"
-      req: false
+      req: true
       type: "`$ARRAY`"
     }
   ]
@@ -87,7 +88,7 @@ main: kit: entity: service: {
             params: [
               {
                 kind: "param"
-                name: "id"
+                name: "service_id"
                 orig: "service_id"
                 reqd: true
                 type: "`$INTEGER`"
@@ -98,16 +99,11 @@ main: kit: entity: service: {
           orig: "/services/{service_id}"
           parts: [
             "services"
-            "{id}"
+            "{service_id}"
           ]
-          rename: {
-            param: {
-              service_id: "id"
-            }
-          }
           select: {
             exist: [
-              "id"
+              "service_id"
             ]
           }
           transform: {
@@ -117,6 +113,14 @@ main: kit: entity: service: {
         }
       ]
     }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "service"
+      ]
+    ]
   }
 
 

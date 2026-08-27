@@ -1,7 +1,7 @@
 {
   "NAME": "DTONE",
   "Name": "Dtone",
-  "def": "dtone-services-only.json",
+  "def": "dtone-dvs-openapi.json",
   "main": {
     "api": {
       "entity": {},
@@ -35,6 +35,1391 @@
       "contributor": {},
       "docs": {},
       "entity": {
+        "balance": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "available",
+              "req": true,
+              "type": "`$NUMBER`"
+            },
+            {
+              "active": true,
+              "name": "credit_limit",
+              "req": true,
+              "type": "`$NUMBER`"
+            },
+            {
+              "active": true,
+              "name": "holding",
+              "req": true,
+              "type": "`$NUMBER`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": true,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "unit",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "unit_type",
+              "req": true,
+              "type": "`$STRING`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "balance",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 50,
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "unit",
+                        "orig": "unit",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "unit_type",
+                        "orig": "unit_type",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/balances",
+                  "parts": [
+                    "balances"
+                  ],
+                  "select": {
+                    "exist": [
+                      "page",
+                      "per_page",
+                      "unit",
+                      "unit_type"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "benefit_type": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "name",
+              "req": true,
+              "type": "`$STRING`"
+            }
+          ],
+          "name": "benefit_type",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 50,
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/benefit-types",
+                  "parts": [
+                    "benefit-types"
+                  ],
+                  "select": {
+                    "exist": [
+                      "page",
+                      "per_page"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "campaign": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "description",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "end_date",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": true,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "products",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "start_date",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "terms",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "title",
+              "req": true,
+              "type": "`$STRING`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "campaign",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "country_iso_code",
+                        "orig": "country_iso_code",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "operator_id",
+                        "orig": "operator_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 50,
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "product_id",
+                        "orig": "product_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/campaigns",
+                  "parts": [
+                    "campaigns"
+                  ],
+                  "select": {
+                    "exist": [
+                      "country_iso_code",
+                      "operator_id",
+                      "page",
+                      "per_page",
+                      "product_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "campaign_id",
+                        "orig": "campaign_id",
+                        "reqd": true,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/campaigns/{campaign_id}",
+                  "parts": [
+                    "campaigns",
+                    "{campaign_id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "campaign_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "campaign"
+              ]
+            ]
+          }
+        },
+        "country": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "iso_code",
+              "req": true,
+              "short": "Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format.",
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "regions",
+              "req": true,
+              "type": "`$ARRAY`"
+            }
+          ],
+          "name": "country",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 50,
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "service_id",
+                        "orig": "service_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "subservice_id",
+                        "orig": "subservice_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/countries",
+                  "parts": [
+                    "countries"
+                  ],
+                  "select": {
+                    "exist": [
+                      "page",
+                      "per_page",
+                      "service_id",
+                      "subservice_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "country_iso_code",
+                        "orig": "country_iso_code",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/countries/{country_iso_code}",
+                  "parts": [
+                    "countries",
+                    "{country_iso_code}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "country_iso_code"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "country"
+              ]
+            ]
+          }
+        },
+        "credit_party_benefit": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "amount",
+              "req": true,
+              "short": "Remaining benefit amount.",
+              "type": "`$NUMBER`"
+            },
+            {
+              "active": true,
+              "name": "country",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "credit_party_identifier",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "expiration_date",
+              "req": true,
+              "short": "A `null` value denotes either no expiration applies or that the product benefit has not yet been activated.",
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "page",
+              "req": false,
+              "short": "Page number",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "per_page",
+              "req": false,
+              "short": "Number of records per page",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "service_id",
+              "req": true,
+              "short": "Service identifier.",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "type",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "unit",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "unit_type",
+              "req": true,
+              "type": "`$STRING`"
+            }
+          ],
+          "name": "credit_party_benefit",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/lookup/credit-party-benefits",
+                  "parts": [
+                    "lookup",
+                    "credit-party-benefits"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "credit_party_status": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "activation_date",
+              "req": true,
+              "short": "A `null` value denotes that credit party has not yet been activated on the actual network",
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "credit_party_identifier",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "installation_date",
+              "req": true,
+              "short": "A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed",
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "service_id",
+              "req": true,
+              "short": "Service identifier.",
+              "type": "`$INTEGER`"
+            }
+          ],
+          "name": "credit_party_status",
+          "op": {
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/lookup/credit-party-status",
+                  "parts": [
+                    "lookup",
+                    "credit-party-status"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": []
+          }
+        },
+        "mobile_number_lookup": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "country",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": true,
+              "short": "Operator identifier.",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "identified",
+              "req": true,
+              "short": "Indicates whether operator was identified as a direct match",
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "mobile_number",
+              "req": true,
+              "short": "Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format.",
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "page",
+              "req": false,
+              "short": "Page number",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "per_page",
+              "req": false,
+              "short": "Number of records per page",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "regions",
+              "req": true,
+              "type": "`$ARRAY`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "mobile_number_lookup",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "mobile_number",
+                        "orig": "mobile_number",
+                        "reqd": true,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 50,
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/lookup/mobile-number/{mobile_number}",
+                  "parts": [
+                    "lookup",
+                    "mobile-number",
+                    "{mobile_number}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "mobile_number",
+                      "page",
+                      "per_page"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/lookup/mobile-number",
+                  "parts": [
+                    "lookup",
+                    "mobile-number"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "mobile_number"
+              ]
+            ]
+          }
+        },
+        "operator": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "country",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": true,
+              "short": "Operator identifier.",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "name",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "regions",
+              "req": true,
+              "type": "`$ARRAY`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "operator",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "country_iso_code",
+                        "orig": "country_iso_code",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 50,
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "service_id",
+                        "orig": "service_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "subservice_id",
+                        "orig": "subservice_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/operators",
+                  "parts": [
+                    "operators"
+                  ],
+                  "select": {
+                    "exist": [
+                      "country_iso_code",
+                      "page",
+                      "per_page",
+                      "service_id",
+                      "subservice_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "operator_id",
+                        "orig": "operator_id",
+                        "reqd": true,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/operators/{operator_id}",
+                  "parts": [
+                    "operators",
+                    "{operator_id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "operator_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "operator"
+              ]
+            ]
+          }
+        },
+        "product": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [],
+          "name": "product",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "example": "es",
+                        "kind": "header",
+                        "name": "accept_language",
+                        "orig": "accept_language",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "benefit_type",
+                        "orig": "benefit_type",
+                        "reqd": false,
+                        "type": "`$ARRAY`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "country_iso_code",
+                        "orig": "country_iso_code",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "operator_id",
+                        "orig": "operator_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 50,
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "region",
+                        "orig": "region",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "service_id",
+                        "orig": "service_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": "name",
+                        "kind": "query",
+                        "name": "sort",
+                        "orig": "sort",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "subservice_id",
+                        "orig": "subservice_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "tag",
+                        "orig": "tag",
+                        "reqd": false,
+                        "type": "`$ARRAY`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "type",
+                        "orig": "type",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/products",
+                  "parts": [
+                    "products"
+                  ],
+                  "select": {
+                    "exist": [
+                      "accept_language",
+                      "benefit_type",
+                      "country_iso_code",
+                      "operator_id",
+                      "page",
+                      "per_page",
+                      "region",
+                      "service_id",
+                      "sort",
+                      "subservice_id",
+                      "tag",
+                      "type"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "example": "es",
+                        "kind": "header",
+                        "name": "accept_language",
+                        "orig": "accept_language",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "product_id",
+                        "orig": "product_id",
+                        "reqd": true,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/products/{product_id}",
+                  "parts": [
+                    "products",
+                    "{product_id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "accept_language",
+                      "product_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "product"
+              ]
+            ]
+          }
+        },
+        "promotion": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "description",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "end_date",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": true,
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "operator",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "products",
+              "req": true,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "start_date",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "terms",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "title",
+              "req": true,
+              "type": "`$STRING`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "promotion",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "example": "es",
+                        "kind": "header",
+                        "name": "accept_language",
+                        "orig": "accept_language",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "country_iso_code",
+                        "orig": "country_iso_code",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "operator_id",
+                        "orig": "operator_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 50,
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "product_id",
+                        "orig": "product_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/promotions",
+                  "parts": [
+                    "promotions"
+                  ],
+                  "select": {
+                    "exist": [
+                      "accept_language",
+                      "country_iso_code",
+                      "operator_id",
+                      "page",
+                      "per_page",
+                      "product_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "header": [
+                      {
+                        "active": true,
+                        "example": "es",
+                        "kind": "header",
+                        "name": "accept_language",
+                        "orig": "accept_language",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ],
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "promotion_id",
+                        "orig": "promotion_id",
+                        "reqd": true,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/promotions/{promotion_id}",
+                  "parts": [
+                    "promotions",
+                    "{promotion_id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "accept_language",
+                      "promotion_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "promotion"
+              ]
+            ]
+          }
+        },
         "service": {
           "active": true,
           "alias": {
@@ -44,19 +1429,20 @@
             {
               "active": true,
               "name": "id",
-              "req": false,
+              "req": true,
+              "short": "Service identifier.",
               "type": "`$INTEGER`"
             },
             {
               "active": true,
               "name": "name",
-              "req": false,
+              "req": true,
               "type": "`$STRING`"
             },
             {
               "active": true,
               "name": "subservices",
-              "req": false,
+              "req": true,
               "type": "`$ARRAY`"
             }
           ],
@@ -133,7 +1519,7 @@
                       {
                         "active": true,
                         "kind": "param",
-                        "name": "id",
+                        "name": "service_id",
                         "orig": "service_id",
                         "reqd": true,
                         "type": "`$INTEGER`"
@@ -145,16 +1531,11 @@
                   "orig": "/services/{service_id}",
                   "parts": [
                     "services",
-                    "{id}"
+                    "{service_id}"
                   ],
-                  "rename": {
-                    "param": {
-                      "service_id": "id"
-                    }
-                  },
                   "select": {
                     "exist": [
-                      "id"
+                      "service_id"
                     ]
                   },
                   "transform": {
@@ -166,7 +1547,639 @@
             }
           },
           "relations": {
+            "ancestors": [
+              [
+                "service"
+              ]
+            ]
+          }
+        },
+        "statement_inquiry": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "account_number",
+              "req": true,
+              "short": "Account number.",
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "account_qualifier",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "balance",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "dates",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "page",
+              "req": false,
+              "short": "Page number",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "per_page",
+              "req": false,
+              "short": "Number of records per page",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "product_id",
+              "req": true,
+              "short": "Product identifier.",
+              "type": "`$INTEGER`"
+            },
+            {
+              "active": true,
+              "name": "reference",
+              "req": true,
+              "type": "`$ANY`"
+            }
+          ],
+          "name": "statement_inquiry",
+          "op": {
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/lookup/statement-inquiry",
+                  "parts": [
+                    "lookup",
+                    "statement-inquiry"
+                  ],
+                  "select": {},
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
             "ancestors": []
+          }
+        },
+        "transaction": {
+          "active": true,
+          "alias": {
+            "field": {}
+          },
+          "fields": [
+            {
+              "active": true,
+              "name": "additional_identifier",
+              "req": false,
+              "short": "Additional details for a transaction.",
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "adjusted_values",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "auto_confirm",
+              "req": false,
+              "short": "Determines whether a transaction will be automatically confirmed upon creation or not.",
+              "type": "`$BOOLEAN`"
+            },
+            {
+              "active": true,
+              "name": "beneficiary",
+              "req": false,
+              "short": "Beneficiary details for a transaction.",
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "benefits",
+              "req": false,
+              "type": "`$ARRAY`",
+              "union": {
+                "branches": 2,
+                "count": 1,
+                "depth": 1
+              }
+            },
+            {
+              "active": true,
+              "name": "calculation_mode",
+              "req": false,
+              "type": "`$ANY`"
+            },
+            {
+              "active": true,
+              "name": "callback_url",
+              "req": false,
+              "short": "Transaction status updates will be sent to this endpoint.",
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "confirmation_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "confirmation_expiration_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "creation_date",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "credit_party_identifier",
+              "req": false,
+              "short": "Receiving account details for a transaction.",
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "debit_party_identifier",
+              "req": false,
+              "short": "Sending account details for a transaction.",
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "destination",
+              "req": true,
+              "short": "Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT`",
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "external_id",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "id",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "metadata",
+              "req": false,
+              "short": "Optional metadata related to the transaction.",
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "operator_reference",
+              "req": false,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "pin",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "prices",
+              "req": true,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "product",
+              "req": false,
+              "type": "`$ANY`"
+            },
+            {
+              "active": true,
+              "name": "product_id",
+              "req": true,
+              "type": "`$STRING`"
+            },
+            {
+              "active": true,
+              "name": "promotions",
+              "req": false,
+              "type": "`$ARRAY`"
+            },
+            {
+              "active": true,
+              "name": "rates",
+              "req": false,
+              "type": "`$ANY`"
+            },
+            {
+              "active": true,
+              "name": "requested_values",
+              "req": false,
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "sender",
+              "req": false,
+              "short": "Sender details for a transaction.",
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "source",
+              "req": true,
+              "short": "Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT`",
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "statement_identifier",
+              "req": false,
+              "short": "Qualifying statement details for a payment transaction.",
+              "type": "`$OBJECT`"
+            },
+            {
+              "active": true,
+              "name": "status",
+              "req": false,
+              "type": "`$OBJECT`"
+            }
+          ],
+          "id": {
+            "field": "id",
+            "name": "id"
+          },
+          "name": "transaction",
+          "op": {
+            "create": {
+              "input": "data",
+              "name": "create",
+              "points": [
+                {
+                  "active": true,
+                  "args": {},
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/async/transactions",
+                  "parts": [
+                    "async",
+                    "transactions"
+                  ],
+                  "select": {
+                    "$action": "asyncCreate"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {},
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/sync/transactions",
+                  "parts": [
+                    "sync",
+                    "transactions"
+                  ],
+                  "select": {
+                    "$action": "syncCreate"
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "list": {
+              "input": "data",
+              "name": "list",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "query": [
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "country_iso_code",
+                        "orig": "country_iso_code",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "credit_party_account_number",
+                        "orig": "credit_party_account_number",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "credit_party_mobile_number",
+                        "orig": "credit_party_mobile_number",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "external_id",
+                        "orig": "external_id",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "example": "1970-01-01T00:00:00.000000Z",
+                        "kind": "query",
+                        "name": "from_date",
+                        "orig": "from_date",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "operator_id",
+                        "orig": "operator_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 1,
+                        "kind": "query",
+                        "name": "page",
+                        "orig": "page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": 50,
+                        "kind": "query",
+                        "name": "per_page",
+                        "orig": "per_page",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "product_type",
+                        "orig": "product_type",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "service_id",
+                        "orig": "service_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "status_id",
+                        "orig": "status_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "kind": "query",
+                        "name": "subservice_id",
+                        "orig": "subservice_id",
+                        "reqd": false,
+                        "type": "`$INTEGER`"
+                      },
+                      {
+                        "active": true,
+                        "example": "2020-02-02T14:00:00.022220+08:00",
+                        "kind": "query",
+                        "name": "to_date",
+                        "orig": "to_date",
+                        "reqd": false,
+                        "type": "`$STRING`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/transactions",
+                  "parts": [
+                    "transactions"
+                  ],
+                  "select": {
+                    "exist": [
+                      "country_iso_code",
+                      "credit_party_account_number",
+                      "credit_party_mobile_number",
+                      "external_id",
+                      "from_date",
+                      "operator_id",
+                      "page",
+                      "per_page",
+                      "product_type",
+                      "service_id",
+                      "status_id",
+                      "subservice_id",
+                      "to_date"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "load": {
+              "input": "data",
+              "name": "load",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "transaction_id",
+                        "orig": "transaction_id",
+                        "reqd": true,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "GET",
+                  "orig": "/transactions/{transaction_id}",
+                  "parts": [
+                    "transactions",
+                    "{transaction_id}"
+                  ],
+                  "select": {
+                    "exist": [
+                      "transaction_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            },
+            "update": {
+              "input": "data",
+              "name": "update",
+              "points": [
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "transaction_id",
+                        "orig": "transaction_id",
+                        "reqd": true,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/transactions/{transaction_id}/cancel",
+                  "parts": [
+                    "transactions",
+                    "{transaction_id}",
+                    "cancel"
+                  ],
+                  "select": {
+                    "$action": "cancel",
+                    "exist": [
+                      "transaction_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "transaction_id",
+                        "orig": "transaction_id",
+                        "reqd": true,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/async/transactions/{transaction_id}/confirm",
+                  "parts": [
+                    "async",
+                    "transactions",
+                    "{transaction_id}",
+                    "confirm"
+                  ],
+                  "select": {
+                    "$action": "confirmAsync",
+                    "exist": [
+                      "transaction_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                },
+                {
+                  "active": true,
+                  "args": {
+                    "params": [
+                      {
+                        "active": true,
+                        "kind": "param",
+                        "name": "transaction_id",
+                        "orig": "transaction_id",
+                        "reqd": true,
+                        "type": "`$INTEGER`"
+                      }
+                    ]
+                  },
+                  "kind": "http",
+                  "method": "POST",
+                  "orig": "/sync/transactions/{transaction_id}/confirm",
+                  "parts": [
+                    "sync",
+                    "transactions",
+                    "{transaction_id}",
+                    "confirm"
+                  ],
+                  "select": {
+                    "$action": "confirmSync",
+                    "exist": [
+                      "transaction_id"
+                    ]
+                  },
+                  "transform": {
+                    "req": "`reqdata`",
+                    "res": "`body`"
+                  }
+                }
+              ]
+            }
+          },
+          "relations": {
+            "ancestors": [
+              [
+                "transaction"
+              ]
+            ]
           }
         }
       },
@@ -271,6 +2284,380 @@
         }
       },
       "flow": {
+        "BasicBalanceFlow": {
+          "active": true,
+          "entity": "balance",
+          "key$": "BasicBalanceFlow",
+          "kind": "basic",
+          "name": "BasicBalanceFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "balance_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicBenefitTypeFlow": {
+          "active": true,
+          "entity": "benefit_type",
+          "key$": "BasicBenefitTypeFlow",
+          "kind": "basic",
+          "name": "BasicBenefitTypeFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "benefit_type_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicCampaignFlow": {
+          "active": true,
+          "entity": "campaign",
+          "key$": "BasicCampaignFlow",
+          "kind": "basic",
+          "name": "BasicCampaignFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "campaign_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "campaign_ref01",
+                "srcdatavar": "campaign_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "campaign01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-campaign_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicCountryFlow": {
+          "active": true,
+          "entity": "country",
+          "key$": "BasicCountryFlow",
+          "kind": "basic",
+          "name": "BasicCountryFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "country_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "country_ref01",
+                "srcdatavar": "country_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "country01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-country_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicCreditPartyBenefitFlow": {
+          "active": true,
+          "entity": "credit_party_benefit",
+          "key$": "BasicCreditPartyBenefitFlow",
+          "kind": "basic",
+          "name": "BasicCreditPartyBenefitFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "credit_party_benefit_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicCreditPartyStatusFlow": {
+          "active": true,
+          "entity": "credit_party_status",
+          "key$": "BasicCreditPartyStatusFlow",
+          "kind": "basic",
+          "name": "BasicCreditPartyStatusFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "credit_party_status_ref01",
+                "srcdatavar": "credit_party_status_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {},
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-credit_party_status_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicMobileNumberLookupFlow": {
+          "active": true,
+          "entity": "mobile_number_lookup",
+          "key$": "BasicMobileNumberLookupFlow",
+          "kind": "basic",
+          "name": "BasicMobileNumberLookupFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "mobile_number_lookup_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicOperatorFlow": {
+          "active": true,
+          "entity": "operator",
+          "key$": "BasicOperatorFlow",
+          "kind": "basic",
+          "name": "BasicOperatorFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "operator_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "operator_ref01",
+                "srcdatavar": "operator_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "operator01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-operator_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicProductFlow": {
+          "active": true,
+          "entity": "product",
+          "key$": "BasicProductFlow",
+          "kind": "basic",
+          "name": "BasicProductFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "product_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "product_ref01",
+                "srcdatavar": "product_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "product01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-product_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicPromotionFlow": {
+          "active": true,
+          "entity": "promotion",
+          "key$": "BasicPromotionFlow",
+          "kind": "basic",
+          "name": "BasicPromotionFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "promotion_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "promotion_ref01",
+                "srcdatavar": "promotion_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "promotion01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-promotion_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
         "BasicServiceFlow": {
           "active": true,
           "entity": "service",
@@ -318,10 +2705,116 @@
               ]
             }
           ]
+        },
+        "BasicStatementInquiryFlow": {
+          "active": true,
+          "entity": "statement_inquiry",
+          "key$": "BasicStatementInquiryFlow",
+          "kind": "basic",
+          "name": "BasicStatementInquiryFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "statement_inquiry_ref01"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "BasicTransactionFlow": {
+          "active": true,
+          "entity": "transaction",
+          "key$": "BasicTransactionFlow",
+          "kind": "basic",
+          "name": "BasicTransactionFlow",
+          "param": {},
+          "step": [
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "transaction_ref01"
+              },
+              "match": {},
+              "op": "create",
+              "spec": [],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {},
+              "match": {},
+              "op": "list",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "ItemExists",
+                  "def": {
+                    "ref": "transaction_ref01"
+                  }
+                }
+              ]
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "transaction_ref01",
+                "srcdatavar": "transaction_ref01_data",
+                "suffix": "_up0",
+                "textfield": "callback_url"
+              },
+              "match": {},
+              "op": "update",
+              "spec": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-transaction_ref01"
+                  }
+                }
+              ],
+              "valid": []
+            },
+            {
+              "active": true,
+              "data": {},
+              "input": {
+                "ref": "transaction_ref01",
+                "srcdatavar": "transaction_ref01_data",
+                "suffix": "_dt0"
+              },
+              "match": {
+                "id": "transaction01"
+              },
+              "op": "load",
+              "spec": [],
+              "valid": [
+                {
+                  "apply": "TextFieldMark",
+                  "def": {
+                    "mark": "Mark01-transaction_ref01"
+                  }
+                }
+              ]
+            }
+          ]
         }
       },
       "info": {
-        "description": "DT One Digital Vending Services (DVS) API. Draft OpenAPI spec authored by Voxgig from the public docs at https://developers.dtone.com/ .",
+        "description": "Starting out on your integration journey? Access our [quick start guide](https://developers.dtone.com/get-started.html).\n\n# Overview\n\nWelcome to the comprehensive reference and guide to the Digital Value Services (DVS) API.\n\nAs the main gateway, this API plays a crucial role in faciliating a broad spectrum of digital value transactions across the extensive [DT One](https://www.dtone.com) network. Beyond its remarkable global reach, which includes over 160 countries and partnerships with more than 875 mobile operators and billers, the network also encompasses a diverse array of services. These include eSIM options, utility and bill payment services, a multitude of gift card products, gaming PINs, and much more. This diversity in offering ensures that the API can cater to a wide range of digital transaction needs, making it a versatile tool for users worldwide.\n\nStructured in the robust foundations of [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) principles, the DVS API uses [JSON](https://en.wikipedia.org/wiki/JSON) for its data interchange format. It encompasses a variety of services, including:\n- [Discovery Services](#tag/Services) - Explore and identify a wide range of available products and services.\n- [Transaction Services](#tag/Transactions) - Manage and execute various transaction types efficiently.\n- [Account Services](#tag/Balances) - Account related operations.\n- [Look-Up Services](#tag/Mobile-Number) - Utilize search functionalities for specific needs.\n\nTo access the API, you will need a valid pair of keys as detailed in the [Authentication](#section/Authentication) section. This requires you to first register for a [DT Shop](https://dtshop.dtone.com/account?tab=developer) account. Once registered, you can generate keys for both production and pre-production environments in the Developer Section of your DT Shop account.\n\nYour queries and feedback are invaluable to us. Should you have any questions or suggestions about our API, we warmly encourage you to reach out to us by sending an email to the [DVS API support team](mailto:dvs-api-support@dtone.com). Your inputs help us continually improve and tailor our services to better meet your needs.\n\n## Integration Libraries\n\nOfficially supported [SDK](https://en.wikipedia.org/wiki/Software_development_kit)s are available for the following languages:\n\n* [Java](https://github.com/dtone/dtone-dvs-api-java-client)\n* [Node.js](https://www.npmjs.com/package/@dtone/dvs)\n\nThese SDKs offer an accelerated path to developing your applications as an alternative to accessing the REST API directly.\n\nSeparately, we would love to hear from you! If you have any questions and/or suggestions related to our SDKs, please do not hesitate to create corresponding [GitHub issues](https://guides.github.com/features/issues/) or send an email to the [DVS Open Source team](mailto:opensource@dtone.com).\n\n## Sandbox\n\nA sandbox environment is available for testing integrations with the DVS API. It is available at [https://preprod-dvs-api.dtone.com/v1/](https://preprod-dvs-api.dtone.com/v1/).\n\nYou can generate sandbox API keys from your [DT Shop](https://dtshop.dtone.com/account?tab=developer) account, under the **Pre-Production API Keys** section.\n\nAll transactions on the sandbox environment are simulated: no real transaction goes through. To simulate different responses, the last three digits of the `credit_party_identifier` (i.e. `mobile_number` or `account_number`, depending on the `required_credit_party_identifier_fields` of a given [Product](/#tag/Products)) will have to be replaced with one of the following suffixes:\n\n| Suffix              | Transaction Status                        | Example       |\n| ---                 | ---                                       | ---           |\n| `100`, `200`, `300` | `COMPLETED` (PIN-less)                    | `+6595123100` |\n| `101`, `201`, `301` | `COMPLETED` (PIN-based)                   | `+6595123201` |\n| `102`, `202`, `302` | `DECLINED-INVALID-CREDIT-PARTY`           | `+6595123102` |\n| `103`, `203`, `303` | `DECLINED-BARRED-CREDIT-PARTY`            | `+6595123103` |\n| `104`, `204`, `304` | `DECLINED-OPERATOR-CURRENTLY-UNAVAILABLE` | `+6595123204` |\n| `105`, `205`, `305` | `DECLINED-DUPLICATED-TRANSACTION`         | `+6595123105` |\n| `106`, `206`, `306` | `DECLINED`                                | `+6595123206` |\n| `107`, `207`, `307` | `DECLINED-EXCEPTION`                      | `+6595123107` |\n\nThe different suffixes for a given transaction status can be used to simulate delays, as follows:\n* `10X` suffix will take at least 3 seconds to finish\n* `20X` suffix will take at least 20 seconds to finish\n* `30X` suffix will take at least 5 minutes to finish\n\nPlease note that there are products that do not require any credit party identifier such as Gift Cards. For these products, the simulated transaction will always be in `COMPLETED` status.\n\n## Versioning\n\nEndpoints of the API are prefixed with a corresponding version number. This method provides complete isolation between implementations and guarantees subsequent major changes to the API will never affect existing integrations. No breaking changes will be introduced within a major version. This distinction is further expounded in the subsection that follows.\n\n### Non-Breaking Changes\n\nAlso known as backward-compatible changes, such changes allow for your integration to continue without requiring additional changes on your side. Such changes also do not warrant a new version number and will be released without prior communication.\n\nChanges in this category are mainly \"additive\" in nature, with the following examples:\n* Adding new API endpoints\n* Adding optional fields to a request body and/or header\n* Adding fields to a response body and/or header\n* Data changes:\n    - Adding new Countries / Operators / Products / Services\n    - Modification of text and/or numeric field values, such as:\n        - Country / Operator / Product / Service Names\n        - Wholesale / Retail Prices and/or Rates\n        - Status and Error Descriptions\n* Adding fields to a callback request body\n\n&#128161; Before going live, it is very important to validate that your integration is capable of handling non-breaking API changes to mitigate avoidable disruptions to your service.\n\n### Breaking Changes\n\nBreaking changes, on the other hand, require additional changes to your integration. Such changes correspond to major updates in the API and are mainly reserved for changes that brings about a substantial feature and/or improvement to the platform. When such changes occur, as endpoints of the API are prefixed with a corresponding version number, your existing integration won't be at risk of breaking as complete isolation of differences in implementation between versions are provided.\n\nExamples of changes in this category are as follows:\n* Removing and/or renaming API endpoints\n* Adding required fields to a request body and/or header\n* Removing and/or renaming fields from a request body and/or header\n* Removing and/or renaming fields from a response body and/or header\n* Removing and/or renaming fields from a callback request body\n\n&#128161; When a new version of the API is available and you are keen to upgrade, testing in the sandbox environment to ensure that everything works well with your implementation before switching to the production environment comes highly recommended.\n\n## Transactions\n\nThe main purpose of this API is to deliver value (e.g. mobile airtime top-up, data bundles, etc.) to a beneficiary. This is what we call a \"transaction\".\n\nDuring the course of a transfer, a transaction undergoes various status changes (or transitions) as illustrated below.\n\n![transaction states](/images/transaction_states.png)\n\nAs changes in transaction status occur, updates are sent in real-time when a callback URL is provided. In conjunction, transaction status can be queried through one of two means: via the returned `id` or a provided `external_id`.\n\nThe latter serves as your unique reference and provides a utility to retrieve transaction details when exceptions occur, such as when the supposed API response was not received, as an example.\n\n## Balances\n\nTransactions can be created through the platform as long as there is enough balance available in your account. A given balance is composed of the following:\n\n| Balance   | Description                                              |\n| ---       | ---                                                      |\n| Available | Balance amount available for use                         |\n| Holding   | Amount being held while transactions are being processed |\n\nAs a given transaction goes through various changes in status as outlined [here](#section/Overview/Transactions), corresponding balance movements will be made. The following table illustrates the relationship between transaction status and balance movements:\n\n| Transaction Status                  | Balance Movement | Description                                                |\n| ---                                 | ---              | ---                                                        |\n| `CREATED`                           | Authorize        | Transfer wholesale price and fee from available to holding |\n| `CANCELLED`, `REJECTED`, `DECLINED` | Void             | Amount authorized in holding moves back to available       |\n| `COMPLETED`                         | Capture          | Amount authorized in holding is captured, i.e. debited     |\n| `REVERSED`                          | Reverse          | Debited amount is reversed back into available             |\n\n## Flow\n\nOnce a product has been selected through one of the [discovery methods](/#tag/Services) provided by the API, the actual transfer (i.e. transaction) can be performed in either one of the following modes:\n- Asynchronous (recommended)\n- Synchronous\n\nEach mode is accessible via a specific endpoint.\n\nAs soon as a transaction is confirmed, the transfer order will be sent to the operator for immediate processing. During this time, the transaction will remain in a `CONFIRMED` status until the final status is received from the operator.\n\n### Asynchronous Mode\n\nWhen a transaction is created and confirmed in an asynchronous fashion, the HTTP connection won't have to be kept open. This preserves system resources on your applications. As such, performing transactions **asynchronously** is **recommended**.\n\n### Synchronous Mode\n\nWhen a transaction is created and confirmed in a synchronous fashion, the HTTP connection will be kept open in an attempt to capture the final status from the receiving operator so it can be returned in the API response. The processing time usually takes just a few seconds. However, with some receiving operators, it may take longer.\n\nOur system will keep the HTTP connection open for up to 180 seconds and will return a status before closing this connection. This status can be in one of the final status (e.g. `COMPLETED`, `DECLINED`) or not (e.g. `SUBMITTED`). In the latter case, this denotes the transaction is still being processed by the receiving operator.\n\n**Note:** your application does not have to wait for the connection to close, it can listen for a shorter period of time and query the final status later on (refer to the \"Final Status\" section below for more details).\n\n### Final Status\n\nRegardless of the processing mode, the application should be designed to capture the final status of a transaction. This can be done through one of the following means:\n- Checking the status of a specific transaction via the corresponding API method (\"pull\" mechanism)\n- Configuring a callback URL passed in the request when creating a transaction (\"push\" mechanism)\n\n## Callbacks\n\nAs a transaction is being processed, changes in status will be notified in real-time if a callback URL was provided. Even though one callback per transaction is expected (i.e. change to either `COMPLETED` or `DECLINED`), a manual reversal from the [DT One](https://dtone.com/) team, which may happen in very rare occasions, will also trigger a callback to inform your application of a change in transaction status to `REVERSED`.\n\nThis callback endpoint must be implemented by the sending partner, which should expect an HTTP `POST` request containing a transaction object represented in [JSON](https://en.wikipedia.org/wiki/JSON). As callbacks will be sent from the [DT One](https://dtone.com/) servers, these endpoints will have to be publicly-accessible in most cases. During development, a service such as [ngrok](https://ngrok.com/) can be used to expose local servers to the internet.\n\nUpon successful receipt of data, the callback endpoint should respond with an HTTP `2XX` status. In the event that the platform did not receive a successful status, callback notifications will be retried several times, beyond which, the transaction status will have to be queried through the API.\n\n## Status and Errors\n\n### HTTP Status Codes\n\n[DT One](https://dtone.com/) uses standard HTTP response codes to indicate whether an API request was successful or not.\n\n| Status | Description                                        |\n| ---    | ---                                                |\n| `200`  | OK                                                 |\n| `201`  | Created: Resource created                          |\n| `202`  | Accepted: Request has been accepted for processing |\n| `400`  | Bad Request: Request was malformed                 |\n| `401`  | Unauthorized: Credentials missing or invalid       |\n| `404`  | Not Found: Resource doesn't exist                  |\n| `429`  | Too Many Requests                                  |\n| `500`  | Server Error: Error occurred on DT One             |\n| `503`  | Service Unavailable                                |\n\n### API Error Codes\n\n| Code      | Description                                       | HTTP Status |\n| ---       | ---                                               | ---         |\n| `1000400` | Bad Request                                       | `400`       |\n| `1000401` | Unauthorized                                      | `401`       |\n| `1000404` | Resource not found                                | `404`       |\n| `1000429` | Too many requests                                 | `429`       |\n| `1003001` | Product is not available in your account          | `404`       |\n| `1003002` | Requested product amount is out of range          | `400`       |\n| `1003003` | Requested product unit is invalid                 | `400`       |\n| `1003101` | Benefits not defined for available products       | `404`       |\n| `1003201` | Promotion not found                               | `404`       |\n| `1003301` | Campaign not found                                | `404`       |\n| `1005003` | Credit party mobile number is invalid             | `400`       |\n| `1005004` | Service not found                                 | `404`       |\n| `1005005` | Country not found                                 | `404`       |\n| `1005006` | Operator not found                                | `404`       |\n| `1005503` | Sender mobile number is invalid                   | `400`       |\n| `1006001` | Insufficient balance                              | `400`       |\n| `1006003` | Debit party mobile number is invalid              | `400`       |\n| `1006009` | Account balance not found                         | `404`       |\n| `1006503` | Beneficiary mobile number is invalid              | `400`       |\n| `1007001` | Transaction external ID has already been used     | `400`       |\n| `1007002` | Transaction has already been confirmed            | `400`       |\n| `1007004` | Transaction can no longer be confirmed            | `400`       |\n| `1007005` | Transaction has already been cancelled            | `400`       |\n| `1007007` | Transaction can no longer be cancelled            | `400`       |\n| `1007500` | Method not supported by operator                  | `400`       |\n| `1008004` | Transaction not found                             | `404`       |\n| `1009001` | Unexpected error, please contact our support team | `500`       |\n| `1009503` | Service unavailable, please retry later           | `503`       |\n\n### Transaction Status\n\n| Class       | Status                                          | Description                                                            |\n| ---         | ---                                             | ---                                                                    |\n| `CREATED`   | `CREATED`                                       | Created                                                                |\n| `CONFIRMED` | `CONFIRMED`                                     | Confirmed                                                              |\n| `REJECTED`  | `REJECTED`                                      | Rejected                                                               |\n| `REJECTED`  | `REJECTED-INVALID-CREDIT-PARTY`                 | Rejected - Credit party is invalid                                     |\n| `REJECTED`  | `REJECTED-BARRED-CREDIT-PARTY`                  | Rejected - Credit party is barred                                      |\n| `REJECTED`  | `REJECTED-INELIGIBLE-CREDIT-PARTY`              | Rejected - Credit party is ineligible for chosen product               |\n| `REJECTED`  | `REJECTED-INVALID-DEBIT-PARTY`                  | Rejected - Debit party is invalid                                      |\n| `REJECTED`  | `REJECTED-BARRED-DEBIT-PARTY`                   | Rejected - Debit party is barred                                       |\n| `REJECTED`  | `REJECTED-LIMITATIONS-ON-CREDIT-PARTY-AMOUNT`   | Rejected - Limitations on credit party cumulative transaction amount   |\n| `REJECTED`  | `REJECTED-LIMITATIONS-ON-CREDIT-PARTY-QUANTITY` | Rejected - Limitations on credit party cumulative transaction quantity |\n| `REJECTED`  | `REJECTED-OPERATOR-CURRENTLY-UNAVAILABLE`       | Rejected - Operator currently unavailable                              |\n| `REJECTED`  | `REJECTED-INSUFFICIENT-BALANCE`                 | Rejected - Insufficient balance                                        |\n| `CANCELLED` | `CANCELLED`                                     | Cancelled                                                              |\n| `SUBMITTED` | `SUBMITTED`                                     | Submitted                                                              |\n| `COMPLETED` | `COMPLETED`                                     | Completed                                                              |\n| `REVERSED`  | `REVERSED`                                      | Reversed                                                               |\n| `DECLINED`  | `DECLINED`                                      | Declined (no additional information available)                         |\n| `DECLINED`  | `DECLINED-INVALID-CREDIT-PARTY`                 | Declined - Credit party is invalid                                     |\n| `DECLINED`  | `DECLINED-BARRED-CREDIT-PARTY`                  | Declined - Credit party is barred                                      |\n| `DECLINED`  | `DECLINED-INELIGIBLE-CREDIT-PARTY`              | Declined - Credit party is ineligible for chosen product               |\n| `DECLINED`  | `DECLINED-INVALID-DEBIT-PARTY`                  | Declined - Debit party is invalid                                      |\n| `DECLINED`  | `DECLINED-BARRED-DEBIT-PARTY`                   | Declined - Debit party is barred                                       |\n| `DECLINED`  | `DECLINED-LIMITATIONS-ON-OPERATOR-AMOUNT`       | Declined - Limitations on operator cumulative transaction amount       |\n| `DECLINED`  | `DECLINED-LIMITATIONS-ON-CREDIT-PARTY-AMOUNT`   | Declined - Limitations on credit party cumulative transaction amount   |\n| `DECLINED`  | `DECLINED-LIMITATIONS-ON-CUSTOMER-AMOUNT`       | Declined - Limitations on customer cumulative transaction amount       |\n| `DECLINED`  | `DECLINED-LIMITATIONS-ON-OPERATOR-QUANTITY`     | Declined - Limitations on operator cumulative transaction quantity     |\n| `DECLINED`  | `DECLINED-LIMITATIONS-ON-CREDIT-PARTY-QUANTITY` | Declined - Limitations on credit party cumulative transaction quantity |\n| `DECLINED`  | `DECLINED-LIMITATIONS-ON-CUSTOMER-QUANTITY`     | Declined - Limitations on customer cumulative transaction quantity     |\n| `DECLINED`  | `DECLINED-DUPLICATED-TRANSACTION`               | Declined - Duplicated transaction                                      |\n| `DECLINED`  | `DECLINED-OPERATOR-CURRENTLY-UNAVAILABLE`       | Declined - Operator currently unavailable                              |\n\n`REJECTED` and `DECLINED` status classes both denote unsuccessful transactions. The primary distinction between these two relates to the party that determined the failure:\n* `REJECTED` are issued by the DVS platform based on various business rules (e.g. insufficient balance, limitations, etc)\n* `DECLINED` are issued by the operators\n\nSeparately, it is recommended to define application logic based on **classes**, while additional distinction and/or insight are reflected on the actual **status**.\n\n## Pagination\n\nAPI resources supporting bulk fetches via \"list\" API methods will be returned in a paginated fashion.\n\n### Input Parameters\n\n| Field      | Required | Type    | Description                                      |\n| ---        | ---      | ---     | ---                                              |\n| `page`     | No       | Integer | Page number                                      |\n| `per_page` | No       | Integer | Number of results per page (default 50, max 100) |\n\n### Output Headers\n\n| Field           | Description                   |\n| ---             | ---                           |\n| `X-Total`       | Total number of records       |\n| `X-Total-Pages` | Total number of pages         |\n| `X-Per-Page`    | Number of records per page    |\n| `X-Page`        | Current page number           |\n| `X-Next-Page`   | Next page number (if any)     |\n| `X-Prev-Page`   | Previous page number (if any) |\n\n## Internationalization\n\nSupport for internationalization (i18n) is implemented via [standard HTTP content negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation). API resources offering i18n will have the following request and response headers:\n\n### Input Headers\n\n| Field                 | Required | Type    | Description                                 |\n| ---                   | ---      | ---     | ---                                         |\n| `Accept-Language`     | No       | String  | List of preferred languages for the content |\n\n### Output Headers\n\n| Field              | Description                               |\n| ---                | ---                                       |\n| `Content-Language` | List of languages in the returned content |\n\n## Rate Limiting\n\nThe API endpoints have rate limiting in place to protect our service from excessive number of requests. Rate limiting is enforced for every pair of API key and secret and the number of remaining API requests over a period of time (i.e. expressed in seconds) is conveyed through corresponding HTTP headers:\n\n### Response Headers\n\n| Field                   | Description                                     |\n| ---                     | ---                                             |\n| `X-Ratelimit-Limit`     | Number of allowed API calls over period of time |\n| `X-Ratelimit-Remaining` | Remaining number of allowed API calls           |\n\nIf the limit is reached, an [HTTP error 429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) will be returned by the server.\n",
         "security": {
           "in": "header",
           "name": "Authorization",
@@ -331,13 +2824,21 @@
         },
         "servers": [
           {
+            "description": "Pre-Production",
+            "url": "https://preprod-dvs-api.dtone.com/v1"
+          },
+          {
+            "description": "Production",
             "url": "https://dvs-api.dtone.com/v1"
           }
         ],
-        "summary": "DT One Digital Vending Services (DVS) API.",
-        "title": "DT One DVS API",
-        "version": "1.0.0",
-        "website": "https://dvs-api.dtone.com"
+        "summary": "Starting out on your integration journey?",
+        "title": "Digital Value Services API",
+        "version": "1.23.0",
+        "website": "https://preprod-dvs-api.dtone.com",
+        "x-logo": {
+          "url": "https://dvs-api-doc.dtone.com/images/dtone.png"
+        }
       },
       "option": {},
       "repo": {

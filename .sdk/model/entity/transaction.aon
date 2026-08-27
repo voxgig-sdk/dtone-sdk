@@ -1,0 +1,482 @@
+# Entity: transaction
+
+main: kit: entity: transaction: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "additional_identifier"
+      req: false
+      short: "Additional details for a transaction."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "adjusted_values"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "auto_confirm"
+      req: false
+      short: "Determines whether a transaction will be automatically confirmed upon creation or not."
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "beneficiary"
+      req: false
+      short: "Beneficiary details for a transaction."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "benefits"
+      req: false
+      type: "`$ARRAY`"
+      union: {
+        branches: 2
+        count: 1
+        depth: 1
+      }
+    }
+    {
+      name: "calculation_mode"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "callback_url"
+      req: false
+      short: "Transaction status updates will be sent to this endpoint."
+      type: "`$STRING`"
+    }
+    {
+      name: "confirmation_date"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "confirmation_expiration_date"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "creation_date"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "credit_party_identifier"
+      req: false
+      short: "Receiving account details for a transaction."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "debit_party_identifier"
+      req: false
+      short: "Sending account details for a transaction."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "destination"
+      req: true
+      short: "Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT`"
+      type: "`$OBJECT`"
+    }
+    {
+      name: "external_id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "metadata"
+      req: false
+      short: "Optional metadata related to the transaction."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "operator_reference"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "pin"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "prices"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "product"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "product_id"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "promotions"
+      req: false
+      type: "`$ARRAY`"
+    }
+    {
+      name: "rates"
+      req: false
+      type: "`$ANY`"
+    }
+    {
+      name: "requested_values"
+      req: false
+      type: "`$OBJECT`"
+    }
+    {
+      name: "sender"
+      req: false
+      short: "Sender details for a transaction."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "source"
+      req: true
+      short: "Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT`"
+      type: "`$OBJECT`"
+    }
+    {
+      name: "statement_identifier"
+      req: false
+      short: "Qualifying statement details for a payment transaction."
+      type: "`$OBJECT`"
+    }
+    {
+      name: "status"
+      req: false
+      type: "`$OBJECT`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "transaction"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          method: "POST"
+          orig: "/async/transactions"
+          parts: [
+            "async"
+            "transactions"
+          ]
+          select: {
+            "$action": "asyncCreate"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/sync/transactions"
+          parts: [
+            "sync"
+            "transactions"
+          ]
+          select: {
+            "$action": "syncCreate"
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "country_iso_code"
+                orig: "country_iso_code"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "credit_party_account_number"
+                orig: "credit_party_account_number"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "credit_party_mobile_number"
+                orig: "credit_party_mobile_number"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "external_id"
+                orig: "external_id"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: "1970-01-01T00:00:00.000000Z"
+                kind: "query"
+                name: "from_date"
+                orig: "from_date"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "operator_id"
+                orig: "operator_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 1
+                kind: "query"
+                name: "page"
+                orig: "page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 50
+                kind: "query"
+                name: "per_page"
+                orig: "per_page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "product_type"
+                orig: "product_type"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "service_id"
+                orig: "service_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "status_id"
+                orig: "status_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "subservice_id"
+                orig: "subservice_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: "2020-02-02T14:00:00.022220+08:00"
+                kind: "query"
+                name: "to_date"
+                orig: "to_date"
+                reqd: false
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/transactions"
+          parts: [
+            "transactions"
+          ]
+          select: {
+            exist: [
+              "country_iso_code"
+              "credit_party_account_number"
+              "credit_party_mobile_number"
+              "external_id"
+              "from_date"
+              "operator_id"
+              "page"
+              "per_page"
+              "product_type"
+              "service_id"
+              "status_id"
+              "subservice_id"
+              "to_date"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "transaction_id"
+                orig: "transaction_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/transactions/{transaction_id}"
+          parts: [
+            "transactions"
+            "{transaction_id}"
+          ]
+          select: {
+            exist: [
+              "transaction_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    update: {
+      name: "update"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "transaction_id"
+                orig: "transaction_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/transactions/{transaction_id}/cancel"
+          parts: [
+            "transactions"
+            "{transaction_id}"
+            "cancel"
+          ]
+          select: {
+            "$action": "cancel"
+            exist: [
+              "transaction_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "transaction_id"
+                orig: "transaction_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/async/transactions/{transaction_id}/confirm"
+          parts: [
+            "async"
+            "transactions"
+            "{transaction_id}"
+            "confirm"
+          ]
+          select: {
+            "$action": "confirmAsync"
+            exist: [
+              "transaction_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "transaction_id"
+                orig: "transaction_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "POST"
+          orig: "/sync/transactions/{transaction_id}/confirm"
+          parts: [
+            "sync"
+            "transactions"
+            "{transaction_id}"
+            "confirm"
+          ]
+          select: {
+            "$action": "confirmSync"
+            exist: [
+              "transaction_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "transaction"
+      ]
+    ]
+  }
+
+
+
+}

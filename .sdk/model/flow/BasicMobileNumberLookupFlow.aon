@@ -1,0 +1,22 @@
+# BasicMobileNumberLookupFlow
+
+main: kit: flow: BasicMobileNumberLookupFlow:
+{
+  entity: "mobile_number_lookup",
+  kind: "basic",
+  name: "BasicMobileNumberLookupFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "mobile_number_lookup_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicMobileNumberLookupFlow"
+}

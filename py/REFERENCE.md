@@ -42,9 +42,57 @@ client = DtoneSDK.test()
 
 ### Instance Methods
 
+#### `Balance(data=None)`
+
+Create a new `BalanceEntity` instance. Pass `None` for no initial data.
+
+#### `BenefitType(data=None)`
+
+Create a new `BenefitTypeEntity` instance. Pass `None` for no initial data.
+
+#### `Campaign(data=None)`
+
+Create a new `CampaignEntity` instance. Pass `None` for no initial data.
+
+#### `Country(data=None)`
+
+Create a new `CountryEntity` instance. Pass `None` for no initial data.
+
+#### `CreditPartyBenefit(data=None)`
+
+Create a new `CreditPartyBenefitEntity` instance. Pass `None` for no initial data.
+
+#### `CreditPartyStatus(data=None)`
+
+Create a new `CreditPartyStatusEntity` instance. Pass `None` for no initial data.
+
+#### `MobileNumberLookup(data=None)`
+
+Create a new `MobileNumberLookupEntity` instance. Pass `None` for no initial data.
+
+#### `Operator(data=None)`
+
+Create a new `OperatorEntity` instance. Pass `None` for no initial data.
+
+#### `Product(data=None)`
+
+Create a new `ProductEntity` instance. Pass `None` for no initial data.
+
+#### `Promotion(data=None)`
+
+Create a new `PromotionEntity` instance. Pass `None` for no initial data.
+
 #### `Service(data=None)`
 
 Create a new `ServiceEntity` instance. Pass `None` for no initial data.
+
+#### `StatementInquiry(data=None)`
+
+Create a new `StatementInquiryEntity` instance. Pass `None` for no initial data.
+
+#### `Transaction(data=None)`
+
+Create a new `TransactionEntity` instance. Pass `None` for no initial data.
 
 #### `options_map() -> dict`
 
@@ -78,6 +126,610 @@ Prepare a fetch definition without sending. Returns the `fetchdef` and raises on
 
 ---
 
+## BalanceEntity
+
+```python
+balance = client.Balance()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `available` | `float` | Yes |  |
+| `credit_limit` | `float` | Yes |  |
+| `holding` | `float` | Yes |  |
+| `id` | `int` | Yes |  |
+| `unit` | `str` | Yes |  |
+| `unit_type` | `str` | Yes |  |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.Balance().list()
+for balance in results:
+    print(balance)
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `BalanceEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## BenefitTypeEntity
+
+```python
+benefit_type = client.BenefitType()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `str` | Yes |  |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.BenefitType().list()
+for benefit_type in results:
+    print(benefit_type)
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `BenefitTypeEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## CampaignEntity
+
+```python
+campaign = client.Campaign()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `description` | `str` | Yes |  |
+| `end_date` | `str` | Yes |  |
+| `id` | `int` | Yes |  |
+| `products` | `list` | Yes |  |
+| `start_date` | `str` | Yes |  |
+| `terms` | `str` | Yes |  |
+| `title` | `str` | Yes |  |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.Campaign().list()
+for campaign in results:
+    print(campaign)
+```
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.Campaign().load({"campaign_id": 1})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `CampaignEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## CountryEntity
+
+```python
+country = client.Country()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `iso_code` | `str` | Yes | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
+| `name` | `str` | Yes |  |
+| `regions` | `list` | Yes |  |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.Country().list()
+for country in results:
+    print(country)
+```
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.Country().load({"country_iso_code": "country_iso_code"})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `CountryEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## CreditPartyBenefitEntity
+
+```python
+credit_party_benefit = client.CreditPartyBenefit()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount` | `float` | Yes | Remaining benefit amount. |
+| `country` | `dict` | Yes |  |
+| `credit_party_identifier` | `dict` | Yes |  |
+| `expiration_date` | `str` | Yes | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
+| `page` | `int` | No | Page number |
+| `per_page` | `int` | No | Number of records per page |
+| `service_id` | `int` | Yes | Service identifier. |
+| `type` | `str` | Yes |  |
+| `unit` | `str` | Yes |  |
+| `unit_type` | `str` | Yes |  |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.CreditPartyBenefit().list()
+for credit_party_benefit in results:
+    print(credit_party_benefit)
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `CreditPartyBenefitEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## CreditPartyStatusEntity
+
+```python
+credit_party_status = client.CreditPartyStatus()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `activation_date` | `str` | Yes | A `null` value denotes that credit party has not yet been activated on the actual network |
+| `credit_party_identifier` | `dict` | Yes |  |
+| `installation_date` | `str` | Yes | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
+| `service_id` | `int` | Yes | Service identifier. |
+
+### Operations
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.CreditPartyStatus().load()
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `CreditPartyStatusEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## MobileNumberLookupEntity
+
+```python
+mobile_number_lookup = client.MobileNumberLookup()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `country` | `dict` | Yes |  |
+| `id` | `int` | Yes | Operator identifier. |
+| `identified` | `bool` | Yes | Indicates whether operator was identified as a direct match |
+| `mobile_number` | `str` | Yes | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
+| `name` | `str` | Yes |  |
+| `page` | `int` | No | Page number |
+| `per_page` | `int` | No | Number of records per page |
+| `regions` | `list` | Yes |  |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.MobileNumberLookup().list({"mobile_number": "example"})
+for mobile_number_lookup in results:
+    print(mobile_number_lookup)
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `MobileNumberLookupEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## OperatorEntity
+
+```python
+operator = client.Operator()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `country` | `dict` | Yes |  |
+| `id` | `int` | Yes | Operator identifier. |
+| `name` | `str` | Yes |  |
+| `regions` | `list` | Yes |  |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.Operator().list()
+for operator in results:
+    print(operator)
+```
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.Operator().load({"operator_id": 1})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `OperatorEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## ProductEntity
+
+```python
+product = client.Product()
+```
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.Product().list()
+for product in results:
+    print(product)
+```
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.Product().load({"product_id": 1})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `ProductEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## PromotionEntity
+
+```python
+promotion = client.Promotion()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `description` | `str` | Yes |  |
+| `end_date` | `str` | Yes |  |
+| `id` | `int` | Yes |  |
+| `operator` | `dict` | Yes |  |
+| `products` | `list` | Yes |  |
+| `start_date` | `str` | Yes |  |
+| `terms` | `str` | Yes |  |
+| `title` | `str` | Yes |  |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.Promotion().list()
+for promotion in results:
+    print(promotion)
+```
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.Promotion().load({"promotion_id": 1})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `PromotionEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
 ## ServiceEntity
 
 ```python
@@ -88,9 +740,9 @@ service = client.Service()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `name` | `str` | No |  |
-| `subservices` | `list` | No |  |
+| `id` | `int` | Yes | Service identifier. |
+| `name` | `str` | Yes |  |
+| `subservices` | `list` | Yes |  |
 
 ### Operations
 
@@ -109,7 +761,7 @@ for service in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Service().load({"id": 1})
+result = client.Service().load({"service_id": 1})
 ```
 
 ### Common Methods
@@ -133,6 +785,180 @@ Set the entity match criteria.
 #### `make() -> Entity`
 
 Create a new `ServiceEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## StatementInquiryEntity
+
+```python
+statement_inquiry = client.StatementInquiry()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `account_number` | `str` | Yes | Account number. |
+| `account_qualifier` | `str` | No |  |
+| `balance` | `dict` | Yes |  |
+| `dates` | `dict` | Yes |  |
+| `page` | `int` | No | Page number |
+| `per_page` | `int` | No | Number of records per page |
+| `product_id` | `int` | Yes | Product identifier. |
+| `reference` | `Any` | Yes |  |
+
+### Operations
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.StatementInquiry().list()
+for statement_inquiry in results:
+    print(statement_inquiry)
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `StatementInquiryEntity` instance with the same options.
+
+#### `get_name() -> str`
+
+Return the entity name.
+
+
+---
+
+## TransactionEntity
+
+```python
+transaction = client.Transaction()
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `additional_identifier` | `dict` | No | Additional details for a transaction. |
+| `adjusted_values` | `dict` | No |  |
+| `auto_confirm` | `bool` | No | Determines whether a transaction will be automatically confirmed upon creation or not. |
+| `beneficiary` | `dict` | No | Beneficiary details for a transaction. |
+| `benefits` | `list` | No |  |
+| `calculation_mode` | `Any` | No |  |
+| `callback_url` | `str` | No | Transaction status updates will be sent to this endpoint. |
+| `confirmation_date` | `str` | No |  |
+| `confirmation_expiration_date` | `str` | No |  |
+| `creation_date` | `str` | No |  |
+| `credit_party_identifier` | `dict` | No | Receiving account details for a transaction. |
+| `debit_party_identifier` | `dict` | No | Sending account details for a transaction. |
+| `destination` | `dict` | Yes | Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT` |
+| `external_id` | `str` | Yes |  |
+| `id` | `str` | No |  |
+| `metadata` | `dict` | No | Optional metadata related to the transaction. |
+| `operator_reference` | `str` | No |  |
+| `pin` | `dict` | Yes |  |
+| `prices` | `dict` | Yes |  |
+| `product` | `Any` | No |  |
+| `product_id` | `str` | Yes |  |
+| `promotions` | `list` | No |  |
+| `rates` | `Any` | No |  |
+| `requested_values` | `dict` | No |  |
+| `sender` | `dict` | No | Sender details for a transaction. |
+| `source` | `dict` | Yes | Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT` |
+| `statement_identifier` | `dict` | No | Qualifying statement details for a payment transaction. |
+| `status` | `dict` | No |  |
+
+### Operations
+
+#### `create(reqdata, ctrl=None) -> dict`
+
+Create a new entity with the given data. Returns the created entity data and raises on error.
+
+```python
+result = client.Transaction().create({
+    "destination": {},  # dict
+    "external_id": "example_external_id",  # str
+    "pin": {},  # dict
+    "prices": {},  # dict
+    "product_id": "example_product_id",  # str
+    "source": {},  # dict
+})
+```
+
+#### `list(reqmatch=None, ctrl=None) -> list`
+
+List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+
+```python
+results = client.Transaction().list()
+for transaction in results:
+    print(transaction)
+```
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.Transaction().load({"transaction_id": 1})
+```
+
+#### `update(reqdata, ctrl=None) -> dict`
+
+Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
+
+```python
+result = client.Transaction().update({
+    "transaction_id": 1,
+    # Fields to update
+})
+```
+
+### Common Methods
+
+#### `data_get() -> dict`
+
+Get the entity data.
+
+#### `data_set(data)`
+
+Set the entity data.
+
+#### `match_get() -> dict`
+
+Get the entity match criteria.
+
+#### `match_set(match)`
+
+Set the entity match criteria.
+
+#### `make() -> Entity`
+
+Create a new `TransactionEntity` instance with the same options.
 
 #### `get_name() -> str`
 

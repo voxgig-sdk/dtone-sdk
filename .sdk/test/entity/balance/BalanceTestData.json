@@ -1,0 +1,41 @@
+{
+  "existing": {
+    "balance": {
+      "BALANCE00": {
+        "available": 60,
+        "credit_limit": 61,
+        "holding": 62,
+        "id": "BALANCE00",
+        "unit": "s40",
+        "unit_type": "s41"
+      },
+      "BALANCE01": {
+        "available": 120,
+        "credit_limit": 121,
+        "holding": 122,
+        "id": "BALANCE01",
+        "unit": "s7c",
+        "unit_type": "s7d"
+      },
+      "BALANCE02": {
+        "available": 180,
+        "credit_limit": 181,
+        "holding": 182,
+        "id": "BALANCE02",
+        "unit": "sb8",
+        "unit_type": "sb9"
+      }
+    }
+  },
+  "new": {
+    "balance": {
+      "balance_ref01": {
+        "available": 240,
+        "credit_limit": 241,
+        "holding": 242,
+        "unit": "sf4",
+        "unit_type": "sf5"
+      }
+    }
+  }
+}

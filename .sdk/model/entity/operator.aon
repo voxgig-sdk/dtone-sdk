@@ -1,0 +1,149 @@
+# Entity: operator
+
+main: kit: entity: operator: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "country"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "id"
+      req: true
+      short: "Operator identifier."
+      type: "`$INTEGER`"
+    }
+    {
+      name: "name"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "regions"
+      req: true
+      type: "`$ARRAY`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "operator"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "country_iso_code"
+                orig: "country_iso_code"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                example: 1
+                kind: "query"
+                name: "page"
+                orig: "page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 50
+                kind: "query"
+                name: "per_page"
+                orig: "per_page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "service_id"
+                orig: "service_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "subservice_id"
+                orig: "subservice_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/operators"
+          parts: [
+            "operators"
+          ]
+          select: {
+            exist: [
+              "country_iso_code"
+              "page"
+              "per_page"
+              "service_id"
+              "subservice_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "operator_id"
+                orig: "operator_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/operators/{operator_id}"
+          parts: [
+            "operators"
+            "{operator_id}"
+          ]
+          select: {
+            exist: [
+              "operator_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "operator"
+      ]
+    ]
+  }
+
+
+
+}

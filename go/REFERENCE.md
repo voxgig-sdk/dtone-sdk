@@ -48,9 +48,57 @@ client := sdk.TestSDK(testopts, sdkopts)
 
 ### Instance Methods
 
+#### `Balance(data map[string]any) DtoneEntity`
+
+Create a new `Balance` entity instance. Pass `nil` for no initial data.
+
+#### `BenefitType(data map[string]any) DtoneEntity`
+
+Create a new `BenefitType` entity instance. Pass `nil` for no initial data.
+
+#### `Campaign(data map[string]any) DtoneEntity`
+
+Create a new `Campaign` entity instance. Pass `nil` for no initial data.
+
+#### `Country(data map[string]any) DtoneEntity`
+
+Create a new `Country` entity instance. Pass `nil` for no initial data.
+
+#### `CreditPartyBenefit(data map[string]any) DtoneEntity`
+
+Create a new `CreditPartyBenefit` entity instance. Pass `nil` for no initial data.
+
+#### `CreditPartyStatus(data map[string]any) DtoneEntity`
+
+Create a new `CreditPartyStatus` entity instance. Pass `nil` for no initial data.
+
+#### `MobileNumberLookup(data map[string]any) DtoneEntity`
+
+Create a new `MobileNumberLookup` entity instance. Pass `nil` for no initial data.
+
+#### `Operator(data map[string]any) DtoneEntity`
+
+Create a new `Operator` entity instance. Pass `nil` for no initial data.
+
+#### `Product(data map[string]any) DtoneEntity`
+
+Create a new `Product` entity instance. Pass `nil` for no initial data.
+
+#### `Promotion(data map[string]any) DtoneEntity`
+
+Create a new `Promotion` entity instance. Pass `nil` for no initial data.
+
 #### `Service(data map[string]any) DtoneEntity`
 
 Create a new `Service` entity instance. Pass `nil` for no initial data.
+
+#### `StatementInquiry(data map[string]any) DtoneEntity`
+
+Create a new `StatementInquiry` entity instance. Pass `nil` for no initial data.
+
+#### `Transaction(data map[string]any) DtoneEntity`
+
+Create a new `Transaction` entity instance. Pass `nil` for no initial data.
 
 #### `OptionsMap() map[string]any`
 
@@ -88,6 +136,612 @@ same parameters as `Direct()`.
 
 ---
 
+## BalanceEntity
+
+```go
+balance := client.Balance(nil)
+fmt.Println(balance.GetName()) // "balance"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `available` | `float64` | Yes |  |
+| `credit_limit` | `float64` | Yes |  |
+| `holding` | `float64` | Yes |  |
+| `id` | `int` | Yes |  |
+| `unit` | `string` | Yes |  |
+| `unit_type` | `string` | Yes |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.Balance(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `BalanceEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## BenefitTypeEntity
+
+```go
+benefitType := client.BenefitType(nil)
+fmt.Println(benefitType.GetName()) // "benefit_type"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | Yes |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.BenefitType(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `BenefitTypeEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## CampaignEntity
+
+```go
+campaign := client.Campaign(nil)
+fmt.Println(campaign.GetName()) // "campaign"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `description` | `string` | Yes |  |
+| `end_date` | `string` | Yes |  |
+| `id` | `int` | Yes |  |
+| `products` | `[]any` | Yes |  |
+| `start_date` | `string` | Yes |  |
+| `terms` | `string` | Yes |  |
+| `title` | `string` | Yes |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.Campaign(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Campaign(nil).Load(map[string]any{"campaign_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `CampaignEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## CountryEntity
+
+```go
+country := client.Country(nil)
+fmt.Println(country.GetName()) // "country"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `iso_code` | `string` | Yes | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
+| `name` | `string` | Yes |  |
+| `regions` | `[]any` | Yes |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.Country(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Country(nil).Load(map[string]any{"country_iso_code": "country_iso_code"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `CountryEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## CreditPartyBenefitEntity
+
+```go
+creditPartyBenefit := client.CreditPartyBenefit(nil)
+fmt.Println(creditPartyBenefit.GetName()) // "credit_party_benefit"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `amount` | `float64` | Yes | Remaining benefit amount. |
+| `country` | `map[string]any` | Yes |  |
+| `credit_party_identifier` | `map[string]any` | Yes |  |
+| `expiration_date` | `string` | Yes | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
+| `page` | `int` | No | Page number |
+| `per_page` | `int` | No | Number of records per page |
+| `service_id` | `int` | Yes | Service identifier. |
+| `type` | `string` | Yes |  |
+| `unit` | `string` | Yes |  |
+| `unit_type` | `string` | Yes |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.CreditPartyBenefit(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `CreditPartyBenefitEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## CreditPartyStatusEntity
+
+```go
+creditPartyStatus := client.CreditPartyStatus(nil)
+fmt.Println(creditPartyStatus.GetName()) // "credit_party_status"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `activation_date` | `string` | Yes | A `null` value denotes that credit party has not yet been activated on the actual network |
+| `credit_party_identifier` | `map[string]any` | Yes |  |
+| `installation_date` | `string` | Yes | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
+| `service_id` | `int` | Yes | Service identifier. |
+
+### Operations
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.CreditPartyStatus(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `CreditPartyStatusEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## MobileNumberLookupEntity
+
+```go
+mobileNumberLookup := client.MobileNumberLookup(nil)
+fmt.Println(mobileNumberLookup.GetName()) // "mobile_number_lookup"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `country` | `map[string]any` | Yes |  |
+| `id` | `int` | Yes | Operator identifier. |
+| `identified` | `bool` | Yes | Indicates whether operator was identified as a direct match |
+| `mobile_number` | `string` | Yes | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
+| `name` | `string` | Yes |  |
+| `page` | `int` | No | Page number |
+| `per_page` | `int` | No | Number of records per page |
+| `regions` | `[]any` | Yes |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.MobileNumberLookup(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `MobileNumberLookupEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## OperatorEntity
+
+```go
+operator := client.Operator(nil)
+fmt.Println(operator.GetName()) // "operator"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `country` | `map[string]any` | Yes |  |
+| `id` | `int` | Yes | Operator identifier. |
+| `name` | `string` | Yes |  |
+| `regions` | `[]any` | Yes |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.Operator(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Operator(nil).Load(map[string]any{"operator_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `OperatorEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## ProductEntity
+
+```go
+product := client.Product(nil)
+fmt.Println(product.GetName()) // "product"
+```
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.Product(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Product(nil).Load(map[string]any{"product_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `ProductEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## PromotionEntity
+
+```go
+promotion := client.Promotion(nil)
+fmt.Println(promotion.GetName()) // "promotion"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `description` | `string` | Yes |  |
+| `end_date` | `string` | Yes |  |
+| `id` | `int` | Yes |  |
+| `operator` | `map[string]any` | Yes |  |
+| `products` | `[]any` | Yes |  |
+| `start_date` | `string` | Yes |  |
+| `terms` | `string` | Yes |  |
+| `title` | `string` | Yes |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.Promotion(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Promotion(nil).Load(map[string]any{"promotion_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `PromotionEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
 ## ServiceEntity
 
 ```go
@@ -99,9 +753,9 @@ fmt.Println(service.GetName()) // "service"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `id` | `int` | No |  |
-| `name` | `string` | No |  |
-| `subservices` | `[]any` | No |  |
+| `id` | `int` | Yes | Service identifier. |
+| `name` | `string` | Yes |  |
+| `subservices` | `[]any` | Yes |  |
 
 ### Operations
 
@@ -122,7 +776,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Service(nil).Load(map[string]any{"id": 1}, nil)
+result, err := client.Service(nil).Load(map[string]any{"service_id": 1}, nil)
 if err != nil {
     panic(err)
 }
@@ -144,6 +798,188 @@ Get or set the entity match criteria. Works the same as `Data()`.
 #### `Make() Entity`
 
 Create a new `ServiceEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## StatementInquiryEntity
+
+```go
+statementInquiry := client.StatementInquiry(nil)
+fmt.Println(statementInquiry.GetName()) // "statement_inquiry"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `account_number` | `string` | Yes | Account number. |
+| `account_qualifier` | `string` | No |  |
+| `balance` | `map[string]any` | Yes |  |
+| `dates` | `map[string]any` | Yes |  |
+| `page` | `int` | No | Page number |
+| `per_page` | `int` | No | Number of records per page |
+| `product_id` | `int` | Yes | Product identifier. |
+| `reference` | `any` | Yes |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.StatementInquiry(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `StatementInquiryEntity` instance with the same client and
+options.
+
+#### `GetName() string`
+
+Return the entity name.
+
+
+---
+
+## TransactionEntity
+
+```go
+transaction := client.Transaction(nil)
+fmt.Println(transaction.GetName()) // "transaction"
+```
+
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `additional_identifier` | `map[string]any` | No | Additional details for a transaction. |
+| `adjusted_values` | `map[string]any` | No |  |
+| `auto_confirm` | `bool` | No | Determines whether a transaction will be automatically confirmed upon creation or not. |
+| `beneficiary` | `map[string]any` | No | Beneficiary details for a transaction. |
+| `benefits` | `[]any` | No |  |
+| `calculation_mode` | `any` | No |  |
+| `callback_url` | `string` | No | Transaction status updates will be sent to this endpoint. |
+| `confirmation_date` | `string` | No |  |
+| `confirmation_expiration_date` | `string` | No |  |
+| `creation_date` | `string` | No |  |
+| `credit_party_identifier` | `map[string]any` | No | Receiving account details for a transaction. |
+| `debit_party_identifier` | `map[string]any` | No | Sending account details for a transaction. |
+| `destination` | `map[string]any` | Yes | Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT` |
+| `external_id` | `string` | Yes |  |
+| `id` | `string` | No |  |
+| `metadata` | `map[string]any` | No | Optional metadata related to the transaction. |
+| `operator_reference` | `string` | No |  |
+| `pin` | `map[string]any` | Yes |  |
+| `prices` | `map[string]any` | Yes |  |
+| `product` | `any` | No |  |
+| `product_id` | `string` | Yes |  |
+| `promotions` | `[]any` | No |  |
+| `rates` | `any` | No |  |
+| `requested_values` | `map[string]any` | No |  |
+| `sender` | `map[string]any` | No | Sender details for a transaction. |
+| `source` | `map[string]any` | Yes | Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT` |
+| `statement_identifier` | `map[string]any` | No | Qualifying statement details for a payment transaction. |
+| `status` | `map[string]any` | No |  |
+
+### Operations
+
+#### `List(reqmatch, ctrl map[string]any) (any, error)`
+
+List entities matching the given criteria. Returns an array.
+
+```go
+results, err := client.Transaction(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(results)
+```
+
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+
+Load a single entity matching the given criteria.
+
+```go
+result, err := client.Transaction(nil).Load(map[string]any{"transaction_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.Transaction(nil).Create(map[string]any{
+    "destination": map[string]any{},
+    "external_id": "example_external_id",
+    "pin": map[string]any{},
+    "prices": map[string]any{},
+    "product_id": "example_product_id",
+    "source": map[string]any{},
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+#### `Update(reqdata, ctrl map[string]any) (any, error)`
+
+Update an existing entity. The data must include the entity `id`.
+
+```go
+result, err := client.Transaction(nil).Update(map[string]any{
+    "transaction_id": 1,
+    // Fields to update
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
+```
+
+### Common Methods
+
+#### `Data(args ...any) any`
+
+Get or set the entity data. When called with data, sets the entity's
+internal data and returns the current data. When called without
+arguments, returns a copy of the current data.
+
+#### `Match(args ...any) any`
+
+Get or set the entity match criteria. Works the same as `Data()`.
+
+#### `Make() Entity`
+
+Create a new `TransactionEntity` instance with the same client and
 options.
 
 #### `GetName() string`

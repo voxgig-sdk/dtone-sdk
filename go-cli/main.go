@@ -20,7 +20,7 @@ import (
 const prompt = "dtone"
 
 // entitiesHelp is the space-separated entity list shown by /help.
-const entitiesHelp = "service"
+const entitiesHelp = "balance benefit_type campaign country credit_party_benefit credit_party_status mobile_number_lookup operator product promotion service statement_inquiry transaction"
 
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdin, os.Stdout, os.Stderr))

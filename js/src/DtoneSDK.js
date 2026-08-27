@@ -1,6 +1,18 @@
 // Dtone Js SDK
 
+const { BalanceEntity } = require('./entity/BalanceEntity')
+const { BenefitTypeEntity } = require('./entity/BenefitTypeEntity')
+const { CampaignEntity } = require('./entity/CampaignEntity')
+const { CountryEntity } = require('./entity/CountryEntity')
+const { CreditPartyBenefitEntity } = require('./entity/CreditPartyBenefitEntity')
+const { CreditPartyStatusEntity } = require('./entity/CreditPartyStatusEntity')
+const { MobileNumberLookupEntity } = require('./entity/MobileNumberLookupEntity')
+const { OperatorEntity } = require('./entity/OperatorEntity')
+const { ProductEntity } = require('./entity/ProductEntity')
+const { PromotionEntity } = require('./entity/PromotionEntity')
 const { ServiceEntity } = require('./entity/ServiceEntity')
+const { StatementInquiryEntity } = require('./entity/StatementInquiryEntity')
+const { TransactionEntity } = require('./entity/TransactionEntity')
 
 
 const { inspect } = require('node:util')
@@ -287,12 +299,120 @@ class DtoneSDK {
 
 
 
+  // Entity access: `client.Balance().list()` / `client.Balance().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Balance(entopts) {
+    const self = this
+    return new BalanceEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.BenefitType().list()` / `client.BenefitType().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  BenefitType(entopts) {
+    const self = this
+    return new BenefitTypeEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Campaign().list()` / `client.Campaign().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Campaign(entopts) {
+    const self = this
+    return new CampaignEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Country().list()` / `client.Country().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Country(entopts) {
+    const self = this
+    return new CountryEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.CreditPartyBenefit().list()` / `client.CreditPartyBenefit().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  CreditPartyBenefit(entopts) {
+    const self = this
+    return new CreditPartyBenefitEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.CreditPartyStatus().list()` / `client.CreditPartyStatus().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  CreditPartyStatus(entopts) {
+    const self = this
+    return new CreditPartyStatusEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.MobileNumberLookup().list()` / `client.MobileNumberLookup().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  MobileNumberLookup(entopts) {
+    const self = this
+    return new MobileNumberLookupEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Operator().list()` / `client.Operator().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Operator(entopts) {
+    const self = this
+    return new OperatorEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Product().list()` / `client.Product().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Product(entopts) {
+    const self = this
+    return new ProductEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Promotion().list()` / `client.Promotion().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Promotion(entopts) {
+    const self = this
+    return new PromotionEntity(self, entopts)
+  }
+
+
   // Entity access: `client.Service().list()` / `client.Service().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
   Service(entopts) {
     const self = this
     return new ServiceEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.StatementInquiry().list()` / `client.StatementInquiry().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  StatementInquiry(entopts) {
+    const self = this
+    return new StatementInquiryEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Transaction().list()` / `client.Transaction().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Transaction(entopts) {
+    const self = this
+    return new TransactionEntity(self, entopts)
   }
 
 

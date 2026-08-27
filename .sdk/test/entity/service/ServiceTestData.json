@@ -4,17 +4,20 @@
       "SERVICE00": {
         "id": "SERVICE00",
         "name": "s1f",
-        "subservices": []
+        "subservices": [],
+        "service_id": "SERVICE01"
       },
       "SERVICE01": {
         "id": "SERVICE01",
         "name": "s3d",
-        "subservices": []
+        "subservices": [],
+        "service_id": "SERVICE01"
       },
       "SERVICE02": {
         "id": "SERVICE02",
         "name": "s5b",
-        "subservices": []
+        "subservices": [],
+        "service_id": "SERVICE01"
       }
     }
   },

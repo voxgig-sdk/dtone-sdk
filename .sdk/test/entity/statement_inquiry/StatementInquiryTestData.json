@@ -1,0 +1,50 @@
+{
+  "existing": {
+    "statement_inquiry": {
+      "STATEMENT_INQUIRY00": {
+        "account_number": "s50",
+        "account_qualifier": "s51",
+        "balance": {},
+        "dates": {},
+        "page": "s54",
+        "per_page": "s55",
+        "product_id": "PRODUCT01",
+        "reference": "s57"
+      },
+      "STATEMENT_INQUIRY01": {
+        "account_number": "sa0",
+        "account_qualifier": "sa1",
+        "balance": {},
+        "dates": {},
+        "page": "sa4",
+        "per_page": "sa5",
+        "product_id": "PRODUCT01",
+        "reference": "sa7"
+      },
+      "STATEMENT_INQUIRY02": {
+        "account_number": "sf0",
+        "account_qualifier": "sf1",
+        "balance": {},
+        "dates": {},
+        "page": "sf4",
+        "per_page": "sf5",
+        "product_id": "PRODUCT01",
+        "reference": "sf7"
+      }
+    }
+  },
+  "new": {
+    "statement_inquiry": {
+      "statement_inquiry_ref01": {
+        "account_number": "s140",
+        "account_qualifier": "s141",
+        "balance": {},
+        "dates": {},
+        "page": "s144",
+        "per_page": "s145",
+        "product_id": "PRODUCT01",
+        "reference": "s147"
+      }
+    }
+  }
+}

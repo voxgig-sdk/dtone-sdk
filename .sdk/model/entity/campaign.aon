@@ -1,0 +1,163 @@
+# Entity: campaign
+
+main: kit: entity: campaign: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "description"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "end_date"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "id"
+      req: true
+      type: "`$INTEGER`"
+    }
+    {
+      name: "products"
+      req: true
+      type: "`$ARRAY`"
+    }
+    {
+      name: "start_date"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "terms"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "title"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "campaign"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                kind: "query"
+                name: "country_iso_code"
+                orig: "country_iso_code"
+                reqd: false
+                type: "`$STRING`"
+              }
+              {
+                kind: "query"
+                name: "operator_id"
+                orig: "operator_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 1
+                kind: "query"
+                name: "page"
+                orig: "page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 50
+                kind: "query"
+                name: "per_page"
+                orig: "per_page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "product_id"
+                orig: "product_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/campaigns"
+          parts: [
+            "campaigns"
+          ]
+          select: {
+            exist: [
+              "country_iso_code"
+              "operator_id"
+              "page"
+              "per_page"
+              "product_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "campaign_id"
+                orig: "campaign_id"
+                reqd: true
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/campaigns/{campaign_id}"
+          parts: [
+            "campaigns"
+            "{campaign_id}"
+          ]
+          select: {
+            exist: [
+              "campaign_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "campaign"
+      ]
+    ]
+  }
+
+
+
+}

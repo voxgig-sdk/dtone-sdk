@@ -1,0 +1,41 @@
+{
+  "existing": {
+    "statement": {
+      "STATEMENT00": {
+        "account_number": "s32",
+        "account_qualifier": "s33",
+        "page": "s34",
+        "per_page": "s35",
+        "product_id": "PRODUCT01",
+        "id": "STATEMENT00"
+      },
+      "STATEMENT01": {
+        "account_number": "s64",
+        "account_qualifier": "s65",
+        "page": "s66",
+        "per_page": "s67",
+        "product_id": "PRODUCT01",
+        "id": "STATEMENT01"
+      },
+      "STATEMENT02": {
+        "account_number": "s96",
+        "account_qualifier": "s97",
+        "page": "s98",
+        "per_page": "s99",
+        "product_id": "PRODUCT01",
+        "id": "STATEMENT02"
+      }
+    }
+  },
+  "new": {
+    "statement": {
+      "statement_ref01": {
+        "account_number": "sc8",
+        "account_qualifier": "sc9",
+        "page": "sca",
+        "per_page": "scb",
+        "product_id": "PRODUCT01"
+      }
+    }
+  }
+}

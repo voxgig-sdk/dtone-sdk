@@ -1,0 +1,36 @@
+{
+  "existing": {
+    "operator": {
+      "OPERATOR00": {
+        "country": {},
+        "id": "OPERATOR00",
+        "name": "s2a",
+        "regions": [],
+        "operator_id": "OPERATOR01"
+      },
+      "OPERATOR01": {
+        "country": {},
+        "id": "OPERATOR01",
+        "name": "s52",
+        "regions": [],
+        "operator_id": "OPERATOR01"
+      },
+      "OPERATOR02": {
+        "country": {},
+        "id": "OPERATOR02",
+        "name": "s7a",
+        "regions": [],
+        "operator_id": "OPERATOR01"
+      }
+    }
+  },
+  "new": {
+    "operator": {
+      "operator_ref01": {
+        "country": {},
+        "name": "sa2",
+        "regions": []
+      }
+    }
+  }
+}

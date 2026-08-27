@@ -341,6 +341,186 @@ class DtoneSDK
     }
 
 
+    private $_balance = null;
+
+    // Canonical facade: $client->Balance()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->balance()
+    // resolves here too.
+    public function Balance($data = null)
+    {
+        require_once __DIR__ . '/entity/balance_entity.php';
+        if ($data === null) {
+            if ($this->_balance === null) {
+                $this->_balance = new BalanceEntity($this, null);
+            }
+            return $this->_balance;
+        }
+        return new BalanceEntity($this, $data);
+    }
+
+
+    private $_benefit_type = null;
+
+    // Canonical facade: $client->BenefitType()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->benefit_type()
+    // resolves here too.
+    public function BenefitType($data = null)
+    {
+        require_once __DIR__ . '/entity/benefit_type_entity.php';
+        if ($data === null) {
+            if ($this->_benefit_type === null) {
+                $this->_benefit_type = new BenefitTypeEntity($this, null);
+            }
+            return $this->_benefit_type;
+        }
+        return new BenefitTypeEntity($this, $data);
+    }
+
+
+    private $_campaign = null;
+
+    // Canonical facade: $client->Campaign()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->campaign()
+    // resolves here too.
+    public function Campaign($data = null)
+    {
+        require_once __DIR__ . '/entity/campaign_entity.php';
+        if ($data === null) {
+            if ($this->_campaign === null) {
+                $this->_campaign = new CampaignEntity($this, null);
+            }
+            return $this->_campaign;
+        }
+        return new CampaignEntity($this, $data);
+    }
+
+
+    private $_country = null;
+
+    // Canonical facade: $client->Country()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->country()
+    // resolves here too.
+    public function Country($data = null)
+    {
+        require_once __DIR__ . '/entity/country_entity.php';
+        if ($data === null) {
+            if ($this->_country === null) {
+                $this->_country = new CountryEntity($this, null);
+            }
+            return $this->_country;
+        }
+        return new CountryEntity($this, $data);
+    }
+
+
+    private $_credit_party_benefit = null;
+
+    // Canonical facade: $client->CreditPartyBenefit()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->credit_party_benefit()
+    // resolves here too.
+    public function CreditPartyBenefit($data = null)
+    {
+        require_once __DIR__ . '/entity/credit_party_benefit_entity.php';
+        if ($data === null) {
+            if ($this->_credit_party_benefit === null) {
+                $this->_credit_party_benefit = new CreditPartyBenefitEntity($this, null);
+            }
+            return $this->_credit_party_benefit;
+        }
+        return new CreditPartyBenefitEntity($this, $data);
+    }
+
+
+    private $_credit_party_status = null;
+
+    // Canonical facade: $client->CreditPartyStatus()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->credit_party_status()
+    // resolves here too.
+    public function CreditPartyStatus($data = null)
+    {
+        require_once __DIR__ . '/entity/credit_party_status_entity.php';
+        if ($data === null) {
+            if ($this->_credit_party_status === null) {
+                $this->_credit_party_status = new CreditPartyStatusEntity($this, null);
+            }
+            return $this->_credit_party_status;
+        }
+        return new CreditPartyStatusEntity($this, $data);
+    }
+
+
+    private $_mobile_number_lookup = null;
+
+    // Canonical facade: $client->MobileNumberLookup()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->mobile_number_lookup()
+    // resolves here too.
+    public function MobileNumberLookup($data = null)
+    {
+        require_once __DIR__ . '/entity/mobile_number_lookup_entity.php';
+        if ($data === null) {
+            if ($this->_mobile_number_lookup === null) {
+                $this->_mobile_number_lookup = new MobileNumberLookupEntity($this, null);
+            }
+            return $this->_mobile_number_lookup;
+        }
+        return new MobileNumberLookupEntity($this, $data);
+    }
+
+
+    private $_operator = null;
+
+    // Canonical facade: $client->Operator()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->operator()
+    // resolves here too.
+    public function Operator($data = null)
+    {
+        require_once __DIR__ . '/entity/operator_entity.php';
+        if ($data === null) {
+            if ($this->_operator === null) {
+                $this->_operator = new OperatorEntity($this, null);
+            }
+            return $this->_operator;
+        }
+        return new OperatorEntity($this, $data);
+    }
+
+
+    private $_product = null;
+
+    // Canonical facade: $client->Product()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->product()
+    // resolves here too.
+    public function Product($data = null)
+    {
+        require_once __DIR__ . '/entity/product_entity.php';
+        if ($data === null) {
+            if ($this->_product === null) {
+                $this->_product = new ProductEntity($this, null);
+            }
+            return $this->_product;
+        }
+        return new ProductEntity($this, $data);
+    }
+
+
+    private $_promotion = null;
+
+    // Canonical facade: $client->Promotion()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->promotion()
+    // resolves here too.
+    public function Promotion($data = null)
+    {
+        require_once __DIR__ . '/entity/promotion_entity.php';
+        if ($data === null) {
+            if ($this->_promotion === null) {
+                $this->_promotion = new PromotionEntity($this, null);
+            }
+            return $this->_promotion;
+        }
+        return new PromotionEntity($this, $data);
+    }
+
+
     private $_service = null;
 
     // Canonical facade: $client->Service()->list() / ->load(["id" => ...]).
@@ -356,6 +536,42 @@ class DtoneSDK
             return $this->_service;
         }
         return new ServiceEntity($this, $data);
+    }
+
+
+    private $_statement_inquiry = null;
+
+    // Canonical facade: $client->StatementInquiry()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->statement_inquiry()
+    // resolves here too.
+    public function StatementInquiry($data = null)
+    {
+        require_once __DIR__ . '/entity/statement_inquiry_entity.php';
+        if ($data === null) {
+            if ($this->_statement_inquiry === null) {
+                $this->_statement_inquiry = new StatementInquiryEntity($this, null);
+            }
+            return $this->_statement_inquiry;
+        }
+        return new StatementInquiryEntity($this, $data);
+    }
+
+
+    private $_transaction = null;
+
+    // Canonical facade: $client->Transaction()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->transaction()
+    // resolves here too.
+    public function Transaction($data = null)
+    {
+        require_once __DIR__ . '/entity/transaction_entity.php';
+        if ($data === null) {
+            if ($this->_transaction === null) {
+                $this->_transaction = new TransactionEntity($this, null);
+            }
+            return $this->_transaction;
+        }
+        return new TransactionEntity($this, $data);
     }
 
 

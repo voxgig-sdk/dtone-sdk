@@ -7,7 +7,7 @@
 # SDK Details.
 name: 'dtone'
 origin: 'voxgig-sdk'
-def: 'dtone-services-only.json'
+def: 'dtone-dvs-openapi.json'
 
 
 # API Information

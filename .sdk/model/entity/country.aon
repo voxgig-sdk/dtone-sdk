@@ -1,0 +1,131 @@
+# Entity: country
+
+main: kit: entity: country: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "iso_code"
+      req: true
+      short: "Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format."
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "regions"
+      req: true
+      type: "`$ARRAY`"
+    }
+  ]
+
+  name: "country"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                example: 1
+                kind: "query"
+                name: "page"
+                orig: "page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 50
+                kind: "query"
+                name: "per_page"
+                orig: "per_page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "service_id"
+                orig: "service_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                kind: "query"
+                name: "subservice_id"
+                orig: "subservice_id"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/countries"
+          parts: [
+            "countries"
+          ]
+          select: {
+            exist: [
+              "page"
+              "per_page"
+              "service_id"
+              "subservice_id"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "country_iso_code"
+                orig: "country_iso_code"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/countries/{country_iso_code}"
+          parts: [
+            "countries"
+            "{country_iso_code}"
+          ]
+          select: {
+            exist: [
+              "country_iso_code"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "country"
+      ]
+    ]
+  }
+
+
+
+}

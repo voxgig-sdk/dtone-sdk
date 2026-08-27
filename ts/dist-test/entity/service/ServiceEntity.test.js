@@ -97,7 +97,7 @@ function basicSetup(extra) {
     const struct = client.utility().struct;
     const merge = struct.merge;
     const transform = struct.transform;
-    let idmap = transform(['service01', 'service02', 'service03'], {
+    let idmap = transform(['service01', 'service02', 'service03', 'service01', 'service02', 'service03'], {
         '`$PACK`': ['', {
                 '`$KEY`': '`$COPY`',
                 '`$VAL`': ['`$FORMAT`', 'upper', '`$COPY`']

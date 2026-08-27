@@ -1,0 +1,22 @@
+# BasicBenefitTypeFlow
+
+main: kit: flow: BasicBenefitTypeFlow:
+{
+  entity: "benefit_type",
+  kind: "basic",
+  name: "BasicBenefitTypeFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "benefit_type_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicBenefitTypeFlow"
+}

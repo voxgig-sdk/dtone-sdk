@@ -89,8 +89,32 @@ func runOp(client *sdk.DtoneSDK, op string, query *eng.Value, entityAtom eng.Val
 // emits one `case "<name>":` per entity defined in the SDK model.
 func entityFor(client *sdk.DtoneSDK, name string) (sdk.DtoneEntity, error) {
 	switch strings.ToLower(name) {
+	case "balance":
+		return client.Balance(nil), nil
+	case "benefit_type":
+		return client.BenefitType(nil), nil
+	case "campaign":
+		return client.Campaign(nil), nil
+	case "country":
+		return client.Country(nil), nil
+	case "credit_party_benefit":
+		return client.CreditPartyBenefit(nil), nil
+	case "credit_party_status":
+		return client.CreditPartyStatus(nil), nil
+	case "mobile_number_lookup":
+		return client.MobileNumberLookup(nil), nil
+	case "operator":
+		return client.Operator(nil), nil
+	case "product":
+		return client.Product(nil), nil
+	case "promotion":
+		return client.Promotion(nil), nil
 	case "service":
 		return client.Service(nil), nil
+	case "statement_inquiry":
+		return client.StatementInquiry(nil), nil
+	case "transaction":
+		return client.Transaction(nil), nil
 
 	}
 	return nil, fmt.Errorf("unknown entity %q", name)

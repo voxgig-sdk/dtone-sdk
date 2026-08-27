@@ -338,11 +338,107 @@ func (sdk *DtoneSDK) Graphql(
 }
 
 
+// Balance returns a Balance entity bound to this client.
+// Idiomatic usage: client.Balance(nil).List(nil, nil) or
+// client.Balance(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) Balance(data map[string]any) DtoneEntity {
+	return NewBalanceEntityFunc(sdk, data)
+}
+
+
+// BenefitType returns a BenefitType entity bound to this client.
+// Idiomatic usage: client.BenefitType(nil).List(nil, nil) or
+// client.BenefitType(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) BenefitType(data map[string]any) DtoneEntity {
+	return NewBenefitTypeEntityFunc(sdk, data)
+}
+
+
+// Campaign returns a Campaign entity bound to this client.
+// Idiomatic usage: client.Campaign(nil).List(nil, nil) or
+// client.Campaign(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) Campaign(data map[string]any) DtoneEntity {
+	return NewCampaignEntityFunc(sdk, data)
+}
+
+
+// Country returns a Country entity bound to this client.
+// Idiomatic usage: client.Country(nil).List(nil, nil) or
+// client.Country(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) Country(data map[string]any) DtoneEntity {
+	return NewCountryEntityFunc(sdk, data)
+}
+
+
+// CreditPartyBenefit returns a CreditPartyBenefit entity bound to this client.
+// Idiomatic usage: client.CreditPartyBenefit(nil).List(nil, nil) or
+// client.CreditPartyBenefit(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) CreditPartyBenefit(data map[string]any) DtoneEntity {
+	return NewCreditPartyBenefitEntityFunc(sdk, data)
+}
+
+
+// CreditPartyStatus returns a CreditPartyStatus entity bound to this client.
+// Idiomatic usage: client.CreditPartyStatus(nil).List(nil, nil) or
+// client.CreditPartyStatus(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) CreditPartyStatus(data map[string]any) DtoneEntity {
+	return NewCreditPartyStatusEntityFunc(sdk, data)
+}
+
+
+// MobileNumberLookup returns a MobileNumberLookup entity bound to this client.
+// Idiomatic usage: client.MobileNumberLookup(nil).List(nil, nil) or
+// client.MobileNumberLookup(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) MobileNumberLookup(data map[string]any) DtoneEntity {
+	return NewMobileNumberLookupEntityFunc(sdk, data)
+}
+
+
+// Operator returns a Operator entity bound to this client.
+// Idiomatic usage: client.Operator(nil).List(nil, nil) or
+// client.Operator(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) Operator(data map[string]any) DtoneEntity {
+	return NewOperatorEntityFunc(sdk, data)
+}
+
+
+// Product returns a Product entity bound to this client.
+// Idiomatic usage: client.Product(nil).List(nil, nil) or
+// client.Product(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) Product(data map[string]any) DtoneEntity {
+	return NewProductEntityFunc(sdk, data)
+}
+
+
+// Promotion returns a Promotion entity bound to this client.
+// Idiomatic usage: client.Promotion(nil).List(nil, nil) or
+// client.Promotion(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) Promotion(data map[string]any) DtoneEntity {
+	return NewPromotionEntityFunc(sdk, data)
+}
+
+
 // Service returns a Service entity bound to this client.
 // Idiomatic usage: client.Service(nil).List(nil, nil) or
 // client.Service(nil).Load(map[string]any{"id": ...}, nil).
 func (sdk *DtoneSDK) Service(data map[string]any) DtoneEntity {
 	return NewServiceEntityFunc(sdk, data)
+}
+
+
+// StatementInquiry returns a StatementInquiry entity bound to this client.
+// Idiomatic usage: client.StatementInquiry(nil).List(nil, nil) or
+// client.StatementInquiry(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) StatementInquiry(data map[string]any) DtoneEntity {
+	return NewStatementInquiryEntityFunc(sdk, data)
+}
+
+
+// Transaction returns a Transaction entity bound to this client.
+// Idiomatic usage: client.Transaction(nil).List(nil, nil) or
+// client.Transaction(nil).Load(map[string]any{"id": ...}, nil).
+func (sdk *DtoneSDK) Transaction(data map[string]any) DtoneEntity {
+	return NewTransactionEntityFunc(sdk, data)
 }
 
 

@@ -1,0 +1,52 @@
+{
+  "existing": {
+    "promotion": {
+      "PROMOTION00": {
+        "description": "s50",
+        "end_date": "s51",
+        "id": "PROMOTION00",
+        "operator": {},
+        "products": [],
+        "start_date": "s55",
+        "terms": "s56",
+        "title": "s57",
+        "promotion_id": "PROMOTION01"
+      },
+      "PROMOTION01": {
+        "description": "sa0",
+        "end_date": "sa1",
+        "id": "PROMOTION01",
+        "operator": {},
+        "products": [],
+        "start_date": "sa5",
+        "terms": "sa6",
+        "title": "sa7",
+        "promotion_id": "PROMOTION01"
+      },
+      "PROMOTION02": {
+        "description": "sf0",
+        "end_date": "sf1",
+        "id": "PROMOTION02",
+        "operator": {},
+        "products": [],
+        "start_date": "sf5",
+        "terms": "sf6",
+        "title": "sf7",
+        "promotion_id": "PROMOTION01"
+      }
+    }
+  },
+  "new": {
+    "promotion": {
+      "promotion_ref01": {
+        "description": "s140",
+        "end_date": "s141",
+        "operator": {},
+        "products": [],
+        "start_date": "s145",
+        "terms": "s146",
+        "title": "s147"
+      }
+    }
+  }
+}

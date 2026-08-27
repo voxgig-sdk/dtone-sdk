@@ -1,0 +1,140 @@
+# Entity: mobile_number_lookup
+
+main: kit: entity: mobile_number_lookup: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "country"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "id"
+      req: true
+      short: "Operator identifier."
+      type: "`$INTEGER`"
+    }
+    {
+      name: "identified"
+      req: true
+      short: "Indicates whether operator was identified as a direct match"
+      type: "`$BOOLEAN`"
+    }
+    {
+      name: "mobile_number"
+      req: true
+      short: "Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format."
+      type: "`$STRING`"
+    }
+    {
+      name: "name"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "page"
+      req: false
+      short: "Page number"
+      type: "`$INTEGER`"
+    }
+    {
+      name: "per_page"
+      req: false
+      short: "Number of records per page"
+      type: "`$INTEGER`"
+    }
+    {
+      name: "regions"
+      req: true
+      type: "`$ARRAY`"
+    }
+  ]
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "mobile_number_lookup"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            params: [
+              {
+                kind: "param"
+                name: "mobile_number"
+                orig: "mobile_number"
+                reqd: true
+                type: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                example: 1
+                kind: "query"
+                name: "page"
+                orig: "page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 50
+                kind: "query"
+                name: "per_page"
+                orig: "per_page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/lookup/mobile-number/{mobile_number}"
+          parts: [
+            "lookup"
+            "mobile-number"
+            "{mobile_number}"
+          ]
+          select: {
+            exist: [
+              "mobile_number"
+              "page"
+              "per_page"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          method: "POST"
+          orig: "/lookup/mobile-number"
+          parts: [
+            "lookup"
+            "mobile-number"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+  relations: {
+    ancestors: [
+      [
+        "mobile_number"
+      ]
+    ]
+  }
+
+
+
+}

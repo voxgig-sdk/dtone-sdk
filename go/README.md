@@ -4,7 +4,7 @@
 
 The Golang SDK for the Dtone API — an entity-oriented client using standard Go conventions. No generics required; data flows as `map[string]any`.
 
-It exposes the API as capitalised, semantic **Entities** — e.g. `client.Service(nil)` — each with the same small set of operations (`List`, `Load`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+It exposes the API as capitalised, semantic **Entities** — e.g. `client.Balance(nil)` — each with the same small set of operations (`List`, `Load`, `Create`, `Update`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
 > Also generated from this model: `go-cli`, `go-mcp`, `js`, `lua`, `php`, `py`, `ts` — see
 > the [top-level README](../README.md).
@@ -53,21 +53,14 @@ func main() {
         "apikey": os.Getenv("DTONE_APIKEY"),
     })
 
-    // List service records — the value is the array of records itself.
-    services, err := client.Service(nil).List(nil, nil)
+    // List balance records — the value is the array of records itself.
+    balances, err := client.Balance(nil).List(nil, nil)
     if err != nil {
         panic(err)
     }
-    for _, item := range services.([]any) {
+    for _, item := range balances.([]any) {
         fmt.Println(item)
     }
-
-    // Load a single service — the value is the loaded record.
-    service, err := client.Service(nil).Load(map[string]any{"id": 1}, nil)
-    if err != nil {
-        panic(err)
-    }
-    fmt.Println(service)
 }
 ```
 
@@ -78,12 +71,12 @@ Every entity operation returns `(value, error)`. Check `err` before
 using the value — there is no exception to catch:
 
 ```go
-services, err := client.Service(nil).List(nil, nil)
+balances, err := client.Balance(nil).List(nil, nil)
 if err != nil {
     // handle err
     return
 }
-_ = services
+_ = balances
 ```
 
 `Direct` follows the same `(value, error)` convention:
@@ -147,13 +140,13 @@ Create a mock client for unit testing — no server required:
 ```go
 client := sdk.Test()
 
-service, err := client.Service(nil).List(
+balance, err := client.Balance(nil).List(
     nil, nil,
 )
 if err != nil {
     panic(err)
 }
-fmt.Println(service) // the returned mock data
+fmt.Println(balance) // the returned mock data
 ```
 
 ### Use a custom fetch function
@@ -232,7 +225,19 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `GetUtility` | `() *Utility` | Copy of the SDK utility object. |
 | `Prepare` | `(fetchargs map[string]any) (map[string]any, error)` | Build an HTTP request definition without sending. |
 | `Direct` | `(fetchargs map[string]any) (map[string]any, error)` | Build and send an HTTP request. |
+| `Balance` | `(data map[string]any) DtoneEntity` | Create a Balance entity instance. |
+| `BenefitType` | `(data map[string]any) DtoneEntity` | Create a BenefitType entity instance. |
+| `Campaign` | `(data map[string]any) DtoneEntity` | Create a Campaign entity instance. |
+| `Country` | `(data map[string]any) DtoneEntity` | Create a Country entity instance. |
+| `CreditPartyBenefit` | `(data map[string]any) DtoneEntity` | Create a CreditPartyBenefit entity instance. |
+| `CreditPartyStatus` | `(data map[string]any) DtoneEntity` | Create a CreditPartyStatus entity instance. |
+| `MobileNumberLookup` | `(data map[string]any) DtoneEntity` | Create a MobileNumberLookup entity instance. |
+| `Operator` | `(data map[string]any) DtoneEntity` | Create an Operator entity instance. |
+| `Product` | `(data map[string]any) DtoneEntity` | Create a Product entity instance. |
+| `Promotion` | `(data map[string]any) DtoneEntity` | Create a Promotion entity instance. |
 | `Service` | `(data map[string]any) DtoneEntity` | Create a Service entity instance. |
+| `StatementInquiry` | `(data map[string]any) DtoneEntity` | Create a StatementInquiry entity instance. |
+| `Transaction` | `(data map[string]any) DtoneEntity` | Create a Transaction entity instance. |
 
 ### Entity interface (DtoneEntity)
 
@@ -242,6 +247,8 @@ All entities implement the `DtoneEntity` interface.
 | --- | --- | --- |
 | `Load` | `(reqmatch, ctrl map[string]any) (any, error)` | Load a single entity by match criteria. |
 | `List` | `(reqmatch, ctrl map[string]any) (any, error)` | List entities matching the criteria. |
+| `Create` | `(reqdata, ctrl map[string]any) (any, error)` | Create a new entity. |
+| `Update` | `(reqdata, ctrl map[string]any) (any, error)` | Update an existing entity. |
 | `Data` | `(args ...any) any` | Get or set entity data. |
 | `Match` | `(args ...any) any` | Get or set entity match criteria. |
 | `Make` | `() Entity` | Create a new instance with the same options. |
@@ -254,27 +261,168 @@ operation's data **directly** — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `Load` | the entity record (`map[string]any`) |
+| `Load` / `Create` / `Update` | the entity record (`map[string]any`) |
 | `List` | a `[]any` of entity records |
 
 Check `err` first, then use the value directly (or the typed
 `...Typed` variants, which return the entity's model struct and a typed
 slice):
 
-    service, err := client.Service(nil).List(map[string]any{/* fields */}, nil)
+    balance, err := client.Balance(nil).List(map[string]any{/* fields */}, nil)
     if err != nil { /* handle */ }
-    // service is the returned record
+    // balance is the returned record
 
 Only `Direct()` returns a response envelope — a `map[string]any` with
 `"ok"`, `"status"`, `"headers"`, and `"data"` keys.
 
 ### Entities
 
+#### Balance
+
+| Field | Description |
+| --- | --- |
+| `"available"` |  |
+| `"credit_limit"` |  |
+| `"holding"` |  |
+| `"id"` |  |
+| `"unit"` |  |
+| `"unit_type"` |  |
+
+Operations: List.
+
+API path: `/balances`
+
+#### BenefitType
+
+| Field | Description |
+| --- | --- |
+| `"name"` |  |
+
+Operations: List.
+
+API path: `/benefit-types`
+
+#### Campaign
+
+| Field | Description |
+| --- | --- |
+| `"description"` |  |
+| `"end_date"` |  |
+| `"id"` |  |
+| `"products"` |  |
+| `"start_date"` |  |
+| `"terms"` |  |
+| `"title"` |  |
+
+Operations: List, Load.
+
+API path: `/campaigns`
+
+#### Country
+
+| Field | Description |
+| --- | --- |
+| `"iso_code"` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
+| `"name"` |  |
+| `"regions"` |  |
+
+Operations: List, Load.
+
+API path: `/countries`
+
+#### CreditPartyBenefit
+
+| Field | Description |
+| --- | --- |
+| `"amount"` | Remaining benefit amount. |
+| `"country"` |  |
+| `"credit_party_identifier"` |  |
+| `"expiration_date"` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
+| `"page"` | Page number |
+| `"per_page"` | Number of records per page |
+| `"service_id"` | Service identifier. |
+| `"type"` |  |
+| `"unit"` |  |
+| `"unit_type"` |  |
+
+Operations: List.
+
+API path: `/lookup/credit-party-benefits`
+
+#### CreditPartyStatus
+
+| Field | Description |
+| --- | --- |
+| `"activation_date"` | A `null` value denotes that credit party has not yet been activated on the actual network |
+| `"credit_party_identifier"` |  |
+| `"installation_date"` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
+| `"service_id"` | Service identifier. |
+
+Operations: Load.
+
+API path: `/lookup/credit-party-status`
+
+#### MobileNumberLookup
+
+| Field | Description |
+| --- | --- |
+| `"country"` |  |
+| `"id"` | Operator identifier. |
+| `"identified"` | Indicates whether operator was identified as a direct match |
+| `"mobile_number"` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
+| `"name"` |  |
+| `"page"` | Page number |
+| `"per_page"` | Number of records per page |
+| `"regions"` |  |
+
+Operations: List.
+
+API path: `/lookup/mobile-number/{mobile_number}`
+
+#### Operator
+
+| Field | Description |
+| --- | --- |
+| `"country"` |  |
+| `"id"` | Operator identifier. |
+| `"name"` |  |
+| `"regions"` |  |
+
+Operations: List, Load.
+
+API path: `/operators`
+
+#### Product
+
+| Field | Description |
+| --- | --- |
+
+Operations: List, Load.
+
+API path: `/products`
+
+#### Promotion
+
+| Field | Description |
+| --- | --- |
+| `"description"` |  |
+| `"end_date"` |  |
+| `"id"` |  |
+| `"operator"` |  |
+| `"products"` |  |
+| `"start_date"` |  |
+| `"terms"` |  |
+| `"title"` |  |
+
+Operations: List, Load.
+
+API path: `/promotions`
+
 #### Service
 
 | Field | Description |
 | --- | --- |
-| `"id"` |  |
+| `"id"` | Service identifier. |
 | `"name"` |  |
 | `"subservices"` |  |
 
@@ -282,9 +430,424 @@ Operations: List, Load.
 
 API path: `/services`
 
+#### StatementInquiry
+
+| Field | Description |
+| --- | --- |
+| `"account_number"` | Account number. |
+| `"account_qualifier"` |  |
+| `"balance"` |  |
+| `"dates"` |  |
+| `"page"` | Page number |
+| `"per_page"` | Number of records per page |
+| `"product_id"` | Product identifier. |
+| `"reference"` |  |
+
+Operations: List.
+
+API path: `/lookup/statement-inquiry`
+
+#### Transaction
+
+| Field | Description |
+| --- | --- |
+| `"additional_identifier"` | Additional details for a transaction. |
+| `"adjusted_values"` |  |
+| `"auto_confirm"` | Determines whether a transaction will be automatically confirmed upon creation or not. |
+| `"beneficiary"` | Beneficiary details for a transaction. |
+| `"benefits"` |  |
+| `"calculation_mode"` |  |
+| `"callback_url"` | Transaction status updates will be sent to this endpoint. |
+| `"confirmation_date"` |  |
+| `"confirmation_expiration_date"` |  |
+| `"creation_date"` |  |
+| `"credit_party_identifier"` | Receiving account details for a transaction. |
+| `"debit_party_identifier"` | Sending account details for a transaction. |
+| `"destination"` | Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT` |
+| `"external_id"` |  |
+| `"id"` |  |
+| `"metadata"` | Optional metadata related to the transaction. |
+| `"operator_reference"` |  |
+| `"pin"` |  |
+| `"prices"` |  |
+| `"product"` |  |
+| `"product_id"` |  |
+| `"promotions"` |  |
+| `"rates"` |  |
+| `"requested_values"` |  |
+| `"sender"` | Sender details for a transaction. |
+| `"source"` | Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT` |
+| `"statement_identifier"` | Qualifying statement details for a payment transaction. |
+| `"status"` |  |
+
+Operations: Create, List, Load, Update.
+
+API path: `/async/transactions`
+
 
 
 ## Entities
+
+
+### Balance
+
+Create an instance: `balance := client.Balance(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `available` | `float64` |  |
+| `credit_limit` | `float64` |  |
+| `holding` | `float64` |  |
+| `id` | `int` |  |
+| `unit` | `string` |  |
+| `unit_type` | `string` |  |
+
+#### Example: List
+
+```go
+balances, err := client.Balance(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(balances) // the array of records
+```
+
+
+### BenefitType
+
+Create an instance: `benefitType := client.BenefitType(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `name` | `string` |  |
+
+#### Example: List
+
+```go
+benefitTypes, err := client.BenefitType(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(benefitTypes) // the array of records
+```
+
+
+### Campaign
+
+Create an instance: `campaign := client.Campaign(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `description` | `string` |  |
+| `end_date` | `string` |  |
+| `id` | `int` |  |
+| `products` | `[]any` |  |
+| `start_date` | `string` |  |
+| `terms` | `string` |  |
+| `title` | `string` |  |
+
+#### Example: Load
+
+```go
+campaign, err := client.Campaign(nil).Load(map[string]any{"campaign_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(campaign) // the loaded record
+```
+
+#### Example: List
+
+```go
+campaigns, err := client.Campaign(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(campaigns) // the array of records
+```
+
+
+### Country
+
+Create an instance: `country := client.Country(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `iso_code` | `string` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
+| `name` | `string` |  |
+| `regions` | `[]any` |  |
+
+#### Example: Load
+
+```go
+country, err := client.Country(nil).Load(map[string]any{"country_iso_code": "country_iso_code"}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(country) // the loaded record
+```
+
+#### Example: List
+
+```go
+countrys, err := client.Country(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(countrys) // the array of records
+```
+
+
+### CreditPartyBenefit
+
+Create an instance: `creditPartyBenefit := client.CreditPartyBenefit(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `amount` | `float64` | Remaining benefit amount. |
+| `country` | `map[string]any` |  |
+| `credit_party_identifier` | `map[string]any` |  |
+| `expiration_date` | `string` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
+| `page` | `int` | Page number |
+| `per_page` | `int` | Number of records per page |
+| `service_id` | `int` | Service identifier. |
+| `type` | `string` |  |
+| `unit` | `string` |  |
+| `unit_type` | `string` |  |
+
+#### Example: List
+
+```go
+creditPartyBenefits, err := client.CreditPartyBenefit(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(creditPartyBenefits) // the array of records
+```
+
+
+### CreditPartyStatus
+
+Create an instance: `creditPartyStatus := client.CreditPartyStatus(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activation_date` | `string` | A `null` value denotes that credit party has not yet been activated on the actual network |
+| `credit_party_identifier` | `map[string]any` |  |
+| `installation_date` | `string` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
+| `service_id` | `int` | Service identifier. |
+
+#### Example: Load
+
+```go
+creditPartyStatus, err := client.CreditPartyStatus(nil).Load(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(creditPartyStatus) // the loaded record
+```
+
+
+### MobileNumberLookup
+
+Create an instance: `mobileNumberLookup := client.MobileNumberLookup(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `country` | `map[string]any` |  |
+| `id` | `int` | Operator identifier. |
+| `identified` | `bool` | Indicates whether operator was identified as a direct match |
+| `mobile_number` | `string` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
+| `name` | `string` |  |
+| `page` | `int` | Page number |
+| `per_page` | `int` | Number of records per page |
+| `regions` | `[]any` |  |
+
+#### Example: List
+
+```go
+mobileNumberLookups, err := client.MobileNumberLookup(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(mobileNumberLookups) // the array of records
+```
+
+
+### Operator
+
+Create an instance: `operator := client.Operator(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `country` | `map[string]any` |  |
+| `id` | `int` | Operator identifier. |
+| `name` | `string` |  |
+| `regions` | `[]any` |  |
+
+#### Example: Load
+
+```go
+operator, err := client.Operator(nil).Load(map[string]any{"operator_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(operator) // the loaded record
+```
+
+#### Example: List
+
+```go
+operators, err := client.Operator(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(operators) // the array of records
+```
+
+
+### Product
+
+Create an instance: `product := client.Product(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```go
+product, err := client.Product(nil).Load(map[string]any{"product_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(product) // the loaded record
+```
+
+#### Example: List
+
+```go
+products, err := client.Product(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(products) // the array of records
+```
+
+
+### Promotion
+
+Create an instance: `promotion := client.Promotion(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `description` | `string` |  |
+| `end_date` | `string` |  |
+| `id` | `int` |  |
+| `operator` | `map[string]any` |  |
+| `products` | `[]any` |  |
+| `start_date` | `string` |  |
+| `terms` | `string` |  |
+| `title` | `string` |  |
+
+#### Example: Load
+
+```go
+promotion, err := client.Promotion(nil).Load(map[string]any{"promotion_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(promotion) // the loaded record
+```
+
+#### Example: List
+
+```go
+promotions, err := client.Promotion(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(promotions) // the array of records
+```
 
 
 ### Service
@@ -302,14 +865,14 @@ Create an instance: `service := client.Service(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `int` |  |
+| `id` | `int` | Service identifier. |
 | `name` | `string` |  |
 | `subservices` | `[]any` |  |
 
 #### Example: Load
 
 ```go
-service, err := client.Service(nil).Load(map[string]any{"id": 1}, nil)
+service, err := client.Service(nil).Load(map[string]any{"service_id": 1}, nil)
 if err != nil {
     panic(err)
 }
@@ -324,6 +887,124 @@ if err != nil {
     panic(err)
 }
 fmt.Println(services) // the array of records
+```
+
+
+### StatementInquiry
+
+Create an instance: `statementInquiry := client.StatementInquiry(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `account_number` | `string` | Account number. |
+| `account_qualifier` | `string` |  |
+| `balance` | `map[string]any` |  |
+| `dates` | `map[string]any` |  |
+| `page` | `int` | Page number |
+| `per_page` | `int` | Number of records per page |
+| `product_id` | `int` | Product identifier. |
+| `reference` | `any` |  |
+
+#### Example: List
+
+```go
+statementInquirys, err := client.StatementInquiry(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(statementInquirys) // the array of records
+```
+
+
+### Transaction
+
+Create an instance: `transaction := client.Transaction(nil)`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `List(match, ctrl)` | List entities matching the criteria. |
+| `Load(match, ctrl)` | Load a single entity by match criteria. |
+| `Create(data, ctrl)` | Create a new entity with the given data. |
+| `Update(data, ctrl)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `additional_identifier` | `map[string]any` | Additional details for a transaction. |
+| `adjusted_values` | `map[string]any` |  |
+| `auto_confirm` | `bool` | Determines whether a transaction will be automatically confirmed upon creation or not. |
+| `beneficiary` | `map[string]any` | Beneficiary details for a transaction. |
+| `benefits` | `[]any` |  |
+| `calculation_mode` | `any` |  |
+| `callback_url` | `string` | Transaction status updates will be sent to this endpoint. |
+| `confirmation_date` | `string` |  |
+| `confirmation_expiration_date` | `string` |  |
+| `creation_date` | `string` |  |
+| `credit_party_identifier` | `map[string]any` | Receiving account details for a transaction. |
+| `debit_party_identifier` | `map[string]any` | Sending account details for a transaction. |
+| `destination` | `map[string]any` | Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT` |
+| `external_id` | `string` |  |
+| `id` | `string` |  |
+| `metadata` | `map[string]any` | Optional metadata related to the transaction. |
+| `operator_reference` | `string` |  |
+| `pin` | `map[string]any` |  |
+| `prices` | `map[string]any` |  |
+| `product` | `any` |  |
+| `product_id` | `string` |  |
+| `promotions` | `[]any` |  |
+| `rates` | `any` |  |
+| `requested_values` | `map[string]any` |  |
+| `sender` | `map[string]any` | Sender details for a transaction. |
+| `source` | `map[string]any` | Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT` |
+| `statement_identifier` | `map[string]any` | Qualifying statement details for a payment transaction. |
+| `status` | `map[string]any` |  |
+
+#### Example: Load
+
+```go
+transaction, err := client.Transaction(nil).Load(map[string]any{"transaction_id": 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(transaction) // the loaded record
+```
+
+#### Example: List
+
+```go
+transactions, err := client.Transaction(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(transactions) // the array of records
+```
+
+#### Example: Create
+
+```go
+result, err := client.Transaction(nil).Create(map[string]any{
+    "destination": map[string]any{},
+    "external_id": "example_external_id",
+    "pin": map[string]any{},
+    "prices": map[string]any{},
+    "product_id": "example_product_id",
+    "source": map[string]any{},
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 
@@ -400,11 +1081,11 @@ Entity instances are stateful. After a successful `List`, the entity
 stores the returned data and match criteria internally.
 
 ```go
-service := client.Service(nil)
-service.List(nil, nil)
+balance := client.Balance(nil)
+balance.List(nil, nil)
 
-// service.Data() now returns the service data from the last list
-// service.Match() returns the last match criteria
+// balance.Data() now returns the balance data from the last list
+// balance.Match() returns the last match criteria
 ```
 
 Call `Make()` to create a fresh instance with the same configuration

@@ -19,16 +19,15 @@ make build
 export DTONE_APIKEY=sk_live_xxx
 
 # 4. Each command line is ONE boru expression, run against the API:
-./dtone-cli list service
-./dtone-cli load 1 service            # {id:1} shorthand
-./dtone-cli load '{id:1}' service       # explicit match map
+./dtone-cli list balance
+./dtone-cli list benefit_type
 
 # 5. Override the API base URL for a single call
-DTONE_BASE=https://api.example.com ./dtone-cli list service
+DTONE_BASE=https://api.example.com ./dtone-cli list balance
 
 # 6. No arguments -> interactive REPL
 ./dtone-cli
-dtone> list service
+dtone> list balance
 dtone> /quit
 ```
 
@@ -54,7 +53,7 @@ dtone> /quit
    arguments to open the REPL):
 
    ```sh
-   ./dist/*/dtone-cli list service
+   ./dist/*/dtone-cli list balance
    ```
 
 4. **Go interactive.** Run the binary with no arguments to open the REPL, then
@@ -67,21 +66,11 @@ That is the whole loop: *build → set key → evaluate boru expressions*.
 ### List the records of an entity
 
 ```sh
-./dtone-cli list service
+./dtone-cli list balance
 ```
 
 `list <entity>` returns the first page of records. `<entity>` is a bareword —
 it is auto-quoted as an boru atom, so no quotes are needed.
-
-### Load a single record
-
-```sh
-./dtone-cli load 1 service          # scalar shorthand for {id:1}
-./dtone-cli load '{id:1}' service     # explicit match map
-```
-
-The query is either a **scalar** (`1`, treated as `{id:1}`) or a **match map**
-(`{id:1}`, `{slug:"acme"}`). Quote the map so your shell passes it through intact.
 
 ### Authenticate and choose an environment
 
@@ -90,7 +79,7 @@ Configuration is read from the environment — nothing is written to disk:
 ```sh
 export DTONE_APIKEY=sk_live_xxx            # API key
 export DTONE_BASE=https://api.example.com  # optional: override the API base URL
-./dtone-cli list service
+./dtone-cli list balance
 ```
 
 Both are injectable by a secrets vault, so the key never has to be typed inline.
@@ -102,7 +91,7 @@ evaluated as its own boru expression:
 
 ```text
 $ ./dtone-cli
-dtone> list service
+dtone> list balance
 dtone> /help
 dtone> /quit
 ```
@@ -117,7 +106,7 @@ make build-all   # linux/darwin/windows x amd64/arm64, under dist/<os>-<arch>/
 ### Discover the available entities
 
 `/help` in the REPL prints the full entity list, or see [Entities](#entities)
-below — this SDK exposes 1 entity.
+below — this SDK exposes 13 entities.
 
 ## Reference
 
@@ -129,8 +118,9 @@ The CLI registers these boru words, each bound to the SDK:
 |----------|-----------------------------------------------|--------------------------------|
 | `list`   | `list <entity>` · `list <query> <entity>`     | First page of records          |
 | `load`   | `load <entity>` · `load <query> <entity>`     | A single record                |
+| `update` | `update <query> <entity>`                     | Update a record, return it     |
 
-- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `service`).
+- `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `balance`).
 - `<query>` is either a **Map** (`{id:1}`) or a **Scalar** (`1`, treated as
   `{id:1}`). A scalar is always wrapped as `{id:<value>}`.
 
@@ -171,9 +161,9 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 ### Entities
 
-The 1 entity this SDK exposes (any is valid as `<entity>`):
+The 13 entities this SDK exposes (any is valid as `<entity>`):
 
-service
+balance benefit_type campaign country credit_party_benefit credit_party_status mobile_number_lookup operator product promotion service statement_inquiry transaction
 
 ## Explanation
 

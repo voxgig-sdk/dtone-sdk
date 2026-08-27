@@ -5,7 +5,7 @@
 The TypeScript SDK for the Dtone API — a type-safe, entity-oriented client with full async/await support.
 
 The API is exposed as capitalised, semantic **Entities** — e.g.
-`client.Service()` — each with a small set of operations (`list`, `load`)
+`client.Balance()` — each with a small set of operations (`list`, `load`, `create`, `update`)
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
@@ -36,28 +36,31 @@ const client = new DtoneSDK({
 })
 ```
 
-### 2. List service records
+### 2. List balance records
 
-`list()` resolves to an array of Service ENTITIES — every operation
+`list()` resolves to an array of Balance ENTITIES — every operation
 resolves to entities, not raw records. Iterate them directly, and call
 `.data()` on one for the record it holds:
 
 ```ts
-const services = await client.Service().list()
+const balances = await client.Balance().list()
 
-for (const service of services) {
-  console.log(service)
+for (const balance of balances) {
+  console.log(balance)
 }
 ```
 
-### 3. Load a service
+### 3. Load a campaign
 
+Campaign is nested under campaign, so provide the `campaign_id`.
 `load()` returns the entity directly and throws on failure:
 
 ```ts
 try {
-  const service = await client.Service().load({ id: 1 })
-  console.log(service)
+  const campaign = await client.Campaign().load({
+    campaign_id: 1,
+  })
+  console.log(campaign)
 } catch (err) {
   console.error('load failed:', err)
 }
@@ -70,8 +73,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const services = await client.Service().list()
-  console.log(services)
+  const balances = await client.Balance().list()
+  console.log(balances)
 } catch (err) {
   console.error('list failed:', err)
 }
@@ -137,10 +140,10 @@ Create a mock client for unit testing — no server required:
 ```ts
 const client = DtoneSDK.test()
 
-const service = await client.Service().list()
-// service is the entity, populated with mock response data
-// — call service.data() for the record itself
-console.log(service)
+const balance = await client.Balance().list()
+// balance is the entity, populated with mock response data
+// — call balance.data() for the record itself
+console.log(balance)
 ```
 
 You can also use the instance method:
@@ -155,7 +158,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```ts
-const entity = client.Service()
+const entity = client.Balance()
 
 // First call runs the operation and stores its result
 await entity.list()
@@ -241,7 +244,19 @@ new DtoneSDK(options?: {
 | `utility()` | `Utility` | Deep copy of the SDK utility object. |
 | `prepare(fetchargs?)` | `Promise<FetchDef>` | Build an HTTP request definition without sending it. |
 | `direct(fetchargs?)` | `Promise<DirectResult>` | Build and send an HTTP request. |
+| `Balance(data?)` | `BalanceEntity` | Create a Balance entity instance. |
+| `BenefitType(data?)` | `BenefitTypeEntity` | Create a BenefitType entity instance. |
+| `Campaign(data?)` | `CampaignEntity` | Create a Campaign entity instance. |
+| `Country(data?)` | `CountryEntity` | Create a Country entity instance. |
+| `CreditPartyBenefit(data?)` | `CreditPartyBenefitEntity` | Create a CreditPartyBenefit entity instance. |
+| `CreditPartyStatus(data?)` | `CreditPartyStatusEntity` | Create a CreditPartyStatus entity instance. |
+| `MobileNumberLookup(data?)` | `MobileNumberLookupEntity` | Create a MobileNumberLookup entity instance. |
+| `Operator(data?)` | `OperatorEntity` | Create an Operator entity instance. |
+| `Product(data?)` | `ProductEntity` | Create a Product entity instance. |
+| `Promotion(data?)` | `PromotionEntity` | Create a Promotion entity instance. |
 | `Service(data?)` | `ServiceEntity` | Create a Service entity instance. |
+| `StatementInquiry(data?)` | `StatementInquiryEntity` | Create a StatementInquiry entity instance. |
+| `Transaction(data?)` | `TransactionEntity` | Create a Transaction entity instance. |
 | `tester(testopts?, sdkopts?)` | `DtoneSDK` | Create a test-mode client instance. |
 
 #### Static methods
@@ -260,6 +275,8 @@ All entities share the same interface.
 | --- | --- | --- |
 | `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
 | `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
+| `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
+| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -271,7 +288,7 @@ All entities share the same interface.
 Entity operations resolve to the entity data directly — there is no
 result envelope:
 
-- `load` resolves to a single entity object.
+- `load`, `create` and `update` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
 
@@ -309,11 +326,152 @@ The `prepare()` method returns:
 
 ### Entities
 
+#### Balance
+
+| Field | Description |
+| --- | --- |
+| `available` |  |
+| `credit_limit` |  |
+| `holding` |  |
+| `id` |  |
+| `unit` |  |
+| `unit_type` |  |
+
+Operations: list.
+
+API path: `/balances`
+
+#### BenefitType
+
+| Field | Description |
+| --- | --- |
+| `name` |  |
+
+Operations: list.
+
+API path: `/benefit-types`
+
+#### Campaign
+
+| Field | Description |
+| --- | --- |
+| `description` |  |
+| `end_date` |  |
+| `id` |  |
+| `products` |  |
+| `start_date` |  |
+| `terms` |  |
+| `title` |  |
+
+Operations: list, load.
+
+API path: `/campaigns`
+
+#### Country
+
+| Field | Description |
+| --- | --- |
+| `iso_code` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
+| `name` |  |
+| `regions` |  |
+
+Operations: list, load.
+
+API path: `/countries`
+
+#### CreditPartyBenefit
+
+| Field | Description |
+| --- | --- |
+| `amount` | Remaining benefit amount. |
+| `country` |  |
+| `credit_party_identifier` |  |
+| `expiration_date` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
+| `page` | Page number |
+| `per_page` | Number of records per page |
+| `service_id` | Service identifier. |
+| `type` |  |
+| `unit` |  |
+| `unit_type` |  |
+
+Operations: list.
+
+API path: `/lookup/credit-party-benefits`
+
+#### CreditPartyStatus
+
+| Field | Description |
+| --- | --- |
+| `activation_date` | A `null` value denotes that credit party has not yet been activated on the actual network |
+| `credit_party_identifier` |  |
+| `installation_date` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
+| `service_id` | Service identifier. |
+
+Operations: load.
+
+API path: `/lookup/credit-party-status`
+
+#### MobileNumberLookup
+
+| Field | Description |
+| --- | --- |
+| `country` |  |
+| `id` | Operator identifier. |
+| `identified` | Indicates whether operator was identified as a direct match |
+| `mobile_number` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
+| `name` |  |
+| `page` | Page number |
+| `per_page` | Number of records per page |
+| `regions` |  |
+
+Operations: list.
+
+API path: `/lookup/mobile-number/{mobile_number}`
+
+#### Operator
+
+| Field | Description |
+| --- | --- |
+| `country` |  |
+| `id` | Operator identifier. |
+| `name` |  |
+| `regions` |  |
+
+Operations: list, load.
+
+API path: `/operators`
+
+#### Product
+
+| Field | Description |
+| --- | --- |
+
+Operations: list, load.
+
+API path: `/products`
+
+#### Promotion
+
+| Field | Description |
+| --- | --- |
+| `description` |  |
+| `end_date` |  |
+| `id` |  |
+| `operator` |  |
+| `products` |  |
+| `start_date` |  |
+| `terms` |  |
+| `title` |  |
+
+Operations: list, load.
+
+API path: `/promotions`
+
 #### Service
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
+| `id` | Service identifier. |
 | `name` |  |
 | `subservices` |  |
 
@@ -321,9 +479,364 @@ Operations: list, load.
 
 API path: `/services`
 
+#### StatementInquiry
+
+| Field | Description |
+| --- | --- |
+| `account_number` | Account number. |
+| `account_qualifier` |  |
+| `balance` |  |
+| `dates` |  |
+| `page` | Page number |
+| `per_page` | Number of records per page |
+| `product_id` | Product identifier. |
+| `reference` |  |
+
+Operations: list.
+
+API path: `/lookup/statement-inquiry`
+
+#### Transaction
+
+| Field | Description |
+| --- | --- |
+| `additional_identifier` | Additional details for a transaction. |
+| `adjusted_values` |  |
+| `auto_confirm` | Determines whether a transaction will be automatically confirmed upon creation or not. |
+| `beneficiary` | Beneficiary details for a transaction. |
+| `benefits` |  |
+| `calculation_mode` |  |
+| `callback_url` | Transaction status updates will be sent to this endpoint. |
+| `confirmation_date` |  |
+| `confirmation_expiration_date` |  |
+| `creation_date` |  |
+| `credit_party_identifier` | Receiving account details for a transaction. |
+| `debit_party_identifier` | Sending account details for a transaction. |
+| `destination` | Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT` |
+| `external_id` |  |
+| `id` |  |
+| `metadata` | Optional metadata related to the transaction. |
+| `operator_reference` |  |
+| `pin` |  |
+| `prices` |  |
+| `product` |  |
+| `product_id` |  |
+| `promotions` |  |
+| `rates` |  |
+| `requested_values` |  |
+| `sender` | Sender details for a transaction. |
+| `source` | Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT` |
+| `statement_identifier` | Qualifying statement details for a payment transaction. |
+| `status` |  |
+
+Operations: create, list, load, update.
+
+API path: `/async/transactions`
+
 
 
 ## Entities
+
+
+### Balance
+
+Create an instance: `const balance = client.Balance()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `available` | `number` |  |
+| `credit_limit` | `number` |  |
+| `holding` | `number` |  |
+| `id` | `number` |  |
+| `unit` | `string` |  |
+| `unit_type` | `string` |  |
+
+#### Example: List
+
+```ts
+const balances = await client.Balance().list()
+```
+
+
+### BenefitType
+
+Create an instance: `const benefit_type = client.BenefitType()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `name` | `string` |  |
+
+#### Example: List
+
+```ts
+const benefit_types = await client.BenefitType().list()
+```
+
+
+### Campaign
+
+Create an instance: `const campaign = client.Campaign()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `description` | `string` |  |
+| `end_date` | `string` |  |
+| `id` | `number` |  |
+| `products` | `any[]` |  |
+| `start_date` | `string` |  |
+| `terms` | `string` |  |
+| `title` | `string` |  |
+
+#### Example: Load
+
+```ts
+const campaign = await client.Campaign().load({ campaign_id: 1 })
+```
+
+#### Example: List
+
+```ts
+const campaigns = await client.Campaign().list()
+```
+
+
+### Country
+
+Create an instance: `const country = client.Country()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `iso_code` | `string` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
+| `name` | `string` |  |
+| `regions` | `any[]` |  |
+
+#### Example: Load
+
+```ts
+const country = await client.Country().load({ country_iso_code: 'country_iso_code' })
+```
+
+#### Example: List
+
+```ts
+const countrys = await client.Country().list()
+```
+
+
+### CreditPartyBenefit
+
+Create an instance: `const credit_party_benefit = client.CreditPartyBenefit()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `amount` | `number` | Remaining benefit amount. |
+| `country` | `Record<string, any>` |  |
+| `credit_party_identifier` | `Record<string, any>` |  |
+| `expiration_date` | `string` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
+| `page` | `number` | Page number |
+| `per_page` | `number` | Number of records per page |
+| `service_id` | `number` | Service identifier. |
+| `type` | `string` |  |
+| `unit` | `string` |  |
+| `unit_type` | `string` |  |
+
+#### Example: List
+
+```ts
+const credit_party_benefits = await client.CreditPartyBenefit().list()
+```
+
+
+### CreditPartyStatus
+
+Create an instance: `const credit_party_status = client.CreditPartyStatus()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activation_date` | `string` | A `null` value denotes that credit party has not yet been activated on the actual network |
+| `credit_party_identifier` | `Record<string, any>` |  |
+| `installation_date` | `string` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
+| `service_id` | `number` | Service identifier. |
+
+#### Example: Load
+
+```ts
+const credit_party_status = await client.CreditPartyStatus().load()
+```
+
+
+### MobileNumberLookup
+
+Create an instance: `const mobile_number_lookup = client.MobileNumberLookup()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `country` | `Record<string, any>` |  |
+| `id` | `number` | Operator identifier. |
+| `identified` | `boolean` | Indicates whether operator was identified as a direct match |
+| `mobile_number` | `string` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
+| `name` | `string` |  |
+| `page` | `number` | Page number |
+| `per_page` | `number` | Number of records per page |
+| `regions` | `any[]` |  |
+
+#### Example: List
+
+```ts
+const mobile_number_lookups = await client.MobileNumberLookup().list({ mobile_number: "example" })
+```
+
+
+### Operator
+
+Create an instance: `const operator = client.Operator()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `country` | `Record<string, any>` |  |
+| `id` | `number` | Operator identifier. |
+| `name` | `string` |  |
+| `regions` | `any[]` |  |
+
+#### Example: Load
+
+```ts
+const operator = await client.Operator().load({ operator_id: 1 })
+```
+
+#### Example: List
+
+```ts
+const operators = await client.Operator().list()
+```
+
+
+### Product
+
+Create an instance: `const product = client.Product()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```ts
+const product = await client.Product().load({ product_id: 1 })
+```
+
+#### Example: List
+
+```ts
+const products = await client.Product().list()
+```
+
+
+### Promotion
+
+Create an instance: `const promotion = client.Promotion()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `description` | `string` |  |
+| `end_date` | `string` |  |
+| `id` | `number` |  |
+| `operator` | `Record<string, any>` |  |
+| `products` | `any[]` |  |
+| `start_date` | `string` |  |
+| `terms` | `string` |  |
+| `title` | `string` |  |
+
+#### Example: Load
+
+```ts
+const promotion = await client.Promotion().load({ promotion_id: 1 })
+```
+
+#### Example: List
+
+```ts
+const promotions = await client.Promotion().list()
+```
 
 
 ### Service
@@ -341,20 +854,122 @@ Create an instance: `const service = client.Service()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `number` |  |
+| `id` | `number` | Service identifier. |
 | `name` | `string` |  |
 | `subservices` | `any[]` |  |
 
 #### Example: Load
 
 ```ts
-const service = await client.Service().load({ id: 1 })
+const service = await client.Service().load({ service_id: 1 })
 ```
 
 #### Example: List
 
 ```ts
 const services = await client.Service().list()
+```
+
+
+### StatementInquiry
+
+Create an instance: `const statement_inquiry = client.StatementInquiry()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list(match)` | List entities matching the criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `account_number` | `string` | Account number. |
+| `account_qualifier` | `string` |  |
+| `balance` | `Record<string, any>` |  |
+| `dates` | `Record<string, any>` |  |
+| `page` | `number` | Page number |
+| `per_page` | `number` | Number of records per page |
+| `product_id` | `number` | Product identifier. |
+| `reference` | `any` |  |
+
+#### Example: List
+
+```ts
+const statement_inquirys = await client.StatementInquiry().list()
+```
+
+
+### Transaction
+
+Create an instance: `const transaction = client.Transaction()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list(match)` | List entities matching the criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `additional_identifier` | `Record<string, any>` | Additional details for a transaction. |
+| `adjusted_values` | `Record<string, any>` |  |
+| `auto_confirm` | `boolean` | Determines whether a transaction will be automatically confirmed upon creation or not. |
+| `beneficiary` | `Record<string, any>` | Beneficiary details for a transaction. |
+| `benefits` | `any[]` |  |
+| `calculation_mode` | `any` |  |
+| `callback_url` | `string` | Transaction status updates will be sent to this endpoint. |
+| `confirmation_date` | `string` |  |
+| `confirmation_expiration_date` | `string` |  |
+| `creation_date` | `string` |  |
+| `credit_party_identifier` | `Record<string, any>` | Receiving account details for a transaction. |
+| `debit_party_identifier` | `Record<string, any>` | Sending account details for a transaction. |
+| `destination` | `Record<string, any>` | Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT` |
+| `external_id` | `string` |  |
+| `id` | `string` |  |
+| `metadata` | `Record<string, any>` | Optional metadata related to the transaction. |
+| `operator_reference` | `string` |  |
+| `pin` | `Record<string, any>` |  |
+| `prices` | `Record<string, any>` |  |
+| `product` | `any` |  |
+| `product_id` | `string` |  |
+| `promotions` | `any[]` |  |
+| `rates` | `any` |  |
+| `requested_values` | `Record<string, any>` |  |
+| `sender` | `Record<string, any>` | Sender details for a transaction. |
+| `source` | `Record<string, any>` | Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT` |
+| `statement_identifier` | `Record<string, any>` | Qualifying statement details for a payment transaction. |
+| `status` | `Record<string, any>` |  |
+
+#### Example: Load
+
+```ts
+const transaction = await client.Transaction().load({ transaction_id: 1 })
+```
+
+#### Example: List
+
+```ts
+const transactions = await client.Transaction().list()
+```
+
+#### Example: Create
+
+```ts
+const transaction = await client.Transaction().create({
+  destination: {},
+  external_id: 'example_external_id',
+  pin: {},
+  prices: {},
+  product_id: 'example_product_id',
+  source: {},
+})
 ```
 
 
@@ -427,11 +1042,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const service = client.Service()
-await service.list()
+const balance = client.Balance()
+await balance.list()
 
-// service.data() now returns the service data from the last `list`
-// service.match() returns the last match criteria
+// balance.data() now returns the balance data from the last `list`
+// balance.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -307,10 +307,82 @@ class DtoneSDK:
         return res
 
 
+    def Balance(self, data=None) -> "BalanceEntity":
+        """Entity factory: client.Balance().list() / client.Balance().load({"id": ...})."""
+        from dtone_sdk.entity.balance_entity import BalanceEntity
+        return BalanceEntity(self, data)
+
+
+    def BenefitType(self, data=None) -> "BenefitTypeEntity":
+        """Entity factory: client.BenefitType().list() / client.BenefitType().load({"id": ...})."""
+        from dtone_sdk.entity.benefit_type_entity import BenefitTypeEntity
+        return BenefitTypeEntity(self, data)
+
+
+    def Campaign(self, data=None) -> "CampaignEntity":
+        """Entity factory: client.Campaign().list() / client.Campaign().load({"id": ...})."""
+        from dtone_sdk.entity.campaign_entity import CampaignEntity
+        return CampaignEntity(self, data)
+
+
+    def Country(self, data=None) -> "CountryEntity":
+        """Entity factory: client.Country().list() / client.Country().load({"id": ...})."""
+        from dtone_sdk.entity.country_entity import CountryEntity
+        return CountryEntity(self, data)
+
+
+    def CreditPartyBenefit(self, data=None) -> "CreditPartyBenefitEntity":
+        """Entity factory: client.CreditPartyBenefit().list() / client.CreditPartyBenefit().load({"id": ...})."""
+        from dtone_sdk.entity.credit_party_benefit_entity import CreditPartyBenefitEntity
+        return CreditPartyBenefitEntity(self, data)
+
+
+    def CreditPartyStatus(self, data=None) -> "CreditPartyStatusEntity":
+        """Entity factory: client.CreditPartyStatus().list() / client.CreditPartyStatus().load({"id": ...})."""
+        from dtone_sdk.entity.credit_party_status_entity import CreditPartyStatusEntity
+        return CreditPartyStatusEntity(self, data)
+
+
+    def MobileNumberLookup(self, data=None) -> "MobileNumberLookupEntity":
+        """Entity factory: client.MobileNumberLookup().list() / client.MobileNumberLookup().load({"id": ...})."""
+        from dtone_sdk.entity.mobile_number_lookup_entity import MobileNumberLookupEntity
+        return MobileNumberLookupEntity(self, data)
+
+
+    def Operator(self, data=None) -> "OperatorEntity":
+        """Entity factory: client.Operator().list() / client.Operator().load({"id": ...})."""
+        from dtone_sdk.entity.operator_entity import OperatorEntity
+        return OperatorEntity(self, data)
+
+
+    def Product(self, data=None) -> "ProductEntity":
+        """Entity factory: client.Product().list() / client.Product().load({"id": ...})."""
+        from dtone_sdk.entity.product_entity import ProductEntity
+        return ProductEntity(self, data)
+
+
+    def Promotion(self, data=None) -> "PromotionEntity":
+        """Entity factory: client.Promotion().list() / client.Promotion().load({"id": ...})."""
+        from dtone_sdk.entity.promotion_entity import PromotionEntity
+        return PromotionEntity(self, data)
+
+
     def Service(self, data=None) -> "ServiceEntity":
         """Entity factory: client.Service().list() / client.Service().load({"id": ...})."""
         from dtone_sdk.entity.service_entity import ServiceEntity
         return ServiceEntity(self, data)
+
+
+    def StatementInquiry(self, data=None) -> "StatementInquiryEntity":
+        """Entity factory: client.StatementInquiry().list() / client.StatementInquiry().load({"id": ...})."""
+        from dtone_sdk.entity.statement_inquiry_entity import StatementInquiryEntity
+        return StatementInquiryEntity(self, data)
+
+
+    def Transaction(self, data=None) -> "TransactionEntity":
+        """Entity factory: client.Transaction().list() / client.Transaction().load({"id": ...})."""
+        from dtone_sdk.entity.transaction_entity import TransactionEntity
+        return TransactionEntity(self, data)
 
 
 
@@ -340,4 +412,16 @@ class DtoneSDK:
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from dtone_sdk.entity.balance_entity import BalanceEntity
+    from dtone_sdk.entity.benefit_type_entity import BenefitTypeEntity
+    from dtone_sdk.entity.campaign_entity import CampaignEntity
+    from dtone_sdk.entity.country_entity import CountryEntity
+    from dtone_sdk.entity.credit_party_benefit_entity import CreditPartyBenefitEntity
+    from dtone_sdk.entity.credit_party_status_entity import CreditPartyStatusEntity
+    from dtone_sdk.entity.mobile_number_lookup_entity import MobileNumberLookupEntity
+    from dtone_sdk.entity.operator_entity import OperatorEntity
+    from dtone_sdk.entity.product_entity import ProductEntity
+    from dtone_sdk.entity.promotion_entity import PromotionEntity
     from dtone_sdk.entity.service_entity import ServiceEntity
+    from dtone_sdk.entity.statement_inquiry_entity import StatementInquiryEntity
+    from dtone_sdk.entity.transaction_entity import TransactionEntity

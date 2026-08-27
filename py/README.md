@@ -4,8 +4,8 @@
 
 The Python SDK for the Dtone API — an entity-oriented client following Pythonic conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Service()` — each
-carrying a small, uniform set of operations (`list`, `load`) instead of raw URL
+The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Balance()` — each
+carrying a small, uniform set of operations (`list`, `load`, `create`, `update`) instead of raw URL
 paths and query strings. You work with named resources and verbs, which
 keeps the cognitive load low.
 
@@ -39,28 +39,29 @@ client = DtoneSDK({
 })
 ```
 
-### 2. List service records
+### 2. List balance records
 
 `list()` returns a `list` of records (each a `dict`) and raises on
 error — iterate it directly.
 
 ```python
 try:
-    services = client.Service().list()
-    for service in services:
-        print(service)
+    balances = client.Balance().list()
+    for balance in balances:
+        print(balance)
 except Exception as err:
     print(f"list failed: {err}")
 ```
 
-### 3. Load a service
+### 3. Load a campaign
 
+Campaign is nested under campaign, so provide the `campaign_id`.
 `load()` returns the ENTITY — call data_get() for the record — and raises on error.
 
 ```python
 try:
-    service = client.Service().load({"id": 1})
-    print(service)
+    campaign = client.Campaign().load({"campaign_id": 1})
+    print(campaign)
 except Exception as err:
     print(f"load failed: {err}")
 ```
@@ -72,8 +73,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    services = client.Service().list()
-    print(services)
+    balances = client.Balance().list()
+    print(balances)
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -141,8 +142,8 @@ client = DtoneSDK.test()
 
 # Entity ops return the ENTITY and raises on error;
 # call data_get() for the record.
-service = client.Service().list()
-# service contains the mock response record
+balance = client.Balance().list()
+# balance contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -220,7 +221,19 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `get_utility` | `() -> Utility` | Copy of the SDK utility object. |
 | `prepare` | `(fetchargs) -> dict` | Build an HTTP request definition without sending. Raises on error. |
 | `direct` | `(fetchargs) -> dict` | Build and send an HTTP request. Returns a result dict (branch on `ok`). |
+| `Balance` | `(data) -> BalanceEntity` | Create a Balance entity instance. |
+| `BenefitType` | `(data) -> BenefitTypeEntity` | Create a BenefitType entity instance. |
+| `Campaign` | `(data) -> CampaignEntity` | Create a Campaign entity instance. |
+| `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
+| `CreditPartyBenefit` | `(data) -> CreditPartyBenefitEntity` | Create a CreditPartyBenefit entity instance. |
+| `CreditPartyStatus` | `(data) -> CreditPartyStatusEntity` | Create a CreditPartyStatus entity instance. |
+| `MobileNumberLookup` | `(data) -> MobileNumberLookupEntity` | Create a MobileNumberLookup entity instance. |
+| `Operator` | `(data) -> OperatorEntity` | Create an Operator entity instance. |
+| `Product` | `(data) -> ProductEntity` | Create a Product entity instance. |
+| `Promotion` | `(data) -> PromotionEntity` | Create a Promotion entity instance. |
 | `Service` | `(data) -> ServiceEntity` | Create a Service entity instance. |
+| `StatementInquiry` | `(data) -> StatementInquiryEntity` | Create a StatementInquiry entity instance. |
+| `Transaction` | `(data) -> TransactionEntity` | Create a Transaction entity instance. |
 
 ### Entity interface
 
@@ -230,6 +243,8 @@ All entities share the same interface.
 | --- | --- | --- |
 | `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
 | `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
+| `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
+| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -257,11 +272,152 @@ On error, `ok` is `False` and `err` contains the error value.
 
 ### Entities
 
+#### Balance
+
+| Field | Description |
+| --- | --- |
+| `available` |  |
+| `credit_limit` |  |
+| `holding` |  |
+| `id` |  |
+| `unit` |  |
+| `unit_type` |  |
+
+Operations: List.
+
+API path: `/balances`
+
+#### BenefitType
+
+| Field | Description |
+| --- | --- |
+| `name` |  |
+
+Operations: List.
+
+API path: `/benefit-types`
+
+#### Campaign
+
+| Field | Description |
+| --- | --- |
+| `description` |  |
+| `end_date` |  |
+| `id` |  |
+| `products` |  |
+| `start_date` |  |
+| `terms` |  |
+| `title` |  |
+
+Operations: List, Load.
+
+API path: `/campaigns`
+
+#### Country
+
+| Field | Description |
+| --- | --- |
+| `iso_code` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
+| `name` |  |
+| `regions` |  |
+
+Operations: List, Load.
+
+API path: `/countries`
+
+#### CreditPartyBenefit
+
+| Field | Description |
+| --- | --- |
+| `amount` | Remaining benefit amount. |
+| `country` |  |
+| `credit_party_identifier` |  |
+| `expiration_date` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
+| `page` | Page number |
+| `per_page` | Number of records per page |
+| `service_id` | Service identifier. |
+| `type` |  |
+| `unit` |  |
+| `unit_type` |  |
+
+Operations: List.
+
+API path: `/lookup/credit-party-benefits`
+
+#### CreditPartyStatus
+
+| Field | Description |
+| --- | --- |
+| `activation_date` | A `null` value denotes that credit party has not yet been activated on the actual network |
+| `credit_party_identifier` |  |
+| `installation_date` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
+| `service_id` | Service identifier. |
+
+Operations: Load.
+
+API path: `/lookup/credit-party-status`
+
+#### MobileNumberLookup
+
+| Field | Description |
+| --- | --- |
+| `country` |  |
+| `id` | Operator identifier. |
+| `identified` | Indicates whether operator was identified as a direct match |
+| `mobile_number` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
+| `name` |  |
+| `page` | Page number |
+| `per_page` | Number of records per page |
+| `regions` |  |
+
+Operations: List.
+
+API path: `/lookup/mobile-number/{mobile_number}`
+
+#### Operator
+
+| Field | Description |
+| --- | --- |
+| `country` |  |
+| `id` | Operator identifier. |
+| `name` |  |
+| `regions` |  |
+
+Operations: List, Load.
+
+API path: `/operators`
+
+#### Product
+
+| Field | Description |
+| --- | --- |
+
+Operations: List, Load.
+
+API path: `/products`
+
+#### Promotion
+
+| Field | Description |
+| --- | --- |
+| `description` |  |
+| `end_date` |  |
+| `id` |  |
+| `operator` |  |
+| `products` |  |
+| `start_date` |  |
+| `terms` |  |
+| `title` |  |
+
+Operations: List, Load.
+
+API path: `/promotions`
+
 #### Service
 
 | Field | Description |
 | --- | --- |
-| `id` |  |
+| `id` | Service identifier. |
 | `name` |  |
 | `subservices` |  |
 
@@ -269,9 +425,364 @@ Operations: List, Load.
 
 API path: `/services`
 
+#### StatementInquiry
+
+| Field | Description |
+| --- | --- |
+| `account_number` | Account number. |
+| `account_qualifier` |  |
+| `balance` |  |
+| `dates` |  |
+| `page` | Page number |
+| `per_page` | Number of records per page |
+| `product_id` | Product identifier. |
+| `reference` |  |
+
+Operations: List.
+
+API path: `/lookup/statement-inquiry`
+
+#### Transaction
+
+| Field | Description |
+| --- | --- |
+| `additional_identifier` | Additional details for a transaction. |
+| `adjusted_values` |  |
+| `auto_confirm` | Determines whether a transaction will be automatically confirmed upon creation or not. |
+| `beneficiary` | Beneficiary details for a transaction. |
+| `benefits` |  |
+| `calculation_mode` |  |
+| `callback_url` | Transaction status updates will be sent to this endpoint. |
+| `confirmation_date` |  |
+| `confirmation_expiration_date` |  |
+| `creation_date` |  |
+| `credit_party_identifier` | Receiving account details for a transaction. |
+| `debit_party_identifier` | Sending account details for a transaction. |
+| `destination` | Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT` |
+| `external_id` |  |
+| `id` |  |
+| `metadata` | Optional metadata related to the transaction. |
+| `operator_reference` |  |
+| `pin` |  |
+| `prices` |  |
+| `product` |  |
+| `product_id` |  |
+| `promotions` |  |
+| `rates` |  |
+| `requested_values` |  |
+| `sender` | Sender details for a transaction. |
+| `source` | Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT` |
+| `statement_identifier` | Qualifying statement details for a payment transaction. |
+| `status` |  |
+
+Operations: Create, List, Load, Update.
+
+API path: `/async/transactions`
+
 
 
 ## Entities
+
+
+### Balance
+
+Create an instance: `balance = client.Balance()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `available` | `float` |  |
+| `credit_limit` | `float` |  |
+| `holding` | `float` |  |
+| `id` | `int` |  |
+| `unit` | `str` |  |
+| `unit_type` | `str` |  |
+
+#### Example: List
+
+```python
+balances = client.Balance().list()
+```
+
+
+### BenefitType
+
+Create an instance: `benefit_type = client.BenefitType()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `name` | `str` |  |
+
+#### Example: List
+
+```python
+benefit_types = client.BenefitType().list()
+```
+
+
+### Campaign
+
+Create an instance: `campaign = client.Campaign()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `description` | `str` |  |
+| `end_date` | `str` |  |
+| `id` | `int` |  |
+| `products` | `list` |  |
+| `start_date` | `str` |  |
+| `terms` | `str` |  |
+| `title` | `str` |  |
+
+#### Example: Load
+
+```python
+campaign = client.Campaign().load({"campaign_id": 1})
+```
+
+#### Example: List
+
+```python
+campaigns = client.Campaign().list()
+```
+
+
+### Country
+
+Create an instance: `country = client.Country()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `iso_code` | `str` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
+| `name` | `str` |  |
+| `regions` | `list` |  |
+
+#### Example: Load
+
+```python
+country = client.Country().load({"country_iso_code": "country_iso_code"})
+```
+
+#### Example: List
+
+```python
+countrys = client.Country().list()
+```
+
+
+### CreditPartyBenefit
+
+Create an instance: `credit_party_benefit = client.CreditPartyBenefit()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `amount` | `float` | Remaining benefit amount. |
+| `country` | `dict` |  |
+| `credit_party_identifier` | `dict` |  |
+| `expiration_date` | `str` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
+| `page` | `int` | Page number |
+| `per_page` | `int` | Number of records per page |
+| `service_id` | `int` | Service identifier. |
+| `type` | `str` |  |
+| `unit` | `str` |  |
+| `unit_type` | `str` |  |
+
+#### Example: List
+
+```python
+credit_party_benefits = client.CreditPartyBenefit().list()
+```
+
+
+### CreditPartyStatus
+
+Create an instance: `credit_party_status = client.CreditPartyStatus()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `activation_date` | `str` | A `null` value denotes that credit party has not yet been activated on the actual network |
+| `credit_party_identifier` | `dict` |  |
+| `installation_date` | `str` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
+| `service_id` | `int` | Service identifier. |
+
+#### Example: Load
+
+```python
+credit_party_status = client.CreditPartyStatus().load()
+```
+
+
+### MobileNumberLookup
+
+Create an instance: `mobile_number_lookup = client.MobileNumberLookup()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `country` | `dict` |  |
+| `id` | `int` | Operator identifier. |
+| `identified` | `bool` | Indicates whether operator was identified as a direct match |
+| `mobile_number` | `str` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
+| `name` | `str` |  |
+| `page` | `int` | Page number |
+| `per_page` | `int` | Number of records per page |
+| `regions` | `list` |  |
+
+#### Example: List
+
+```python
+mobile_number_lookups = client.MobileNumberLookup().list({"mobile_number": "example"})
+```
+
+
+### Operator
+
+Create an instance: `operator = client.Operator()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `country` | `dict` |  |
+| `id` | `int` | Operator identifier. |
+| `name` | `str` |  |
+| `regions` | `list` |  |
+
+#### Example: Load
+
+```python
+operator = client.Operator().load({"operator_id": 1})
+```
+
+#### Example: List
+
+```python
+operators = client.Operator().list()
+```
+
+
+### Product
+
+Create an instance: `product = client.Product()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Example: Load
+
+```python
+product = client.Product().load({"product_id": 1})
+```
+
+#### Example: List
+
+```python
+products = client.Product().list()
+```
+
+
+### Promotion
+
+Create an instance: `promotion = client.Promotion()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `description` | `str` |  |
+| `end_date` | `str` |  |
+| `id` | `int` |  |
+| `operator` | `dict` |  |
+| `products` | `list` |  |
+| `start_date` | `str` |  |
+| `terms` | `str` |  |
+| `title` | `str` |  |
+
+#### Example: Load
+
+```python
+promotion = client.Promotion().load({"promotion_id": 1})
+```
+
+#### Example: List
+
+```python
+promotions = client.Promotion().list()
+```
 
 
 ### Service
@@ -289,20 +800,122 @@ Create an instance: `service = client.Service()`
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `id` | `int` |  |
+| `id` | `int` | Service identifier. |
 | `name` | `str` |  |
 | `subservices` | `list` |  |
 
 #### Example: Load
 
 ```python
-service = client.Service().load({"id": 1})
+service = client.Service().load({"service_id": 1})
 ```
 
 #### Example: List
 
 ```python
 services = client.Service().list()
+```
+
+
+### StatementInquiry
+
+Create an instance: `statement_inquiry = client.StatementInquiry()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `list()` | List entities, optionally matching the given criteria. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `account_number` | `str` | Account number. |
+| `account_qualifier` | `str` |  |
+| `balance` | `dict` |  |
+| `dates` | `dict` |  |
+| `page` | `int` | Page number |
+| `per_page` | `int` | Number of records per page |
+| `product_id` | `int` | Product identifier. |
+| `reference` | `Any` |  |
+
+#### Example: List
+
+```python
+statement_inquirys = client.StatementInquiry().list()
+```
+
+
+### Transaction
+
+Create an instance: `transaction = client.Transaction()`
+
+#### Operations
+
+| Method | Description |
+| --- | --- |
+| `create(data)` | Create a new entity with the given data. |
+| `list()` | List entities, optionally matching the given criteria. |
+| `load(match)` | Load a single entity by match criteria. |
+| `update(data)` | Update an existing entity. |
+
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `additional_identifier` | `dict` | Additional details for a transaction. |
+| `adjusted_values` | `dict` |  |
+| `auto_confirm` | `bool` | Determines whether a transaction will be automatically confirmed upon creation or not. |
+| `beneficiary` | `dict` | Beneficiary details for a transaction. |
+| `benefits` | `list` |  |
+| `calculation_mode` | `Any` |  |
+| `callback_url` | `str` | Transaction status updates will be sent to this endpoint. |
+| `confirmation_date` | `str` |  |
+| `confirmation_expiration_date` | `str` |  |
+| `creation_date` | `str` |  |
+| `credit_party_identifier` | `dict` | Receiving account details for a transaction. |
+| `debit_party_identifier` | `dict` | Sending account details for a transaction. |
+| `destination` | `dict` | Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT` |
+| `external_id` | `str` |  |
+| `id` | `str` |  |
+| `metadata` | `dict` | Optional metadata related to the transaction. |
+| `operator_reference` | `str` |  |
+| `pin` | `dict` |  |
+| `prices` | `dict` |  |
+| `product` | `Any` |  |
+| `product_id` | `str` |  |
+| `promotions` | `list` |  |
+| `rates` | `Any` |  |
+| `requested_values` | `dict` |  |
+| `sender` | `dict` | Sender details for a transaction. |
+| `source` | `dict` | Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT` |
+| `statement_identifier` | `dict` | Qualifying statement details for a payment transaction. |
+| `status` | `dict` |  |
+
+#### Example: Load
+
+```python
+transaction = client.Transaction().load({"transaction_id": 1})
+```
+
+#### Example: List
+
+```python
+transactions = client.Transaction().list()
+```
+
+#### Example: Create
+
+```python
+transaction = client.Transaction().create({
+    "destination": {},  # dict
+    "external_id": "example_external_id",  # str
+    "pin": {},  # dict
+    "prices": {},  # dict
+    "product_id": "example_product_id",  # str
+    "source": {},  # dict
+})
 ```
 
 
@@ -381,11 +994,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-service = client.Service()
-service.list()
+balance = client.Balance()
+balance.list()
 
-# service.data_get() now returns the service data from the last list
-# service.match_get() returns the last match criteria
+# balance.data_get() now returns the balance data from the last list
+# balance.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

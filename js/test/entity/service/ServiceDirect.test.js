@@ -47,13 +47,13 @@ describe('ServiceDirect', async () => {
         return // skip: no entities to load in live mode
       }
       params.id = listData[0].id
-
+      params.service_id = setup.idmap['service01']
     } else {
-      params.id = 'direct01'
+      params.service_id = 'direct01'
     }
 
     const result = await client.direct({
-      path: 'services/{id}',
+      path: 'services/{service_id}',
       method: 'GET',
       params,
     })

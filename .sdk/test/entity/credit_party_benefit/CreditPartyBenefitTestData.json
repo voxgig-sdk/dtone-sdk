@@ -1,0 +1,58 @@
+{
+  "existing": {
+    "credit_party_benefit": {
+      "CREDIT_PARTY_BENEFIT00": {
+        "amount": 100,
+        "country": {},
+        "credit_party_identifier": {},
+        "expiration_date": "s67",
+        "page": "s68",
+        "per_page": "s69",
+        "service_id": "SERVICE01",
+        "type": "s6b",
+        "unit": "s6c",
+        "unit_type": "s6d"
+      },
+      "CREDIT_PARTY_BENEFIT01": {
+        "amount": 200,
+        "country": {},
+        "credit_party_identifier": {},
+        "expiration_date": "scb",
+        "page": "scc",
+        "per_page": "scd",
+        "service_id": "SERVICE01",
+        "type": "scf",
+        "unit": "sd0",
+        "unit_type": "sd1"
+      },
+      "CREDIT_PARTY_BENEFIT02": {
+        "amount": 300,
+        "country": {},
+        "credit_party_identifier": {},
+        "expiration_date": "s12f",
+        "page": "s130",
+        "per_page": "s131",
+        "service_id": "SERVICE01",
+        "type": "s133",
+        "unit": "s134",
+        "unit_type": "s135"
+      }
+    }
+  },
+  "new": {
+    "credit_party_benefit": {
+      "credit_party_benefit_ref01": {
+        "amount": 400,
+        "country": {},
+        "credit_party_identifier": {},
+        "expiration_date": "s193",
+        "page": "s194",
+        "per_page": "s195",
+        "service_id": "SERVICE01",
+        "type": "s197",
+        "unit": "s198",
+        "unit_type": "s199"
+      }
+    }
+  }
+}

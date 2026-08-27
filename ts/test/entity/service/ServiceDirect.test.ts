@@ -38,6 +38,7 @@ describe('ServiceDirect', async () => {
   test('direct-load-service', async (t: any) => {
     const setup = directSetup({ id: 'direct01' })
     if (maybeSkipControl(t, 'direct', 'direct-load-service', setup.live)) return
+    if (skipIfMissingIds(t, setup, ["service01"])) return
     const { client, calls } = setup
 
     const params: any = {}
@@ -57,18 +58,18 @@ describe('ServiceDirect', async () => {
       if (null == listArr || listArr.length === 0) {
         return // skip: no entities to load in live mode
       }
-      const candidateId = listArr[0]?.id ?? listArr[0]?.id
+      const candidateId = listArr[0]?.service_id ?? listArr[0]?.id
       if (null == candidateId) {
         return // skip: list response shape does not expose load identifier
       }
-      params.id = candidateId
-
+      params.service_id = candidateId
+      params.service_id = setup.idmap['service01']
     } else {
-      params.id = 'direct01'
+      params.service_id = 'direct01'
     }
 
     const result: any = await client.direct({
-      path: 'services/{id}',
+      path: 'services/{service_id}',
       method: 'GET',
       params,
       query,

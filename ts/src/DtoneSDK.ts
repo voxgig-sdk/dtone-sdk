@@ -1,6 +1,18 @@
 // Dtone Ts SDK
 
+import { BalanceEntity } from './entity/BalanceEntity'
+import { BenefitTypeEntity } from './entity/BenefitTypeEntity'
+import { CampaignEntity } from './entity/CampaignEntity'
+import { CountryEntity } from './entity/CountryEntity'
+import { CreditPartyBenefitEntity } from './entity/CreditPartyBenefitEntity'
+import { CreditPartyStatusEntity } from './entity/CreditPartyStatusEntity'
+import { MobileNumberLookupEntity } from './entity/MobileNumberLookupEntity'
+import { OperatorEntity } from './entity/OperatorEntity'
+import { ProductEntity } from './entity/ProductEntity'
+import { PromotionEntity } from './entity/PromotionEntity'
 import { ServiceEntity } from './entity/ServiceEntity'
+import { StatementInquiryEntity } from './entity/StatementInquiryEntity'
+import { TransactionEntity } from './entity/TransactionEntity'
 
 export type * from './DtoneTypes'
 
@@ -291,12 +303,120 @@ class DtoneSDK {
 
 
 
+  // Entity access: `client.Balance().list()` / `client.Balance().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Balance(entopts?: Record<string, any>) {
+    const self = this
+    return new BalanceEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.BenefitType().list()` / `client.BenefitType().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  BenefitType(entopts?: Record<string, any>) {
+    const self = this
+    return new BenefitTypeEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Campaign().list()` / `client.Campaign().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Campaign(entopts?: Record<string, any>) {
+    const self = this
+    return new CampaignEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Country().list()` / `client.Country().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Country(entopts?: Record<string, any>) {
+    const self = this
+    return new CountryEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.CreditPartyBenefit().list()` / `client.CreditPartyBenefit().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  CreditPartyBenefit(entopts?: Record<string, any>) {
+    const self = this
+    return new CreditPartyBenefitEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.CreditPartyStatus().list()` / `client.CreditPartyStatus().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  CreditPartyStatus(entopts?: Record<string, any>) {
+    const self = this
+    return new CreditPartyStatusEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.MobileNumberLookup().list()` / `client.MobileNumberLookup().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  MobileNumberLookup(entopts?: Record<string, any>) {
+    const self = this
+    return new MobileNumberLookupEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Operator().list()` / `client.Operator().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Operator(entopts?: Record<string, any>) {
+    const self = this
+    return new OperatorEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Product().list()` / `client.Product().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Product(entopts?: Record<string, any>) {
+    const self = this
+    return new ProductEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Promotion().list()` / `client.Promotion().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Promotion(entopts?: Record<string, any>) {
+    const self = this
+    return new PromotionEntity(self, entopts)
+  }
+
+
   // Entity access: `client.Service().list()` / `client.Service().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
   Service(entopts?: Record<string, any>) {
     const self = this
     return new ServiceEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.StatementInquiry().list()` / `client.StatementInquiry().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  StatementInquiry(entopts?: Record<string, any>) {
+    const self = this
+    return new StatementInquiryEntity(self, entopts)
+  }
+
+
+  // Entity access: `client.Transaction().list()` / `client.Transaction().load({ id })`.
+  // The argument is the entity OPTIONS object (passed to the entity
+  // constructor as entopts), not initial entity data.
+  Transaction(entopts?: Record<string, any>) {
+    const self = this
+    return new TransactionEntity(self, entopts)
   }
 
 

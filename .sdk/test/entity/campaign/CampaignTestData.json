@@ -1,0 +1,48 @@
+{
+  "existing": {
+    "campaign": {
+      "CAMPAIGN00": {
+        "description": "s46",
+        "end_date": "s47",
+        "id": "CAMPAIGN00",
+        "products": [],
+        "start_date": "s4a",
+        "terms": "s4b",
+        "title": "s4c",
+        "campaign_id": "CAMPAIGN01"
+      },
+      "CAMPAIGN01": {
+        "description": "s8c",
+        "end_date": "s8d",
+        "id": "CAMPAIGN01",
+        "products": [],
+        "start_date": "s90",
+        "terms": "s91",
+        "title": "s92",
+        "campaign_id": "CAMPAIGN01"
+      },
+      "CAMPAIGN02": {
+        "description": "sd2",
+        "end_date": "sd3",
+        "id": "CAMPAIGN02",
+        "products": [],
+        "start_date": "sd6",
+        "terms": "sd7",
+        "title": "sd8",
+        "campaign_id": "CAMPAIGN01"
+      }
+    }
+  },
+  "new": {
+    "campaign": {
+      "campaign_ref01": {
+        "description": "s118",
+        "end_date": "s119",
+        "products": [],
+        "start_date": "s11c",
+        "terms": "s11d",
+        "title": "s11e"
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+# BasicCreditPartyStatusFlow
+
+main: kit: flow: BasicCreditPartyStatusFlow:
+{
+  entity: "credit_party_status",
+  kind: "basic",
+  name: "BasicCreditPartyStatusFlow",
+  step: [
+    {
+      input: {
+        ref: "credit_party_status_ref01",
+        srcdatavar: "credit_party_status_ref01_data",
+        suffix: "_dt0"
+      }
+
+      op: "load",
+      valid: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-credit_party_status_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCreditPartyStatusFlow"
+}

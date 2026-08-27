@@ -28,6 +28,8 @@ const utility_1 = require("../../utility");
         const setup = directSetup({ id: 'direct01' });
         if ((0, utility_1.maybeSkipControl)(t, 'direct', 'direct-load-service', setup.live))
             return;
+        if ((0, utility_1.skipIfMissingIds)(t, setup, ["service01"]))
+            return;
         const { client, calls } = setup;
         const params = {};
         const query = {};
@@ -44,17 +46,18 @@ const utility_1 = require("../../utility");
             if (null == listArr || listArr.length === 0) {
                 return; // skip: no entities to load in live mode
             }
-            const candidateId = listArr[0]?.id ?? listArr[0]?.id;
+            const candidateId = listArr[0]?.service_id ?? listArr[0]?.id;
             if (null == candidateId) {
                 return; // skip: list response shape does not expose load identifier
             }
-            params.id = candidateId;
+            params.service_id = candidateId;
+            params.service_id = setup.idmap['service01'];
         }
         else {
-            params.id = 'direct01';
+            params.service_id = 'direct01';
         }
         const result = await client.direct({
-            path: 'services/{id}',
+            path: 'services/{service_id}',
             method: 'GET',
             params,
             query,

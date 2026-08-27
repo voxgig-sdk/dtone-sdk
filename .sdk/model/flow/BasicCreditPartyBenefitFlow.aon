@@ -1,0 +1,22 @@
+# BasicCreditPartyBenefitFlow
+
+main: kit: flow: BasicCreditPartyBenefitFlow:
+{
+  entity: "credit_party_benefit",
+  kind: "basic",
+  name: "BasicCreditPartyBenefitFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "credit_party_benefit_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicCreditPartyBenefitFlow"
+}

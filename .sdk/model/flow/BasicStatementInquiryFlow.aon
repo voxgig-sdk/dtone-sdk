@@ -1,0 +1,22 @@
+# BasicStatementInquiryFlow
+
+main: kit: flow: BasicStatementInquiryFlow:
+{
+  entity: "statement_inquiry",
+  kind: "basic",
+  name: "BasicStatementInquiryFlow",
+  step: [
+    {
+      op: "list",
+      valid: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "statement_inquiry_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicStatementInquiryFlow"
+}

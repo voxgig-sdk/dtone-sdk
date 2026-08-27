@@ -336,6 +336,146 @@ end
 
 
 
+-- Idiomatic facade: client:Balance():list() / client:Balance():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:Balance(data)
+  local EntityMod = require("entity.balance_entity")
+  if data == nil then
+    if self._balance == nil then
+      self._balance = EntityMod.new(self, nil)
+    end
+    return self._balance
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:BenefitType():list() / client:BenefitType():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:BenefitType(data)
+  local EntityMod = require("entity.benefit_type_entity")
+  if data == nil then
+    if self._benefit_type == nil then
+      self._benefit_type = EntityMod.new(self, nil)
+    end
+    return self._benefit_type
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Campaign():list() / client:Campaign():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:Campaign(data)
+  local EntityMod = require("entity.campaign_entity")
+  if data == nil then
+    if self._campaign == nil then
+      self._campaign = EntityMod.new(self, nil)
+    end
+    return self._campaign
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Country():list() / client:Country():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:Country(data)
+  local EntityMod = require("entity.country_entity")
+  if data == nil then
+    if self._country == nil then
+      self._country = EntityMod.new(self, nil)
+    end
+    return self._country
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:CreditPartyBenefit():list() / client:CreditPartyBenefit():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:CreditPartyBenefit(data)
+  local EntityMod = require("entity.credit_party_benefit_entity")
+  if data == nil then
+    if self._credit_party_benefit == nil then
+      self._credit_party_benefit = EntityMod.new(self, nil)
+    end
+    return self._credit_party_benefit
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:CreditPartyStatus():list() / client:CreditPartyStatus():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:CreditPartyStatus(data)
+  local EntityMod = require("entity.credit_party_status_entity")
+  if data == nil then
+    if self._credit_party_status == nil then
+      self._credit_party_status = EntityMod.new(self, nil)
+    end
+    return self._credit_party_status
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:MobileNumberLookup():list() / client:MobileNumberLookup():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:MobileNumberLookup(data)
+  local EntityMod = require("entity.mobile_number_lookup_entity")
+  if data == nil then
+    if self._mobile_number_lookup == nil then
+      self._mobile_number_lookup = EntityMod.new(self, nil)
+    end
+    return self._mobile_number_lookup
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Operator():list() / client:Operator():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:Operator(data)
+  local EntityMod = require("entity.operator_entity")
+  if data == nil then
+    if self._operator == nil then
+      self._operator = EntityMod.new(self, nil)
+    end
+    return self._operator
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Product():list() / client:Product():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:Product(data)
+  local EntityMod = require("entity.product_entity")
+  if data == nil then
+    if self._product == nil then
+      self._product = EntityMod.new(self, nil)
+    end
+    return self._product
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Promotion():list() / client:Promotion():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:Promotion(data)
+  local EntityMod = require("entity.promotion_entity")
+  if data == nil then
+    if self._promotion == nil then
+      self._promotion = EntityMod.new(self, nil)
+    end
+    return self._promotion
+  end
+  return EntityMod.new(self, data)
+end
+
+
 -- Idiomatic facade: client:Service():list() / client:Service():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
 function DtoneSDK:Service(data)
@@ -345,6 +485,34 @@ function DtoneSDK:Service(data)
       self._service = EntityMod.new(self, nil)
     end
     return self._service
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:StatementInquiry():list() / client:StatementInquiry():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:StatementInquiry(data)
+  local EntityMod = require("entity.statement_inquiry_entity")
+  if data == nil then
+    if self._statement_inquiry == nil then
+      self._statement_inquiry = EntityMod.new(self, nil)
+    end
+    return self._statement_inquiry
+  end
+  return EntityMod.new(self, data)
+end
+
+
+-- Idiomatic facade: client:Transaction():list() / client:Transaction():load({ id = ... })
+-- Entity access is capitalised (PascalCase) for parity with the other SDKs.
+function DtoneSDK:Transaction(data)
+  local EntityMod = require("entity.transaction_entity")
+  if data == nil then
+    if self._transaction == nil then
+      self._transaction = EntityMod.new(self, nil)
+    end
+    return self._transaction
   end
   return EntityMod.new(self, data)
 end

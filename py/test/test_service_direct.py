@@ -67,10 +67,10 @@ class TestServiceDirect:
         params = {}
         query = {}
         if not setup["live"]:
-            params["id"] = "direct01"
+            params["service_id"] = "direct01"
 
         result = client.direct({
-            "path": "services/{id}",
+            "path": "services/{service_id}",
             "method": "GET",
             "params": params,
             "query": query,

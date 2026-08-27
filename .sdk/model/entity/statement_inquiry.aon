@@ -1,0 +1,77 @@
+# Entity: statement_inquiry
+
+main: kit: entity: statement_inquiry: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "account_number"
+      req: true
+      short: "Account number."
+      type: "`$STRING`"
+    }
+    {
+      name: "account_qualifier"
+      req: false
+      type: "`$STRING`"
+    }
+    {
+      name: "balance"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "dates"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "page"
+      req: false
+      short: "Page number"
+      type: "`$INTEGER`"
+    }
+    {
+      name: "per_page"
+      req: false
+      short: "Number of records per page"
+      type: "`$INTEGER`"
+    }
+    {
+      name: "product_id"
+      req: true
+      short: "Product identifier."
+      type: "`$INTEGER`"
+    }
+    {
+      name: "reference"
+      req: true
+      type: "`$ANY`"
+    }
+  ]
+
+  name: "statement_inquiry"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "POST"
+          orig: "/lookup/statement-inquiry"
+          parts: [
+            "lookup"
+            "statement-inquiry"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

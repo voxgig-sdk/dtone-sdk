@@ -1,0 +1,56 @@
+# Entity: credit_party_status
+
+main: kit: entity: credit_party_status: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "activation_date"
+      req: true
+      short: "A `null` value denotes that credit party has not yet been activated on the actual network"
+      type: "`$STRING`"
+    }
+    {
+      name: "credit_party_identifier"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "installation_date"
+      req: true
+      short: "A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed"
+      type: "`$STRING`"
+    }
+    {
+      name: "service_id"
+      req: true
+      short: "Service identifier."
+      type: "`$INTEGER`"
+    }
+  ]
+
+  name: "credit_party_status"
+  op: {
+    load: {
+      name: "load"
+      points: [
+        {
+          method: "POST"
+          orig: "/lookup/credit-party-status"
+          parts: [
+            "lookup"
+            "credit-party-status"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

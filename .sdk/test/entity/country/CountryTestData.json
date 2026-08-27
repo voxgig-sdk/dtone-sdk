@@ -1,0 +1,36 @@
+{
+  "existing": {
+    "country": {
+      "COUNTRY00": {
+        "iso_code": "s1e",
+        "name": "s1f",
+        "regions": [],
+        "country_iso_code": "COUNTRY_ISO_CODE01",
+        "id": "COUNTRY00"
+      },
+      "COUNTRY01": {
+        "iso_code": "s3c",
+        "name": "s3d",
+        "regions": [],
+        "country_iso_code": "COUNTRY_ISO_CODE01",
+        "id": "COUNTRY01"
+      },
+      "COUNTRY02": {
+        "iso_code": "s5a",
+        "name": "s5b",
+        "regions": [],
+        "country_iso_code": "COUNTRY_ISO_CODE01",
+        "id": "COUNTRY02"
+      }
+    }
+  },
+  "new": {
+    "country": {
+      "country_ref01": {
+        "iso_code": "s78",
+        "name": "s79",
+        "regions": []
+      }
+    }
+  }
+}

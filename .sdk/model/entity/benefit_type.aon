@@ -1,0 +1,63 @@
+# Entity: benefit_type
+
+main: kit: entity: benefit_type: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "name"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "benefit_type"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          args: {
+            query: [
+              {
+                example: 1
+                kind: "query"
+                name: "page"
+                orig: "page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+              {
+                example: 50
+                kind: "query"
+                name: "per_page"
+                orig: "per_page"
+                reqd: false
+                type: "`$INTEGER`"
+              }
+            ]
+          }
+          method: "GET"
+          orig: "/benefit-types"
+          parts: [
+            "benefit-types"
+          ]
+          select: {
+            exist: [
+              "page"
+              "per_page"
+            ]
+          }
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

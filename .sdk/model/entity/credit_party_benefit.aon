@@ -1,0 +1,88 @@
+# Entity: credit_party_benefit
+
+main: kit: entity: credit_party_benefit: {
+
+  alias: field: {}
+
+  fields: [
+    {
+      name: "amount"
+      req: true
+      short: "Remaining benefit amount."
+      type: "`$NUMBER`"
+    }
+    {
+      name: "country"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "credit_party_identifier"
+      req: true
+      type: "`$OBJECT`"
+    }
+    {
+      name: "expiration_date"
+      req: true
+      short: "A `null` value denotes either no expiration applies or that the product benefit has not yet been activated."
+      type: "`$STRING`"
+    }
+    {
+      name: "page"
+      req: false
+      short: "Page number"
+      type: "`$INTEGER`"
+    }
+    {
+      name: "per_page"
+      req: false
+      short: "Number of records per page"
+      type: "`$INTEGER`"
+    }
+    {
+      name: "service_id"
+      req: true
+      short: "Service identifier."
+      type: "`$INTEGER`"
+    }
+    {
+      name: "type"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "unit"
+      req: true
+      type: "`$STRING`"
+    }
+    {
+      name: "unit_type"
+      req: true
+      type: "`$STRING`"
+    }
+  ]
+
+  name: "credit_party_benefit"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          method: "POST"
+          orig: "/lookup/credit-party-benefits"
+          parts: [
+            "lookup"
+            "credit-party-benefits"
+          ]
+          transform: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

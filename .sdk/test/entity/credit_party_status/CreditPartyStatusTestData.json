@@ -1,0 +1,37 @@
+{
+  "existing": {
+    "credit_party_status": {
+      "CREDIT_PARTY_STATUS00": {
+        "activation_date": "s28",
+        "credit_party_identifier": {},
+        "installation_date": "s2a",
+        "service_id": "SERVICE01",
+        "id": "CREDIT_PARTY_STATUS00"
+      },
+      "CREDIT_PARTY_STATUS01": {
+        "activation_date": "s50",
+        "credit_party_identifier": {},
+        "installation_date": "s52",
+        "service_id": "SERVICE01",
+        "id": "CREDIT_PARTY_STATUS01"
+      },
+      "CREDIT_PARTY_STATUS02": {
+        "activation_date": "s78",
+        "credit_party_identifier": {},
+        "installation_date": "s7a",
+        "service_id": "SERVICE01",
+        "id": "CREDIT_PARTY_STATUS02"
+      }
+    }
+  },
+  "new": {
+    "credit_party_status": {
+      "credit_party_status_ref01": {
+        "activation_date": "sa0",
+        "credit_party_identifier": {},
+        "installation_date": "sa2",
+        "service_id": "SERVICE01"
+      }
+    }
+  }
+}

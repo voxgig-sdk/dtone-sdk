@@ -8,7 +8,7 @@ source = {
   dir = "dtone-sdk/lua"
 }
 description = {
-  summary = "Unofficial generated Lua SDK for the DT One DVS public API. Not affiliated with or endorsed by the upstream API provider.",
+  summary = "Unofficial generated Lua SDK for the Digital Value Services public API. Not affiliated with or endorsed by the upstream API provider.",
   homepage = "https://github.com/voxgig-sdk/dtone-sdk",
   issues_url = "https://github.com/voxgig-sdk/dtone-sdk/issues",
   license = "MIT",

@@ -1,3 +1,15 @@
 # Flows
 
+@"BasicBalanceFlow.aon"
+@"BasicBenefitTypeFlow.aon"
+@"BasicCampaignFlow.aon"
+@"BasicCountryFlow.aon"
+@"BasicCreditPartyBenefitFlow.aon"
+@"BasicCreditPartyStatusFlow.aon"
+@"BasicMobileNumberLookupFlow.aon"
+@"BasicOperatorFlow.aon"
+@"BasicProductFlow.aon"
+@"BasicPromotionFlow.aon"
 @"BasicServiceFlow.aon"
+@"BasicStatementInquiryFlow.aon"
+@"BasicTransactionFlow.aon"
