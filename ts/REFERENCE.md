@@ -19,6 +19,7 @@ Create a new SDK client instance.
 | --- | --- | --- |
 | `options` | `object` | SDK configuration options. |
 | `options.apikey` | `string` | API key for authentication. |
+| `options.secret` | `string` | API secret for authentication. |
 | `options.base` | `string` | Base URL for API requests. |
 | `options.prefix` | `string` | URL prefix appended after base. |
 | `options.suffix` | `string` | URL suffix appended after path. |

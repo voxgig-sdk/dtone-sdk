@@ -11,7 +11,7 @@ from dtone_sdk.feature.base_feature import DtoneBaseFeature
 
 # The `body.<key>` form of an op's response transform: the mock wraps its
 # payload in <key> so the transform can unwrap it again.
-ENVELOPE_RES_RE = re.compile(r"^`body\.(.+)`$")
+ENVELOPE_RES_RE = re.compile(r"^`body\.([^`.]+)`$")
 
 
 class DtoneTestFeature(DtoneBaseFeature):
@@ -60,14 +60,7 @@ class DtoneTestFeature(DtoneBaseFeature):
                 if not isinstance(restf, str):
                     return data
                 m = ENVELOPE_RES_RE.match(restf)
-                if m is None:
-                    return data
-                # Multi-segment on purpose: GraphQL ops unwrap body.data.<field>
-                # (and body.data.<field>.<entity> for mutations), not just one level.
-                out = data
-                for seg in reversed(m.group(1).split(".")):
-                    out = {seg: out}
-                return out
+                return data if m is None else {m.group(1): data}
 
             def respond(status, data, extra=None):
                 payload = envelope(data)

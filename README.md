@@ -117,6 +117,7 @@ import { DtoneSDK } from '@voxgig-sdk/dtone'
 
 const client = new DtoneSDK({
   apikey: process.env.DTONE_APIKEY,
+  secret: process.env.DTONE_SECRET,
 })
 
 // List all services (returns ServiceEntity[] — .data() for the record)

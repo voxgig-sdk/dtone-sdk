@@ -40,7 +40,8 @@ class Config {
      test:     {
       "options": {
         "active": false
-      }
+      },
+      "transport": "base"
     },
 
   }
@@ -51,6 +52,7 @@ class Config {
 
     auth: {
       prefix: 'Basic',
+      basic: true,
     },
 
     headers: {

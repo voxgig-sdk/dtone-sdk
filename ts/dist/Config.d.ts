@@ -13,12 +13,14 @@ declare class Config {
             options: {
                 active: boolean;
             };
+            transport: string;
         };
     };
     options: {
         base: string;
         auth: {
             prefix: string;
+            basic: boolean;
         };
         headers: {
             "content-type": string;

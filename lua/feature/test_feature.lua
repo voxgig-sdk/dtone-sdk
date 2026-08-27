@@ -61,21 +61,11 @@ function TestFeature:init(ctx, options)
       if type(restf) ~= "string" then
         return data
       end
-      local path = string.match(restf, "^`body%.(.+)`$")
-      if path == nil then
+      local key = string.match(restf, "^`body%.([^`%.]+)`$")
+      if key == nil then
         return data
       end
-      -- Multi-segment on purpose: GraphQL ops unwrap body.data.<field> (and
-      -- body.data.<field>.<entity> for mutations), not just one level.
-      local segs = {}
-      for seg in string.gmatch(path, "[^.]+") do
-        table.insert(segs, seg)
-      end
-      local out = data
-      for i = #segs, 1, -1 do
-        out = { [segs[i]] = out }
-      end
-      return out
+      return { [key] = data }
     end
 
     local function respond(status, data, extra)

@@ -28,13 +28,15 @@ class Config {
         test: {
             "options": {
                 "active": false
-            }
+            },
+            "transport": "base"
         },
     };
     options = {
         base: "https://dvs-api.dtone.com/v1",
         auth: {
             prefix: 'Basic',
+            basic: true,
         },
         headers: {
             "content-type": "application/json"

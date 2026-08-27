@@ -121,6 +121,7 @@ function basicSetup(extra?: any) {
     'DTONE_TEST_LIVE': 'FALSE',
     'DTONE_TEST_EXPLAIN': 'FALSE',
     'DTONE_APIKEY': 'NONE',
+    'DTONE_SECRET': 'NONE',
   })
 
   idmap = env['DTONE_TEST_SERVICE_ENTID']
@@ -131,6 +132,7 @@ function basicSetup(extra?: any) {
     client = new DtoneSDK(merge([
       {
         apikey: env.DTONE_APIKEY,
+        secret: env.DTONE_SECRET,
       },
       extra
     ]))

@@ -120,11 +120,13 @@ function directSetup(mockres) {
         'DTONE_TEST_SERVICE_ENTID': {},
         'DTONE_TEST_LIVE': 'FALSE',
         'DTONE_APIKEY': 'NONE',
+        'DTONE_SECRET': 'NONE',
     });
     const live = 'TRUE' === env.DTONE_TEST_LIVE;
     if (live) {
         const client = new __1.DtoneSDK({
             apikey: env.DTONE_APIKEY,
+            secret: env.DTONE_SECRET,
         });
         let idmap = env['DTONE_TEST_SERVICE_ENTID'];
         if ('string' === typeof idmap && idmap.startsWith('{')) {

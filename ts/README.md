@@ -32,6 +32,7 @@ import { DtoneSDK } from '@voxgig-sdk/dtone'
 
 const client = new DtoneSDK({
   apikey: process.env.DTONE_APIKEY,
+  secret: process.env.DTONE_SECRET,
 })
 ```
 
@@ -145,7 +146,7 @@ console.log(service)
 You can also use the instance method:
 
 ```ts
-const client = new DtoneSDK({ apikey: '...' })
+const client = new DtoneSDK({ apikey: '...', secret: '...' })
 const testClient = client.tester()
 ```
 
@@ -182,6 +183,7 @@ const logger = {
 
 const client = new DtoneSDK({
   apikey: '...',
+  secret: '...',
   extend: [logger],
 })
 ```
@@ -193,6 +195,7 @@ Create a `.env.local` file at the project root:
 ```
 DTONE_TEST_LIVE=TRUE
 DTONE_APIKEY=<your-key>
+DTONE_SECRET=<your-secret>
 ```
 
 Then run:
@@ -211,6 +214,7 @@ cd ts && npm test
 ```ts
 new DtoneSDK(options?: {
   apikey?: string
+  secret?: string
   base?: string
   prefix?: string
   suffix?: string
@@ -222,6 +226,7 @@ new DtoneSDK(options?: {
 | Option | Type | Description |
 | --- | --- | --- |
 | `apikey` | `string` | API key for authentication. |
+| `secret` | `string` | API secret for authentication. |
 | `base` | `string` | Base URL of the API server. |
 | `prefix` | `string` | URL path prefix prepended to all requests. |
 | `suffix` | `string` | URL path suffix appended to all requests. |
