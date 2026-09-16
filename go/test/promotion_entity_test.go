@@ -98,7 +98,7 @@ func TestPromotionEntity(t *testing.T) {
 		client := setup.client
 
 		// Bootstrap entity data from existing test data (no create step in flow).
-		promotionRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath("existing.promotion", setup.data)))
+		promotionRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.promotion")))
 		var promotionRef01Data map[string]any
 		if len(promotionRef01DataRaw) > 0 {
 			promotionRef01Data = core.ToMapAny(promotionRef01DataRaw[0][1])
@@ -163,7 +163,7 @@ func promotionBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"promotion01", "promotion02", "promotion03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -183,7 +183,7 @@ func promotionBasicSetup(extra map[string]any) *entityTestSetup {
 		"DTONE_TEST_PROMOTION_ENTID": idmap,
 		"DTONE_TEST_LIVE":      "FALSE",
 		"DTONE_TEST_EXPLAIN":   "FALSE",
-		"DTONE_APIKEY":         "NONE",
+		"DTONE_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["DTONE_TEST_PROMOTION_ENTID"])
@@ -192,11 +192,23 @@ func promotionBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["DTONE_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["DTONE_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewDtoneSDK(core.ToMapAny(mergedOpts))
 	}

@@ -107,15 +107,18 @@ def _transaction_direct_setup(mockres):
     env = runner.env_override({
         "DTONE_TEST_TRANSACTION_ENTID": {},
         "DTONE_TEST_LIVE": "FALSE",
-        "DTONE_APIKEY": "NONE",
+        "DTONE_APIKEY": "",
     })
 
     live = env.get("DTONE_TEST_LIVE") == "TRUE"
 
     if live:
-        merged_opts = {
+        # sdk-test-control.json's test.client.options seeds the live
+        # client; the generated fields below overwrite anything they name.
+        merged_opts = dict(runner.live_client_options())
+        merged_opts.update({
             "apikey": env.get("DTONE_APIKEY"),
-        }
+        })
         client = DtoneSDK(merged_opts)
         return {
             "client": client,

@@ -134,7 +134,7 @@ def _campaign_basic_setup(extra):
         "DTONE_TEST_CAMPAIGN_ENTID": idmap,
         "DTONE_TEST_LIVE": "FALSE",
         "DTONE_TEST_EXPLAIN": "FALSE",
-        "DTONE_APIKEY": "NONE",
+        "DTONE_APIKEY": "",
     })
 
     idmap_resolved = helpers.to_map(
@@ -144,6 +144,10 @@ def _campaign_basic_setup(extra):
 
     if env.get("DTONE_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
+            # FIRST, so the generated fields below win: sdk-test-control.json's
+            # test.client.options adds to the live client, it does not
+            # redirect it.
+            runner.live_client_options(),
             {
                 "apikey": env.get("DTONE_APIKEY"),
             },

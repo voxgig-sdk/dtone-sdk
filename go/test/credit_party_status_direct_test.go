@@ -38,14 +38,14 @@ func TestCreditPartyStatusDirect(t *testing.T) {
 			// the IDs we can construct from setup.idmap — unless the model
 			// sets main.kit.test.live.strict.
 			if err != nil {
-				t.Skipf("load call failed (likely synthetic IDs against live API): %v", err)
+				t.Fatalf("load call failed (likely synthetic IDs against live API): %v", err)
 			}
 			if result["ok"] != true {
-				t.Skipf("load call not ok (likely synthetic IDs against live API): %v", result)
+				t.Fatalf("load call not ok (likely synthetic IDs against live API): %v", result)
 			}
 			status := core.ToInt(result["status"])
 			if status < 200 || status >= 300 {
-				t.Skipf("expected 2xx status, got %v", result["status"])
+				t.Fatalf("expected 2xx status, got %v", result["status"])
 			}
 		} else {
 			if err != nil {
@@ -100,14 +100,22 @@ func credit_party_statusDirectSetup(mockres any) *credit_party_statusDirectSetup
 	env := envOverride(map[string]any{
 		"DTONE_TEST_CREDIT_PARTY_STATUS_ENTID": map[string]any{},
 		"DTONE_TEST_LIVE":    "FALSE",
-		"DTONE_APIKEY":       "NONE",
+		"DTONE_APIKEY":       "",
 	})
 
 	live := env["DTONE_TEST_LIVE"] == "TRUE"
 
 	if live {
-		mergedOpts := map[string]any{
+		// sdk-test-control.json's test.client.options seeds the live
+		// client; the generated fields below overwrite anything they name.
+		mergedOpts := map[string]any{}
+		for k, v := range liveClientOptions() {
+			mergedOpts[k] = v
+		}
+		for k, v := range map[string]any{
 			"apikey": env["DTONE_APIKEY"],
+		} {
+			mergedOpts[k] = v
 		}
 		client := sdk.NewDtoneSDK(mergedOpts)
 

@@ -7,6 +7,7 @@ import {
   canonKey,
   canonScalarKey,
   each,
+  opParams,
   exampleVarName,
   names,
 } from '@voxgig/sdkgen'
@@ -36,13 +37,25 @@ function projectPath(suffix?: string): string {
 // has no params and the request shape mirrors the entity fields). Returns
 // undefined when neither is present.
 function paramCanonType(entity: any, op: any, paramName: string): unknown {
-  const points = op && op.points ? each(op.points) : []
-  for (const pt of points as any[]) {
-    const params = pt && pt.args && pt.args.params ? each(pt.args.params) : []
-    const found = (params as any[]).find((p: any) => p && p.name === paramName)
-    if (found) {
-      return found.type
-    }
+  // opParams, NOT a raw walk of op.points.
+  //
+  // opParams drops points flagged with select['$action'] and merges what is
+  // left; the typed-model generator reaches the op's params through it, so
+  // anything else is a DIFFERENT set of params wearing the same name.
+  //
+  // A raw walk returned the first match on ANY point, action points included.
+  // github's `action` entity has a field `owner` (`$OBJECT`, "A GitHub user")
+  // and seven create points whose path carries `{owner}` (a string) — so the
+  // type said Record<string, any> and the doc example said 'example_owner',
+  // and ts/README.md stopped compiling. Same for workflow_id: `number` in the
+  // type, quoted string in the example.
+  //
+  // Deriving from opParams is what actually makes good on the promise below —
+  // that the docs and the generated types cannot disagree.
+  const params = op ? each(opParams(op)) : []
+  const found = (params as any[]).find((p: any) => p && p.name === paramName)
+  if (found) {
+    return found.type
   }
   const field = (entity && entity.fields ? each(entity.fields) : [])
     .find((f: any) => f && f.name === paramName) as any
@@ -114,7 +127,7 @@ function formatGoMap(obj: any, indent: number = 0): string {
       return 'map[string]any{}'
     }
     const items = entries
-      .map(([k, v]) => `${padInner}"${k}": ${formatGoValue(v, indent + 1)}`)
+      .map(([k, v]) => `${padInner}${formatGoString(k)}: ${formatGoValue(v, indent + 1)}`)
       .join(',\n')
     return `map[string]any{\n${items},\n${pad}}`
   }
@@ -123,12 +136,19 @@ function formatGoMap(obj: any, indent: number = 0): string {
 }
 
 
+// Go rejects a literal BOM anywhere after the start of a source file,
+// including inside strings. Preserve its value through an escaped literal.
+function formatGoString(value: string): string {
+  return JSON.stringify(value).replace(/\uFEFF/g, '\\ufeff')
+}
+
+
 function formatGoValue(val: any, indent: number = 0): string {
   if (val === null || val === undefined) {
     return 'nil'
   }
   if (typeof val === 'string') {
-    return `"${val.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`
+    return formatGoString(val)
   }
   if (typeof val === 'number') {
     if (Number.isInteger(val)) {
@@ -238,6 +258,7 @@ export {
   clean,
   exampleValue,
   formatGoMap,
+  formatGoString,
   formatGoValue,
   goVarName,
   projectPath,

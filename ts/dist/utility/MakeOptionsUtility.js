@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.makeOptions = makeOptions;
+const Schema_1 = require("../Schema");
 function makeOptions(ctx) {
     const utility = ctx.utility;
     const options = ctx.options;
@@ -11,6 +12,18 @@ function makeOptions(ctx) {
     const validate = struct.validate;
     const escre = struct.escre;
     let opts = { ...(options || {}) };
+    // EXPLICIT AUTH SUPPRESSION, captured BEFORE merge and validate.
+    //
+    // `auth: null` is the documented way to disable auth outright, and
+    // prepareAuth honours it. But struct 0.3.2's getprop treats a stored
+    // null as "no value", so validate fills in the optspec's `auth`
+    // default and the suppression silently became "use default auth" —
+    // transmitting a credential the caller explicitly asked not to send.
+    // (0.0.10 rejected `auth: null` outright, so nothing depended on the
+    // old behaviour, and nothing catches the new one.)
+    //
+    // Suppliedness cannot be recovered after validate, hence here.
+    const authSuppressed = null === (options || {}).auth;
     // Feature add-order. `options.feature` may be given as an ordered ARRAY of
     // { name, active, ...opts } entries (the array position IS the order in
     // which features are added), or as a { name: {opts} } map. Normalize an
@@ -35,72 +48,38 @@ function makeOptions(ctx) {
     }
     let config = ctx.config || {};
     let cfgopts = config.options || {};
-    // Standard SDK option values.
-    const optspec = {
-        apikey: '',
-        secret: '',
-        base: 'http://localhost:8000',
-        prefix: '',
-        suffix: '',
-        auth: {
-            prefix: '',
-            basic: false
-        },
-        headers: {
-            '`$CHILD`': '`$STRING`'
-        },
-        allow: {
-            method: 'GET,PUT,POST,PATCH,DELETE,OPTIONS',
-            op: 'create,update,load,list,remove,command,direct,graphql'
-        },
-        entity: {
-            '`$CHILD`': {
-                '`$OPEN`': true,
-                active: false,
-                alias: {}
-            }
-        },
-        feature: {
-            '`$CHILD`': {
-                '`$OPEN`': true,
-                active: false,
-            }
-        },
-        utility: {},
-        // Feature INSTANCES supplied at construction (the station adopt
-        // path): consumed by the constructor's featureAdd loop, so they are
-        // class instances, not data - `$ANY` accepts them verbatim. Without
-        // this entry the seam is dead: the constructor reads
-        // options.extend, but validate rejected the key.
-        extend: '`$ANY`',
-        system: {
-            fetch: undefined
-        },
-        test: {
-            active: false,
-            entity: {
-                '`$OPEN`': true,
-            }
-        },
-        clean: {
-            keys: 'key,token,id'
-        },
-        // Server-variable values for a templated base URL (OpenAPI server
-        // variables): `{name}` placeholders in `base` are substituted from
-        // this map at construction. Spec defaults arrive via the generated
-        // Config; user values override them.
-        server: {
-            '`$CHILD`': ''
-        }
-    };
-    // JavaScript specific option values.
-    optspec.system.fetch = opts.system?.fetch || global.fetch;
+    // THE OPTION SPEC IS GENERATED, NOT WRITTEN HERE.
+    //
+    // `Spec.OPTSPEC` is built from the model: `main.kit.optspec` for the
+    // standard options, plus one entry per feature this target carries, taken
+    // from that feature's own `config.options` / `config.optspec`. Editing this
+    // file to add an option would put it back where it was — one of twenty
+    // hand-maintained copies of a schema nothing cross-checked — so add it to
+    // the model instead and every ported target validates it.
+    //
+    // NOT MUTATED. It is a module-level constant shared by every client this
+    // process constructs; the platform default below is applied to the RESULT,
+    // never to the spec.
+    const optspec = Schema_1.OPTSPEC;
     // Clone the config side before merging: `config` is a module-level
     // singleton in ts/js, and merge would otherwise use its nested maps as
     // merge TARGETS — one instance's options (server, headers, ...) would
     // contaminate every instance constructed after it.
     opts = merge([{}, struct.clone(cfgopts), opts]);
     opts = validate(opts, optspec);
+    // The platform fetch, supplied AFTER validate rather than as a spec
+    // default. `system.fetch` is declared `$ANY`, which passes a caller's own
+    // fetch through untouched but inserts nothing when the key is absent — and
+    // the spec is shared, so writing the default into it (as this did while the
+    // spec was a per-call literal) would hand one client's fetch to the next.
+    opts.system = opts.system || {};
+    if (null == opts.system.fetch) {
+        opts.system.fetch = global.fetch;
+    }
+    // Restore the suppression the optspec default would otherwise erase.
+    if (authSuppressed) {
+        opts.auth = null;
+    }
     // Resolve a templated base URL (e.g. https://{tenant_id}.hanko.io).
     // Every placeholder must resolve to a non-empty value: from
     // options.server (user), else the Config default. A placeholder that

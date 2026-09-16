@@ -3,9 +3,11 @@ import type {
   ModelEntity
 } from '@voxgig/apidef'
 
-import { cmp, each, Folder, entityCollection } from '@voxgig/sdkgen'
+import { cmp, each, Folder, entityCollection,
+  TestControl } from '@voxgig/sdkgen'
 
 
+import { TestLive } from './TestLive_js'
 import { TestDirect } from './TestDirect_js'
 import { TestEntity } from './TestEntity_js'
 
@@ -15,6 +17,10 @@ const Test = cmp(function Test(props: any) {
   const { target } = props
 
   Folder({ name: 'test' }, () => {
+
+    // Write-once: a project's edited control file survives regeneration.
+    TestControl({ target, dir: 'test' })
+    TestLive({ target })
 
     Folder({ name: 'entity' }, () => {
       const entity = each(entityCollection(model))

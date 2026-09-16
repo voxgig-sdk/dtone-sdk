@@ -13,6 +13,7 @@ import {
   PUBLISHER_URL,
   packageVersion,
   authorInfo,
+  targetFeatures, envName,
 } from '@voxgig/sdkgen'
 
 
@@ -36,7 +37,9 @@ const Package = cmp(async function Package(props: any) {
   // constant here did.
   const author = authorInfo(model, target.name)
 
-  const feature = getModelPath(model, `main.${KIT}.feature`)
+  // Gated by applicability: a feature that does not apply to this
+  // target must not inject its deps into the generated manifest.
+  const feature = targetFeatures(model, target)
 
   const only = (kind: string, deps: any) =>
     omap(deps, ([k, v]: any) => [v.active && kind === v.kind ? k : undefined, v.version])
@@ -78,6 +81,10 @@ const Package = cmp(async function Package(props: any) {
     // directly (no build step), so that is the whole package.
     files: ['src'],
     scripts: {
+      ...(Object.values(model.main.kit.entity || {}).some((e: any) => Object.values(e.op || {}).some((o: any) => (o.points || []).some((p: any) => p.contract && JSON.parse(p.contract.json).live))) ? {
+        'test:live': `${envName(model)}_TEST_LIVE=TRUE node --test test/live.test.js`,
+      } : {}),
+
       'test': 'node --test \'test/**/*.test.js\'',
       'test-some': 'node --experimental-test-isolation=none ' +
         '--test-name-pattern=\"$TEST_PATTERN\" --test \'test/**/*.test.js\'',

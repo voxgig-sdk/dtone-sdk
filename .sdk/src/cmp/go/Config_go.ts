@@ -9,13 +9,14 @@ import {
   Line,
   cmp,
   each,
-  clean,
   configDefinition,
   configReprSetting,
+  goModule,
   isAuthActive,
   isConfigData,
   resolveAuthPrefix,
   serverVariables,
+  targetFeatures,
 } from '@voxgig/sdkgen'
 
 
@@ -29,6 +30,7 @@ import {
 
 import {
   formatGoMap,
+  formatGoString,
   goFeatureName,
 } from './utility_go'
 
@@ -40,7 +42,10 @@ const Config = cmp(async function Config(props: any) {
   const model: Model = ctx$.model
 
   const entity = getModelPath(model, `main.${KIT}.entity`)
-  const feature = getModelPath(model, `main.${KIT}.feature`)
+  // Gated by the applicability tags, so this target never imports or
+  // registers a feature it has no source for. One rule, one place:
+  // helpers/applicability.
+  const feature = targetFeatures(model, target)
 
   const headers = getModelPath(model, `main.${KIT}.config.headers`) || {}
 
@@ -72,6 +77,53 @@ const Config = cmp(async function Config(props: any) {
   const { def: configDef, json: configJson } = configDefinition(model, target.name)
   const asData = isConfigData(configJson, configReprSetting(model))
 
+  // PLUGIN DEFINITION IMPORTS AND THE FeaturePlugins MAP (the go peer of
+  // Config_ts's pluginImports/pluginDefs).
+  //
+  // Upstream sekreto replaced its self-registration registry with
+  // voxgig/plugin definitions: a provider kind the caller did not pass in
+  // via `Plugins: [...]` is unknown to that Sekreto. So the config imports
+  // each active plugin's exported Definition BY NAME (the model's
+  // per-target `def` map - `aws.Secrets`, a package-qualified go symbol)
+  // and hands the list to the feature through core.FeaturePlugins.
+  //
+  // Emitted in core (not in the feature package) so the dependency runs
+  // core -> plugins -> sekreto -> plugin with no cycle; the feature reads
+  // it back as []any and type-asserts, so a tree with the feature present
+  // but never selected still compiles.
+  const gomodule = goModule(model, target.name)
+  const pluginPaths = new Set<string>()
+  const featurePlugins: Record<string, string[]> = {}
+
+  each(feature, (f: any) => {
+    const syms: string[] = []
+    each(f.plugin, (plugin: any) => {
+      // Filter on `active` HERE rather than trusting the feature object to
+      // arrive filtered (see Config_ts.pluginImports: getting this wrong
+      // emits an import for a package the trim just deleted).
+      if (false === plugin.active || null == plugin.active) return
+      for (const [sym, one] of Object.entries(plugin.def?.go || {})) {
+        // 'feature/secrets/plugins/aws/aws.go' -> its PACKAGE directory.
+        pluginPaths.add(String(one).replace(/\/[^/]+$/, ''))
+        syms.push(sym)
+      }
+    })
+    if (0 < syms.length) {
+      featurePlugins[f.name] = syms.sort()
+    }
+  })
+
+  const pluginImportLines = Array.from(pluginPaths).sort()
+    .map((p: string) => `\t"${gomodule}/${p}"\n`).join('')
+  const pluginImportBlock = '' === pluginImportLines ? '' :
+    '\n' + pluginImportLines
+
+  const featurePluginsBlock =
+    'var featurePlugins = map[string][]any{\n' +
+    Object.keys(featurePlugins).sort().map((fname: string) =>
+      `\t"${fname}": {${featurePlugins[fname].join(', ')}},\n`).join('') +
+    '}\n'
+
   File({ name: 'config.' + target.ext }, () => {
 
     // ABOVE THE THRESHOLD: emit the model as DATA.
@@ -82,9 +134,8 @@ const Config = cmp(async function Config(props: any) {
     // 2.1x smaller. MakeConfig still returns the same map, so nothing
     // downstream can tell which representation it got.
     //
-    // JSON.stringify output is a valid Go interpreted string literal: JSON
-    // escapes are a subset of Go's, and Go source is UTF-8 so non-ASCII needs
-    // no escaping. A raw (backtick) literal could NOT be used - the model
+    // JSON escapes work in Go interpreted strings; formatGoString also
+    // escapes BOM characters that Go forbids literally inside source files. A raw (backtick) literal could NOT be used - the model
     // contains backticks in values like `$STRING`.
     if (asData) {
       Content(`package core
@@ -93,11 +144,11 @@ import (
 	"encoding/json"
 	"math"
 	"sync"
-)
+${pluginImportBlock})
 
 // The API model, emitted as data rather than as a composite literal: see
 // sdkgen rung L1. Parsed by MakeConfig, and parsed once by SharedConfig.
-const configJSON = ${JSON.stringify(configJson)}
+const configJSON = ${formatGoString(configJson)}
 
 // json.Unmarshal decodes EVERY JSON number as float64, but the literal
 // representation emits an integer token as an untyped constant that lands in
@@ -150,7 +201,7 @@ func MakeConfig() map[string]any {
 
 import (
 	"sync"
-)
+${pluginImportBlock})
 
 `)
 
@@ -173,7 +224,10 @@ func MakeConfig() map[string]any {
 `)
 
     each(feature, (f: any) => {
-      const fconfig = f.config || {}
+      // From configDefinition's def, not f.config, so the literal carries
+      // the feature's `transport` role (station design §8.4) beside its
+      // options and cannot drift from the data rep.
+      const fconfig = configDef.feature[f.name] || {}
       Content(`			"${f.name}": ${formatGoMap(fconfig, 3)},
 `)
     })
@@ -193,18 +247,22 @@ ${serverBlock}${authBlock}			"headers": ${formatGoMap(headers, 3)},
     Content(`			},
 		},
 		"entity": ${formatGoMap(
-      Object.values(entity).reduce((a: any, n: any) => (a[n.name] = clean({
-        fields: n.fields,
-        name: n.name,
-        op: n.op,
-        relations: n.relations,
-      }, true), a), {}), 2)},
+configDef.entity, 2)},
 	}
 }
 `)
     }
 
     Content(`
+// The plugin definitions the model selected per feature, as []any so a
+// feature package can consume them without core naming its types. Empty
+// when no active feature declares active plugin groups for this target.
+${featurePluginsBlock}
+// FeaturePlugins is the definitions list for one feature's chain.
+func FeaturePlugins(name string) []any {
+	return featurePlugins[name]
+}
+
 var (
 	sharedConfigOnce sync.Once
 	sharedConfigVal  map[string]any

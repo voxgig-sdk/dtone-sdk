@@ -27,18 +27,21 @@ main: kit: entity: statement_inquiry: {
       type: "`$OBJECT`"
     }
     {
+      format: "int32"
       name: "page"
       req: false
       short: "Page number"
       type: "`$INTEGER`"
     }
     {
+      format: "int32"
       name: "per_page"
       req: false
       short: "Number of records per page"
       type: "`$INTEGER`"
     }
     {
+      format: "int32"
       name: "product_id"
       req: true
       short: "Product identifier."
@@ -57,11 +60,21 @@ main: kit: entity: statement_inquiry: {
       name: "list"
       points: [
         {
+          contract: {
+            id: "POST /lookup/statement-inquiry"
+            json: "{\"operationId\":\"postLookupStatementInquiry\",\"parameters\":[],\"protocol\":\"http\",\"requestBody\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"account_number\":{\"description\":\"Account number.\",\"maxLength\":90,\"minLength\":1,\"pattern\":\"\\\\S\",\"type\":\"string\"},\"account_qualifier\":{\"minLength\":1,\"pattern\":\"\\\\S\",\"type\":\"string\"},\"page\":{\"default\":1,\"description\":\"Page number\",\"format\":\"int32\",\"minimum\":1,\"type\":\"integer\"},\"per_page\":{\"default\":50,\"description\":\"Number of records per page\",\"format\":\"int32\",\"maximum\":100,\"minimum\":1,\"type\":\"integer\"},\"product_id\":{\"description\":\"Product identifier.\",\"format\":\"int32\",\"minimum\":1,\"type\":\"integer\"}},\"required\":[\"product_id\",\"account_number\"],\"type\":\"object\"}}},\"required\":true},\"responses\":{\"200\":{\"content\":{\"application/json\":{\"schema\":{\"items\":{\"properties\":{\"balance\":{\"properties\":{\"amount\":{\"description\":\"Outstanding balance for a given account statement.\",\"format\":\"double\",\"type\":\"number\"},\"unit\":{\"type\":\"string\"},\"unit_type\":{\"enum\":[\"CURRENCY\"],\"type\":\"string\"}},\"type\":\"object\"},\"dates\":{\"properties\":{\"due\":{\"description\":\"Account statement due date.\",\"format\":\"date\",\"type\":\"string\"},\"statement\":{\"description\":\"Account statement date.\",\"format\":\"date\",\"type\":\"string\"}},\"type\":\"object\"},\"reference\":{\"allOf\":[{\"description\":\"Account statement reference identifier, usually a month and year (e.g. Nov 2023) but will depend on the operator.\"},{\"minLength\":1,\"pattern\":\"\\\\S\",\"type\":\"string\"}]}},\"required\":[\"reference\",\"dates\",\"balance\"],\"type\":\"object\"},\"type\":\"array\"}}},\"description\":\"successful operation\",\"headers\":{\"X-Next-Page\":{\"description\":\"Next page number (if any).\",\"schema\":{\"type\":\"integer\"}},\"X-Page\":{\"description\":\"Current page number.\",\"schema\":{\"type\":\"integer\"}},\"X-Per-Page\":{\"description\":\"Number of records per page\",\"schema\":{\"type\":\"integer\"}},\"X-Prev-Page\":{\"description\":\"Previous page number (if any).\",\"schema\":{\"type\":\"integer\"}},\"X-Total\":{\"description\":\"Total number of records.\",\"schema\":{\"type\":\"integer\"}},\"X-Total-Pages\":{\"description\":\"Total number of pages.\",\"schema\":{\"type\":\"integer\"}}}},\"default\":{\"content\":{\"application/json\":{\"schema\":{\"properties\":{\"errors\":{\"items\":{\"additionalProperties\":false,\"properties\":{\"code\":{\"type\":\"integer\"},\"message\":{\"type\":\"string\"}},\"required\":[\"code\",\"message\"],\"type\":\"object\"},\"type\":\"array\"}},\"required\":[\"errors\"],\"type\":\"object\"}}},\"description\":\"default error response\"}},\"security\":[{\"BasicAuth\":[]}],\"securitySchemes\":{\"BasicAuth\":{\"description\":\"The Digital Value Services API requires requests to be authenticated through individualized API keys. You can view and manage your API keys in [DT Shop](https://dtshop.dtone.com/).\\n\\nYour API keys carry many privileges, so please keep them secure! Do not share your secret API keys in publicly-accessible areas such as [GitHub](https://github.com/), client-side code, and so forth.\\n\\nAuthentication to the API is performed via [HTTP Basic Auth](https://tools.ietf.org/html/rfc7235). Provide your API key as the basic auth username value and your API secret as your password.\\n\\nExcept when site-to-site VPN is set up, all API requests must be made over [HTTPS](http://en.wikipedia.org/wiki/HTTP_Secure) with TLS 1.2.\\n\\nOn a side note, we strongly recommend securing your applications against common security flaws by employing best practices such as the [OWASP Top 10](https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project).\\n\",\"scheme\":\"basic\",\"type\":\"http\"}},\"securitySource\":\"definition\"}"
+            source: "openapi3"
+            version: 1
+          }
           method: "POST"
           orig: "/lookup/statement-inquiry"
-          parts: [
-            "lookup"
-            "statement-inquiry"
+          segments: [
+            {
+              lit: "lookup"
+            }
+            {
+              lit: "statement-inquiry"
+            }
           ]
           transform: {
             req: "`reqdata`"

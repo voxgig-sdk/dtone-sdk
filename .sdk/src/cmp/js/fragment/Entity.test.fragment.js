@@ -1,18 +1,22 @@
 
 const envlocal = __dirname + '/../../../.env.local'
-require('dotenv').config({ quiet: true, path: [envlocal] })
+require('../../utility').loadEnvLocal(envlocal)
 
 const Path = require('node:path')
 const Fs = require('node:fs')
 
-const { test, describe } = require('node:test')
+const { test, describe, afterEach } = require('node:test')
 const assert = require('node:assert')
+const { createLiveTransport } = require('../../live-runner')
+const { runLiveEntity } = require('../../live-entity')
 
 
 const { ProjectNameSDK, BaseFeature, stdutil, config } = require('../../..')
 
 const {
   envOverride,
+  liveClientOptions,
+  liveDelay,
   makeCtrl,
   makeMatch,
   makeReqdata,
@@ -23,6 +27,10 @@ const {
 
 describe('EntityNameEntity', async () => {
 
+  // Per-test live pacing. Delay is read from sdk-test-control.json's
+  // `test.live.delayMs`; only sleeps when PROJECTENV_TEST_LIVE=TRUE.
+  afterEach(liveDelay('PROJECTENV_TEST_LIVE'))
+
   test('instance', async () => {
     const testsdk = ProjectNameSDK.test()
     const ent = testsdk.EntityName()
@@ -30,7 +38,7 @@ describe('EntityNameEntity', async () => {
   })
 
 
-  test('basic', async () => {
+  test('basic', async (t) => {
     // <[SLOT:basic]>
   })
 })

@@ -12,10 +12,135 @@ local function make_config()
       target = "lua",
     },
     feature = {
+      ["debug"] = {
+        ["options"] = {
+          ["active"] = false,
+          ["max"] = 100,
+          ["redact"] = {
+            "authorization",
+            "cookie",
+            "set-cookie",
+            "api-key",
+            "apikey",
+            "x-api-key",
+            "idempotency-key",
+          },
+        },
+        ["optspec"] = {
+          ["now"] = "`$FUNCTION`",
+          ["onEntry"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
+        ["transport"] = "none",
+      },
+      ["idempotency"] = {
+        ["options"] = {
+          ["active"] = false,
+          ["header"] = "Idempotency-Key",
+          ["methods"] = {
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+          },
+          ["ops"] = {
+            "create",
+            "update",
+            "remove",
+          },
+        },
+        ["optspec"] = {
+          ["keygen"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
+        ["transport"] = "none",
+      },
+      ["metrics"] = {
+        ["options"] = {
+          ["active"] = false,
+        },
+        ["optspec"] = {
+          ["now"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
+        ["transport"] = "none",
+      },
+      ["paging"] = {
+        ["options"] = {
+          ["active"] = false,
+          ["afterVar"] = "after",
+          ["cursorParam"] = "cursor",
+          ["firstVar"] = "first",
+          ["limitParam"] = "limit",
+          ["pageParam"] = "page",
+          ["startPage"] = 1,
+        },
+        ["optspec"] = {
+          ["limit"] = "`$NUMBER`",
+          ["ops"] = "`$LIST`",
+        },
+        ["strict"] = false,
+        ["transport"] = "none",
+      },
+      ["ratelimit"] = {
+        ["options"] = {
+          ["active"] = false,
+          ["burst"] = 5,
+          ["rate"] = 5,
+        },
+        ["optspec"] = {
+          ["now"] = "`$FUNCTION`",
+          ["sleep"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
+        ["transport"] = "wrap",
+      },
+      ["retry"] = {
+        ["options"] = {
+          ["active"] = false,
+          ["factor"] = 2,
+          ["maxDelay"] = 2000,
+          ["minDelay"] = 50,
+          ["retries"] = 2,
+          ["statuses"] = {
+            408,
+            425,
+            429,
+            500,
+            502,
+            503,
+            504,
+          },
+        },
+        ["optspec"] = {
+          ["jitter"] = "`$BOOLEAN`",
+          ["sleep"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
+        ["transport"] = "wrap",
+      },
       ["test"] = {
         ["options"] = {
           ["active"] = false,
         },
+        ["optspec"] = {
+          ["entity"] = "`$MAP`",
+          ["net"] = "`$MAP`",
+        },
+        ["strict"] = false,
+        ["transport"] = "base",
+      },
+      ["timeout"] = {
+        ["options"] = {
+          ["active"] = false,
+          ["ms"] = 30000,
+        },
+        ["optspec"] = {
+          ["clearTimer"] = "`$FUNCTION`",
+          ["setTimer"] = "`$FUNCTION`",
+        },
+        ["strict"] = false,
+        ["transport"] = "wrap",
       },
     },
     options = {
@@ -46,16 +171,19 @@ local function make_config()
       ["balance"] = {
         ["fields"] = {
           {
+            ["format"] = "double",
             ["name"] = "available",
             ["req"] = true,
             ["type"] = "`$NUMBER`",
           },
           {
+            ["format"] = "double",
             ["name"] = "credit_limit",
             ["req"] = true,
             ["type"] = "`$NUMBER`",
           },
           {
+            ["format"] = "double",
             ["name"] = "holding",
             ["req"] = true,
             ["type"] = "`$NUMBER`",
@@ -75,6 +203,10 @@ local function make_config()
             ["req"] = true,
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "balance",
         ["op"] = {
@@ -116,8 +248,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/balances",
-                ["parts"] = {
-                  "balances",
+                ["segments"] = {
+                  {
+                    ["lit"] = "balances",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -130,6 +264,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "balances",
                 },
               },
             },
@@ -175,8 +312,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/benefit-types",
-                ["parts"] = {
-                  "benefit-types",
+                ["segments"] = {
+                  {
+                    ["lit"] = "benefit-types",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -187,6 +326,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "benefit-types",
                 },
               },
             },
@@ -204,6 +346,7 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "end_date",
             ["req"] = true,
             ["type"] = "`$STRING`",
@@ -219,6 +362,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "start_date",
             ["req"] = true,
             ["type"] = "`$STRING`",
@@ -233,6 +377,10 @@ local function make_config()
             ["req"] = true,
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "campaign",
         ["op"] = {
@@ -280,8 +428,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/campaigns",
-                ["parts"] = {
-                  "campaigns",
+                ["segments"] = {
+                  {
+                    ["lit"] = "campaigns",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -295,6 +445,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "campaigns",
                 },
               },
             },
@@ -318,9 +471,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/campaigns/{campaign_id}",
-                ["parts"] = {
-                  "campaigns",
-                  "{campaign_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "campaigns",
+                  },
+                  {
+                    ["var"] = "campaign_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -330,6 +487,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "campaigns",
+                  "{campaign_id}",
                 },
               },
             },
@@ -402,8 +563,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/countries",
-                ["parts"] = {
-                  "countries",
+                ["segments"] = {
+                  {
+                    ["lit"] = "countries",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -416,6 +579,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "countries",
                 },
               },
             },
@@ -439,9 +605,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/countries/{country_iso_code}",
-                ["parts"] = {
-                  "countries",
-                  "{country_iso_code}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "countries",
+                  },
+                  {
+                    ["var"] = "country_iso_code",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -451,6 +621,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "countries",
+                  "{country_iso_code}",
                 },
               },
             },
@@ -467,6 +641,7 @@ local function make_config()
       ["credit_party_benefit"] = {
         ["fields"] = {
           {
+            ["format"] = "double",
             ["name"] = "amount",
             ["req"] = true,
             ["short"] = "Remaining benefit amount.",
@@ -483,22 +658,26 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "expiration_date",
             ["req"] = true,
             ["short"] = "A `null` value denotes either no expiration applies or that the product benefit has not yet been activated.",
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "page",
             ["short"] = "Page number",
             ["type"] = "`$INTEGER`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "per_page",
             ["short"] = "Number of records per page",
             ["type"] = "`$INTEGER`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "service_id",
             ["req"] = true,
             ["short"] = "Service identifier.",
@@ -531,14 +710,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/lookup/credit-party-benefits",
-                ["parts"] = {
-                  "lookup",
-                  "credit-party-benefits",
+                ["segments"] = {
+                  {
+                    ["lit"] = "lookup",
+                  },
+                  {
+                    ["lit"] = "credit-party-benefits",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "lookup",
+                  "credit-party-benefits",
                 },
               },
             },
@@ -551,6 +738,7 @@ local function make_config()
       ["credit_party_status"] = {
         ["fields"] = {
           {
+            ["format"] = "date-time",
             ["name"] = "activation_date",
             ["req"] = true,
             ["short"] = "A `null` value denotes that credit party has not yet been activated on the actual network",
@@ -562,12 +750,14 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "installation_date",
             ["req"] = true,
             ["short"] = "A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed",
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "service_id",
             ["req"] = true,
             ["short"] = "Service identifier.",
@@ -585,14 +775,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/lookup/credit-party-status",
-                ["parts"] = {
-                  "lookup",
-                  "credit-party-status",
+                ["segments"] = {
+                  {
+                    ["lit"] = "lookup",
+                  },
+                  {
+                    ["lit"] = "credit-party-status",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "lookup",
+                  "credit-party-status",
                 },
               },
             },
@@ -610,6 +808,7 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "id",
             ["req"] = true,
             ["short"] = "Operator identifier.",
@@ -633,11 +832,13 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "page",
             ["short"] = "Page number",
             ["type"] = "`$INTEGER`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "per_page",
             ["short"] = "Number of records per page",
             ["type"] = "`$INTEGER`",
@@ -647,6 +848,10 @@ local function make_config()
             ["req"] = true,
             ["type"] = "`$ARRAY`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "mobile_number_lookup",
         ["op"] = {
@@ -685,10 +890,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/lookup/mobile-number/{mobile_number}",
-                ["parts"] = {
-                  "lookup",
-                  "mobile-number",
-                  "{mobile_number}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "lookup",
+                  },
+                  {
+                    ["lit"] = "mobile-number",
+                  },
+                  {
+                    ["var"] = "mobile_number",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -701,20 +912,33 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "lookup",
+                  "mobile-number",
+                  "{mobile_number}",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/lookup/mobile-number",
-                ["parts"] = {
-                  "lookup",
-                  "mobile-number",
+                ["segments"] = {
+                  {
+                    ["lit"] = "lookup",
+                  },
+                  {
+                    ["lit"] = "mobile-number",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "lookup",
+                  "mobile-number",
                 },
               },
             },
@@ -736,6 +960,7 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "id",
             ["req"] = true,
             ["short"] = "Operator identifier.",
@@ -751,6 +976,10 @@ local function make_config()
             ["req"] = true,
             ["type"] = "`$ARRAY`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "operator",
         ["op"] = {
@@ -798,8 +1027,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/operators",
-                ["parts"] = {
-                  "operators",
+                ["segments"] = {
+                  {
+                    ["lit"] = "operators",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -813,6 +1044,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "operators",
                 },
               },
             },
@@ -836,9 +1070,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/operators/{operator_id}",
-                ["parts"] = {
-                  "operators",
-                  "{operator_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "operators",
+                  },
+                  {
+                    ["var"] = "operator_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -848,6 +1086,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "operators",
+                  "{operator_id}",
                 },
               },
             },
@@ -955,8 +1197,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/products",
-                ["parts"] = {
-                  "products",
+                ["segments"] = {
+                  {
+                    ["lit"] = "products",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -977,6 +1221,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "products",
                 },
               },
             },
@@ -1009,9 +1256,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/products/{product_id}",
-                ["parts"] = {
-                  "products",
-                  "{product_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "products",
+                  },
+                  {
+                    ["var"] = "product_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1022,6 +1273,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "products",
+                  "{product_id}",
                 },
               },
             },
@@ -1043,6 +1298,7 @@ local function make_config()
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "end_date",
             ["req"] = true,
             ["type"] = "`$STRING`",
@@ -1063,6 +1319,7 @@ local function make_config()
             ["type"] = "`$ARRAY`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "start_date",
             ["req"] = true,
             ["type"] = "`$STRING`",
@@ -1077,6 +1334,10 @@ local function make_config()
             ["req"] = true,
             ["type"] = "`$STRING`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "promotion",
         ["op"] = {
@@ -1133,8 +1394,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/promotions",
-                ["parts"] = {
-                  "promotions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "promotions",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1149,6 +1412,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "promotions",
                 },
               },
             },
@@ -1181,9 +1447,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/promotions/{promotion_id}",
-                ["parts"] = {
-                  "promotions",
-                  "{promotion_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "promotions",
+                  },
+                  {
+                    ["var"] = "promotion_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1194,6 +1464,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "promotions",
+                  "{promotion_id}",
                 },
               },
             },
@@ -1210,6 +1484,7 @@ local function make_config()
       ["service"] = {
         ["fields"] = {
           {
+            ["format"] = "int32",
             ["name"] = "id",
             ["req"] = true,
             ["short"] = "Service identifier.",
@@ -1225,6 +1500,10 @@ local function make_config()
             ["req"] = true,
             ["type"] = "`$ARRAY`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "service",
         ["op"] = {
@@ -1260,8 +1539,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/services",
-                ["parts"] = {
-                  "services",
+                ["segments"] = {
+                  {
+                    ["lit"] = "services",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1273,6 +1554,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "services",
                 },
               },
             },
@@ -1296,9 +1580,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/services/{service_id}",
-                ["parts"] = {
-                  "services",
-                  "{service_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "services",
+                  },
+                  {
+                    ["var"] = "service_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1308,6 +1596,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "services",
+                  "{service_id}",
                 },
               },
             },
@@ -1344,16 +1636,19 @@ local function make_config()
             ["type"] = "`$OBJECT`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "page",
             ["short"] = "Page number",
             ["type"] = "`$INTEGER`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "per_page",
             ["short"] = "Number of records per page",
             ["type"] = "`$INTEGER`",
           },
           {
+            ["format"] = "int32",
             ["name"] = "product_id",
             ["req"] = true,
             ["short"] = "Product identifier.",
@@ -1376,14 +1671,22 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/lookup/statement-inquiry",
-                ["parts"] = {
-                  "lookup",
-                  "statement-inquiry",
+                ["segments"] = {
+                  {
+                    ["lit"] = "lookup",
+                  },
+                  {
+                    ["lit"] = "statement-inquiry",
+                  },
                 },
                 ["select"] = {},
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "lookup",
+                  "statement-inquiry",
                 },
               },
             },
@@ -1402,12 +1705,14 @@ local function make_config()
           },
           {
             ["name"] = "adjusted_values",
+            ["readOnly"] = true,
             ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "auto_confirm",
             ["short"] = "Determines whether a transaction will be automatically confirmed upon creation or not.",
             ["type"] = "`$BOOLEAN`",
+            ["writeOnly"] = true,
           },
           {
             ["name"] = "beneficiary",
@@ -1416,6 +1721,7 @@ local function make_config()
           },
           {
             ["name"] = "benefits",
+            ["readOnly"] = true,
             ["type"] = "`$ARRAY`",
             ["union"] = {
               ["branches"] = 2,
@@ -1428,20 +1734,27 @@ local function make_config()
             ["type"] = "`$ANY`",
           },
           {
+            ["format"] = "uri",
             ["name"] = "callback_url",
             ["short"] = "Transaction status updates will be sent to this endpoint.",
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "confirmation_date",
+            ["readOnly"] = true,
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "confirmation_expiration_date",
+            ["readOnly"] = true,
             ["type"] = "`$STRING`",
           },
           {
+            ["format"] = "date-time",
             ["name"] = "creation_date",
+            ["readOnly"] = true,
             ["type"] = "`$STRING`",
           },
           {
@@ -1459,6 +1772,7 @@ local function make_config()
             ["req"] = true,
             ["short"] = "Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT`",
             ["type"] = "`$OBJECT`",
+            ["writeOnly"] = true,
           },
           {
             ["name"] = "external_id",
@@ -1467,6 +1781,7 @@ local function make_config()
           },
           {
             ["name"] = "id",
+            ["readOnly"] = true,
             ["type"] = "`$STRING`",
           },
           {
@@ -1476,15 +1791,18 @@ local function make_config()
           },
           {
             ["name"] = "operator_reference",
+            ["readOnly"] = true,
             ["type"] = "`$STRING`",
           },
           {
             ["name"] = "pin",
+            ["readOnly"] = true,
             ["req"] = true,
             ["type"] = "`$OBJECT`",
           },
           {
             ["name"] = "prices",
+            ["readOnly"] = true,
             ["req"] = true,
             ["type"] = "`$OBJECT`",
           },
@@ -1496,9 +1814,11 @@ local function make_config()
             ["name"] = "product_id",
             ["req"] = true,
             ["type"] = "`$STRING`",
+            ["writeOnly"] = true,
           },
           {
             ["name"] = "promotions",
+            ["readOnly"] = true,
             ["type"] = "`$ARRAY`",
           },
           {
@@ -1507,6 +1827,7 @@ local function make_config()
           },
           {
             ["name"] = "requested_values",
+            ["readOnly"] = true,
             ["type"] = "`$OBJECT`",
           },
           {
@@ -1519,6 +1840,7 @@ local function make_config()
             ["req"] = true,
             ["short"] = "Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT`",
             ["type"] = "`$OBJECT`",
+            ["writeOnly"] = true,
           },
           {
             ["name"] = "statement_identifier",
@@ -1527,8 +1849,13 @@ local function make_config()
           },
           {
             ["name"] = "status",
+            ["readOnly"] = true,
             ["type"] = "`$OBJECT`",
           },
+        },
+        ["id"] = {
+          ["field"] = "id",
+          ["name"] = "id",
         },
         ["name"] = "transaction",
         ["op"] = {
@@ -1541,9 +1868,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/async/transactions",
-                ["parts"] = {
-                  "async",
-                  "transactions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "async",
+                  },
+                  {
+                    ["lit"] = "transactions",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "asyncCreate",
@@ -1552,15 +1883,23 @@ local function make_config()
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
                 },
+                ["parts"] = {
+                  "async",
+                  "transactions",
+                },
               },
               {
                 ["args"] = {},
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/sync/transactions",
-                ["parts"] = {
-                  "sync",
-                  "transactions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "sync",
+                  },
+                  {
+                    ["lit"] = "transactions",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "syncCreate",
@@ -1568,6 +1907,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "sync",
+                  "transactions",
                 },
               },
             },
@@ -1666,8 +2009,10 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/transactions",
-                ["parts"] = {
-                  "transactions",
+                ["segments"] = {
+                  {
+                    ["lit"] = "transactions",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1689,6 +2034,9 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "transactions",
                 },
               },
             },
@@ -1712,9 +2060,13 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "GET",
                 ["orig"] = "/transactions/{transaction_id}",
-                ["parts"] = {
-                  "transactions",
-                  "{transaction_id}",
+                ["segments"] = {
+                  {
+                    ["lit"] = "transactions",
+                  },
+                  {
+                    ["var"] = "transaction_id",
+                  },
                 },
                 ["select"] = {
                   ["exist"] = {
@@ -1724,6 +2076,10 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "transactions",
+                  "{transaction_id}",
                 },
               },
             },
@@ -1747,10 +2103,16 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/transactions/{transaction_id}/cancel",
-                ["parts"] = {
-                  "transactions",
-                  "{transaction_id}",
-                  "cancel",
+                ["segments"] = {
+                  {
+                    ["lit"] = "transactions",
+                  },
+                  {
+                    ["var"] = "transaction_id",
+                  },
+                  {
+                    ["lit"] = "cancel",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "cancel",
@@ -1761,6 +2123,11 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "transactions",
+                  "{transaction_id}",
+                  "cancel",
                 },
               },
               {
@@ -1778,11 +2145,19 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/async/transactions/{transaction_id}/confirm",
-                ["parts"] = {
-                  "async",
-                  "transactions",
-                  "{transaction_id}",
-                  "confirm",
+                ["segments"] = {
+                  {
+                    ["lit"] = "async",
+                  },
+                  {
+                    ["lit"] = "transactions",
+                  },
+                  {
+                    ["var"] = "transaction_id",
+                  },
+                  {
+                    ["lit"] = "confirm",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "confirmAsync",
@@ -1793,6 +2168,12 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "async",
+                  "transactions",
+                  "{transaction_id}",
+                  "confirm",
                 },
               },
               {
@@ -1810,11 +2191,19 @@ local function make_config()
                 ["kind"] = "http",
                 ["method"] = "POST",
                 ["orig"] = "/sync/transactions/{transaction_id}/confirm",
-                ["parts"] = {
-                  "sync",
-                  "transactions",
-                  "{transaction_id}",
-                  "confirm",
+                ["segments"] = {
+                  {
+                    ["lit"] = "sync",
+                  },
+                  {
+                    ["lit"] = "transactions",
+                  },
+                  {
+                    ["var"] = "transaction_id",
+                  },
+                  {
+                    ["lit"] = "confirm",
+                  },
                 },
                 ["select"] = {
                   ["$action"] = "confirmSync",
@@ -1825,6 +2214,12 @@ local function make_config()
                 ["transform"] = {
                   ["req"] = "`reqdata`",
                   ["res"] = "`body`",
+                },
+                ["parts"] = {
+                  "sync",
+                  "transactions",
+                  "{transaction_id}",
+                  "confirm",
                 },
               },
             },
