@@ -244,38 +244,38 @@ class CreditPartyBenefitEntity
     
 
     
+
+    
     /**
-     * List CreditPartyBenefit items matching the given filter.
+     * Create a new CreditPartyBenefit.
      *
-     * @param CreditPartyBenefitListMatch|array|null $reqmatch Match filter (any subset
-     *   of CreditPartyBenefit fields) as an assoc-array; CreditPartyBenefitListMatch names the shape.
+     * @param CreditPartyBenefitCreateData|array|null $reqdata Body data as an assoc-array;
+     *   a typed CreditPartyBenefitCreateData names the shape.
      * @param mixed $ctrl Optional per-call control overrides.
-     * @return CreditPartyBenefit[]|array A list of CreditPartyBenefit items as assoc-arrays at
-     *   the SDK boundary; throws DtoneError on failure (item-5 convention).
+     * @return CreditPartyBenefit|array The created CreditPartyBenefit as an assoc-array at the
+     *   SDK boundary; throws DtoneError on failure (item-5 convention).
      */
-    public function list(?array $reqmatch = null, $ctrl = null): mixed
+    public function create(?array $reqdata = null, $ctrl = null): mixed
     {
         $utility = $this->_utility;
         $ctx = ($utility->make_context)([
-            "opname" => "list",
+            "opname" => "create",
             "ctrl" => $ctrl,
             "match" => $this->_match,
             "data" => $this->_data,
-            "reqmatch" => $reqmatch,
+            "reqdata" => $reqdata,
         ], $this->_entctx);
 
         return $this->_run_op($ctx, function () use ($ctx) {
             if ($ctx->result) {
-                if ($ctx->result->resmatch) {
-                    $this->_match = $ctx->result->resmatch;
+                if ($ctx->result->resdata) {
+                    $this->_data = DtoneHelpers::to_map(Struct::clone($ctx->result->resdata)) ?? [];
                 }
             }
         });
     }
 
 
-
-    
 
     
 

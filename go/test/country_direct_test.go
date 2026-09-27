@@ -115,13 +115,12 @@ func TestCountryDirect(t *testing.T) {
 			}
 			firstEnt := core.ToMapAny(listData[0])
 			params["id"] = firstEnt["id"]
-			params["country_iso_code"] = setup.idmap["country_iso_code01"]
 		} else {
-			params["country_iso_code"] = "direct01"
+			params["id"] = "direct01"
 		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "countries/{country_iso_code}",
+			"path":   "countries/{id}",
 			"method": "GET",
 			"params": params,
 			"query":  query,

@@ -2,32 +2,44 @@
   "existing": {
     "mobile_number": {
       "MOBILE_NUMBER00": {
-        "mobile_number": "s1e",
-        "page": "s1f",
-        "per_page": "s20",
-        "id": "MOBILE_NUMBER00"
+        "id": "MOBILE_NUMBER00",
+        "mobile_number": "s29",
+        "page": 42,
+        "per_page": 43
       },
       "MOBILE_NUMBER01": {
-        "mobile_number": "s3c",
-        "page": "s3d",
-        "per_page": "s3e",
-        "id": "MOBILE_NUMBER01"
+        "id": "MOBILE_NUMBER01",
+        "mobile_number": "s51",
+        "page": 82,
+        "per_page": 83
       },
       "MOBILE_NUMBER02": {
-        "mobile_number": "s5a",
-        "page": "s5b",
-        "per_page": "s5c",
-        "id": "MOBILE_NUMBER02"
+        "id": "MOBILE_NUMBER02",
+        "mobile_number": "s79",
+        "page": 122,
+        "per_page": 123
       }
     }
   },
   "new": {
     "mobile_number": {
       "mobile_number_ref01": {
-        "mobile_number": "s78",
-        "page": "s79",
-        "per_page": "s7a"
+        "mobile_number": "sa1",
+        "page": 162,
+        "per_page": 163
       }
+    }
+  },
+  "requests": {
+    "POST /lookup/mobile-number": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
+    },
+    "GET /lookup/mobile-number/{mobile_number}": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
     }
   }
 }

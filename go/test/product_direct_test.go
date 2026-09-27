@@ -115,13 +115,12 @@ func TestProductDirect(t *testing.T) {
 			}
 			firstEnt := core.ToMapAny(listData[0])
 			params["id"] = firstEnt["id"]
-			params["product_id"] = setup.idmap["product01"]
 		} else {
-			params["product_id"] = "direct01"
+			params["id"] = "direct01"
 		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "products/{product_id}",
+			"path":   "products/{id}",
 			"method": "GET",
 			"params": params,
 			"query":  query,

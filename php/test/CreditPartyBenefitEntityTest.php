@@ -18,51 +18,12 @@ class CreditPartyBenefitEntityTest extends TestCase
         $this->assertNotNull($ent);
     }
 
-    // Feature #4: the entity stream(action, ...) method runs the op pipeline
-    // and yields result items. With the streaming feature active it yields the
-    // feature's incremental output; otherwise it falls back to the materialised
-    // list so stream always yields.
-    public function test_stream(): void
-    {
-        $seed = [
-            "entity" => [
-                "credit_party_benefit" => [
-                    "s1" => ["id" => "s1"],
-                    "s2" => ["id" => "s2"],
-                    "s3" => ["id" => "s3"],
-                ],
-            ],
-        ];
-
-        // Fallback: streaming inactive -> yields the materialised list items.
-        $base = DtoneSDK::test($seed, null);
-        $seen = iterator_to_array($base->CreditPartyBenefit(null)->stream("list", null, null), false);
-        $this->assertCount(3, $seen);
-
-        // Inbound: streaming active -> yields each item from the feature.
-        $cfg = DtoneConfig::shared_config();
-        if (isset($cfg["feature"]) && is_array($cfg["feature"]) && isset($cfg["feature"]["streaming"])) {
-            $sdk = DtoneSDK::test($seed, ["feature" => ["streaming" => ["active" => true]]]);
-            $got = [];
-            foreach ($sdk->CreditPartyBenefit(null)->stream("list", null, null) as $item) {
-                if (is_array($item) && array_is_list($item)) {
-                    foreach ($item as $sub) {
-                        $got[] = $sub;
-                    }
-                } else {
-                    $got[] = $item;
-                }
-            }
-            $this->assertCount(3, $got);
-        }
-    }
-
     public function test_basic_flow(): void
     {
         $setup = credit_party_benefit_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["list"] as $_op) {
+        foreach (["create"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "credit_party_benefit." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -77,20 +38,14 @@ class CreditPartyBenefitEntityTest extends TestCase
         }
         $client = $setup["client"];
 
-        // Bootstrap entity data from existing test data.
-        $credit_party_benefit_ref01_data_raw = Vs::items(Helpers::to_map(
-            Vs::getpath($setup["data"], "existing.credit_party_benefit")));
-        $credit_party_benefit_ref01_data = null;
-        if (count($credit_party_benefit_ref01_data_raw) > 0) {
-            $credit_party_benefit_ref01_data = Helpers::to_map($credit_party_benefit_ref01_data_raw[0][1]);
-        }
-
-        // LIST
+        // CREATE
         $credit_party_benefit_ref01_ent = $client->CreditPartyBenefit(null);
-        $credit_party_benefit_ref01_match = [];
+        $credit_party_benefit_ref01_data = Helpers::to_map(Vs::getprop(
+            Vs::getpath($setup["data"], "new.credit_party_benefit"), "credit_party_benefit_ref01"));
 
-        $credit_party_benefit_ref01_list_result = $credit_party_benefit_ref01_ent->list($credit_party_benefit_ref01_match, null);
-        $this->assertIsArray($credit_party_benefit_ref01_list_result);
+        $credit_party_benefit_ref01_data_result = $credit_party_benefit_ref01_ent->create($credit_party_benefit_ref01_data, null);
+        $credit_party_benefit_ref01_data = Helpers::to_map(is_object($credit_party_benefit_ref01_data_result) && method_exists($credit_party_benefit_ref01_data_result, 'data_get') ? $credit_party_benefit_ref01_data_result->data_get() : $credit_party_benefit_ref01_data_result);
+        $this->assertNotNull($credit_party_benefit_ref01_data);
 
     }
 }

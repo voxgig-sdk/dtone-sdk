@@ -1,7 +1,7 @@
 -- Typed models for the Dtone SDK (LuaLS annotations).
 --
--- GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
--- params (op.<name>.points[].args.params[]). Field/param types come from the
+-- GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+-- params (op.<name>.points[].g.params[]). Field/param types come from the
 -- canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 -- @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
 -- edit by hand.
@@ -37,7 +37,7 @@
 ---@field title string
 
 ---@class CampaignLoadMatch
----@field campaign_id number
+---@field id number
 
 ---@class CampaignListMatch
 ---@field country_iso_code? string
@@ -47,12 +47,13 @@
 ---@field product_id? number
 
 ---@class Country
+---@field id? string
 ---@field iso_code string
 ---@field name string
 ---@field regions table
 
 ---@class CountryLoadMatch
----@field country_iso_code string
+---@field id string
 
 ---@class CountryListMatch
 ---@field page? number
@@ -61,28 +62,16 @@
 ---@field subservice_id? number
 
 ---@class CreditPartyBenefit
----@field amount number
----@field country table
 ---@field credit_party_identifier table
----@field expiration_date string
 ---@field page? number
 ---@field per_page? number
 ---@field service_id number
----@field type string
----@field unit string
----@field unit_type string
 
----@class CreditPartyBenefitListMatch
----@field amount? number
----@field country? table
----@field credit_party_identifier? table
----@field expiration_date? string
+---@class CreditPartyBenefitCreateData
+---@field credit_party_identifier table
 ---@field page? number
 ---@field per_page? number
----@field service_id? number
----@field type? string
----@field unit? string
----@field unit_type? string
+---@field service_id number
 
 ---@class CreditPartyStatus
 ---@field activation_date string
@@ -90,23 +79,25 @@
 ---@field installation_date string
 ---@field service_id number
 
----@class CreditPartyStatusLoadMatch
----@field activation_date? string
----@field credit_party_identifier? table
----@field installation_date? string
----@field service_id? number
+---@class CreditPartyStatusCreateData
+---@field activation_date string
+---@field credit_party_identifier table
+---@field installation_date string
+---@field service_id number
 
----@class MobileNumberLookup
----@field country table
----@field id number
----@field identified boolean
+---@class MobileNumber
+---@field id? string
 ---@field mobile_number string
----@field name string
 ---@field page? number
 ---@field per_page? number
----@field regions table
 
----@class MobileNumberLookupListMatch
+---@class MobileNumberLoadMatch
+---@field id string
+---@field page? number
+---@field per_page? number
+
+---@class MobileNumberCreateData
+---@field id? string
 ---@field mobile_number string
 ---@field page? number
 ---@field per_page? number
@@ -118,7 +109,7 @@
 ---@field regions table
 
 ---@class OperatorLoadMatch
----@field operator_id number
+---@field id number
 
 ---@class OperatorListMatch
 ---@field country_iso_code? string
@@ -128,9 +119,10 @@
 ---@field subservice_id? number
 
 ---@class Product
+---@field id? string
 
 ---@class ProductLoadMatch
----@field product_id number
+---@field id number
 
 ---@class ProductListMatch
 ---@field benefit_type? table
@@ -156,7 +148,7 @@
 ---@field title string
 
 ---@class PromotionLoadMatch
----@field promotion_id number
+---@field id number
 
 ---@class PromotionListMatch
 ---@field country_iso_code? string
@@ -171,32 +163,26 @@
 ---@field subservices table
 
 ---@class ServiceLoadMatch
----@field service_id number
+---@field id number
 
 ---@class ServiceListMatch
 ---@field country_iso_code? string
 ---@field page? number
 ---@field per_page? number
 
----@class StatementInquiry
+---@class Statement
 ---@field account_number string
 ---@field account_qualifier? string
----@field balance table
----@field dates table
 ---@field page? number
 ---@field per_page? number
 ---@field product_id number
----@field reference any
 
----@class StatementInquiryListMatch
----@field account_number? string
+---@class StatementCreateData
+---@field account_number string
 ---@field account_qualifier? string
----@field balance? table
----@field dates? table
 ---@field page? number
 ---@field per_page? number
----@field product_id? number
----@field reference? any
+---@field product_id number
 
 ---@class Transaction
 ---@field additional_identifier? table
@@ -229,7 +215,7 @@
 ---@field status? table
 
 ---@class TransactionLoadMatch
----@field transaction_id number
+---@field id number
 
 ---@class TransactionListMatch
 ---@field country_iso_code? string
@@ -273,37 +259,6 @@
 ---@field requested_values? table
 ---@field sender? table
 ---@field source table
----@field statement_identifier? table
----@field status? table
-
----@class TransactionUpdateData
----@field transaction_id number
----@field additional_identifier? table
----@field adjusted_values? table
----@field auto_confirm? boolean
----@field beneficiary? table
----@field benefits? table
----@field calculation_mode? any
----@field callback_url? string
----@field confirmation_date? string
----@field confirmation_expiration_date? string
----@field creation_date? string
----@field credit_party_identifier? table
----@field debit_party_identifier? table
----@field destination? table
----@field external_id? string
----@field id? string
----@field metadata? table
----@field operator_reference? string
----@field pin? table
----@field prices? table
----@field product? any
----@field product_id? string
----@field promotions? table
----@field rates? any
----@field requested_values? table
----@field sender? table
----@field source? table
 ---@field statement_identifier? table
 ---@field status? table
 

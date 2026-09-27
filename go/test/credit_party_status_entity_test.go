@@ -32,7 +32,7 @@ func TestCreditPartyStatusEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"load"} {
+		for _, _op := range []string{"create"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "credit_party_status." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -49,25 +49,18 @@ func TestCreditPartyStatusEntity(t *testing.T) {
 		}
 		client := setup.client
 
-		// Bootstrap entity data from existing test data (no create step in flow).
-		creditPartyStatusRef01DataRaw := vs.Items(core.ToMapAny(vs.GetPath(setup.data, "existing.credit_party_status")))
-		var creditPartyStatusRef01Data map[string]any
-		if len(creditPartyStatusRef01DataRaw) > 0 {
-			creditPartyStatusRef01Data = core.ToMapAny(creditPartyStatusRef01DataRaw[0][1])
-		}
-		// Discard guards against Go's unused-var check when the flow's steps
-		// happen not to consume the bootstrap data (e.g. list-only flows).
-		_ = creditPartyStatusRef01Data
-
-		// LOAD
+		// CREATE
 		creditPartyStatusRef01Ent := client.CreditPartyStatus(nil)
-		creditPartyStatusRef01MatchDt0 := map[string]any{}
-		creditPartyStatusRef01DataDt0Loaded, err := creditPartyStatusRef01Ent.Load(creditPartyStatusRef01MatchDt0, nil)
+		creditPartyStatusRef01Data := core.ToMapAny(vs.GetProp(
+			vs.GetPath(setup.data, []any{"new", "credit_party_status"}), "credit_party_status_ref01"))
+
+		creditPartyStatusRef01DataResult, err := creditPartyStatusRef01Ent.Create(creditPartyStatusRef01Data, nil)
 		if err != nil {
-			t.Fatalf("load failed: %v", err)
+			t.Fatalf("create failed: %v", err)
 		}
-		if creditPartyStatusRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		creditPartyStatusRef01Data = core.ToMapAny(entityData(creditPartyStatusRef01DataResult))
+		if creditPartyStatusRef01Data == nil {
+			t.Fatal("expected create result to be a map")
 		}
 
 	})

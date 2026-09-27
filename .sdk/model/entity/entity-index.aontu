@@ -1,0 +1,15 @@
+# Entity Models
+
+@"./balance.aontu"
+@"./benefit_type.aontu"
+@"./campaign.aontu"
+@"./country.aontu"
+@"./credit_party_benefit.aontu"
+@"./credit_party_status.aontu"
+@"./mobile_number.aontu"
+@"./operator.aontu"
+@"./product.aontu"
+@"./promotion.aontu"
+@"./service.aontu"
+@"./statement.aontu"
+@"./transaction.aontu"

@@ -1,0 +1,218 @@
+# Entity: product
+
+main: kit: entity: product: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "product"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /products"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                ex: "es"
+                k: "header"
+                n: "accept_language"
+                or: "accept_language"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "benefit_type"
+                or: "benefit_type"
+                r: false
+                t: "`$ARRAY`"
+              }
+              {
+                k: "query"
+                n: "country_iso_code"
+                or: "country_iso_code"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "operator_id"
+                or: "operator_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "region"
+                or: "region"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "service_id"
+                or: "service_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: "name"
+                k: "query"
+                n: "sort"
+                or: "sort"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "subservice_id"
+                or: "subservice_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "tag"
+                or: "tag"
+                r: false
+                t: "`$ARRAY`"
+              }
+              {
+                k: "query"
+                n: "type"
+                or: "type"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/products"
+          q: {
+            exist: [
+              "accept_language"
+              "benefit_type"
+              "country_iso_code"
+              "operator_id"
+              "page"
+              "per_page"
+              "region"
+              "service_id"
+              "sort"
+              "subservice_id"
+              "tag"
+              "type"
+            ]
+          }
+          s: [
+            {
+              lit: "products"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /products/{product_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                ex: "es"
+                k: "header"
+                n: "accept_language"
+                or: "accept_language"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "product_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/products/{product_id}"
+          q: {
+            exist: [
+              "accept_language"
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              product_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "products"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

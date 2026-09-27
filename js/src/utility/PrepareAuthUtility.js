@@ -1,7 +1,8 @@
 
-const HEADER_auth = 'authorization'
+const CRED_name = 'authorization'
 
 const OPTION_apikey = 'apikey'
+const OPTION_secret = 'secret'
 
 const NOTFOUND = '__NOTFOUND__'
 
@@ -26,18 +27,38 @@ function prepareAuth(ctx) {
 
   // Public APIs that need no auth omit the options.auth block entirely.
   if (null == options.auth) {
-    delprop(headers, HEADER_auth)
+    delprop(headers, CRED_name)
     return spec
   }
 
   const apikey = getprop(options, OPTION_apikey, NOTFOUND)
 
+  // True HTTP Basic Auth needs TWO credentials, base64-joined - a single
+  // token in the header (the branch below) can never authenticate against
+  // an API that actually checks `Authorization: Basic base64(user:pass)`.
+  if (true === options.auth.basic) {
+    const secret = getprop(options, OPTION_secret, NOTFOUND)
+    const noApikey = NOTFOUND === apikey || null == apikey || '' === apikey
+    const noSecret = NOTFOUND === secret || null == secret || '' === secret
+
+    if (noApikey || noSecret) {
+      delprop(headers, CRED_name)
+    }
+    else {
+      const b64 = Buffer.from(apikey + ':' + secret).toString('base64')
+      setprop(headers, CRED_name,
+        options.auth.prefix ? options.auth.prefix + ' ' + b64 : b64)
+    }
+
+    return spec
+  }
+
   if (NOTFOUND === apikey || null == apikey || '' === apikey) {
-    delprop(headers, HEADER_auth)
+    delprop(headers, CRED_name)
   }
   else {
     // Empty prefix (raw apiKey credential) must not add a leading space.
-    setprop(headers, HEADER_auth,
+    setprop(headers, CRED_name,
       options.auth.prefix ? options.auth.prefix + ' ' + apikey : apikey)
   }
 

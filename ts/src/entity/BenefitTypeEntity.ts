@@ -19,7 +19,6 @@ import type {
   BenefitTypeListMatch,
 } from '../DtoneTypes'
 
-// TODO: needs Entity superclass
 class BenefitTypeEntity extends DtoneEntityBase<BenefitType> {
 
   constructor(client: DtoneSDK, entopts: any) {

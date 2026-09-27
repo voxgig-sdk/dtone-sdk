@@ -68,11 +68,11 @@ describe("PromotionDirect", function()
     local params = {}
     local query = {}
     if not setup.live then
-      params["promotion_id"] = "direct01"
+      params["id"] = "direct01"
     end
 
     local result, err = client:direct({
-      path = "promotions/{promotion_id}",
+      path = "promotions/{id}",
       method = "GET",
       params = params,
       query = query,

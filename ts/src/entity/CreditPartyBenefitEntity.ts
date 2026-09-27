@@ -16,10 +16,9 @@ import type {
 
 import type {
   CreditPartyBenefit,
-  CreditPartyBenefitListMatch,
+  CreditPartyBenefitCreateData,
 } from '../DtoneTypes'
 
-// TODO: needs Entity superclass
 class CreditPartyBenefitEntity extends DtoneEntityBase<CreditPartyBenefit> {
 
   constructor(client: DtoneSDK, entopts: any) {
@@ -37,10 +36,10 @@ class CreditPartyBenefitEntity extends DtoneEntityBase<CreditPartyBenefit> {
 
 
 
-  async list(this: any, reqmatch?: CreditPartyBenefitListMatch, ctrl?: Control): Promise<CreditPartyBenefitEntity[]> {
+
+  async create(this: any, reqdata?: CreditPartyBenefitCreateData, ctrl?: Control): Promise<CreditPartyBenefitEntity> {
 
     const utility = this._utility
-
     const {
       makeContext,
       done,
@@ -57,11 +56,11 @@ class CreditPartyBenefitEntity extends DtoneEntityBase<CreditPartyBenefit> {
     let fres: Promise<any> | undefined = undefined
 
     let ctx: Context = makeContext({
-      opname: 'list',
+      opname: 'create',
       ctrl,
       match: this._match,
       data: this._data,
-      reqmatch
+      reqdata
     }, this._entctx)
 
     try {
@@ -120,12 +119,14 @@ class CreditPartyBenefitEntity extends DtoneEntityBase<CreditPartyBenefit> {
       if (fres instanceof Promise) { await fres }
 
       if (null != ctx.result) {
-        if (null != ctx.result.resmatch) {
-          this._match = ctx.result.resmatch
+        if (null != ctx.result.resdata) {
+          this._data = ctx.result.resdata
         }
       }
 
-      return done(ctx)
+      const out = done(ctx)
+
+      return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err: any) {
 
@@ -139,12 +140,11 @@ class CreditPartyBenefitEntity extends DtoneEntityBase<CreditPartyBenefit> {
       }
       else {
         // Off-happy-path (throw disabled): typed as any so the method's
-        // Promise<CreditPartyBenefit[]> return stays clean under strict null checks.
+        // Promise<CreditPartyBenefit> return stays clean under strict null checks.
         return undefined as any
       }
     }
   }
-
 
 
 

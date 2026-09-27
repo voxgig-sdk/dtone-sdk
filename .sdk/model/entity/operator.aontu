@@ -1,0 +1,167 @@
+# Entity: operator
+
+main: kit: entity: operator: {
+
+  alias: field: {}
+
+  fields: {
+    country: {
+      h: "Country"
+      n: "country"
+      r: true
+      t: "`$OBJECT`"
+    }
+    id: {
+      fo: "int32"
+      h: "Id"
+      n: "id"
+      r: true
+      sh: "Operator identifier."
+      t: "`$INTEGER`"
+    }
+    name: {
+      h: "Name"
+      n: "name"
+      r: true
+      t: "`$STRING`"
+    }
+    regions: {
+      h: "Regions"
+      n: "regions"
+      r: true
+      t: "`$ARRAY`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "operator"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /operators"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "country_iso_code"
+                or: "country_iso_code"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "service_id"
+                or: "service_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "subservice_id"
+                or: "subservice_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/operators"
+          q: {
+            exist: [
+              "country_iso_code"
+              "page"
+              "per_page"
+              "service_id"
+              "subservice_id"
+            ]
+          }
+          s: [
+            {
+              lit: "operators"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /operators/{operator_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "operator_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/operators/{operator_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              operator_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "operators"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

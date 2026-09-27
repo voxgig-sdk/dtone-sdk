@@ -1,0 +1,18 @@
+# BasicCreditPartyBenefitFlow
+
+main: kit: flow: BasicCreditPartyBenefitFlow:
+{
+  entity: "credit_party_benefit",
+  kind: "basic",
+  name: "BasicCreditPartyBenefitFlow",
+  step: [
+    {
+      i: {
+        ref: "credit_party_benefit_ref01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicCreditPartyBenefitFlow"
+}

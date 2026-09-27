@@ -1,0 +1,185 @@
+# Entity: campaign
+
+main: kit: entity: campaign: {
+
+  alias: field: {}
+
+  fields: {
+    description: {
+      h: "Description"
+      n: "description"
+      r: true
+      t: "`$STRING`"
+    }
+    end_date: {
+      fo: "date-time"
+      h: "End Date"
+      n: "end_date"
+      r: true
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      t: "`$INTEGER`"
+    }
+    products: {
+      h: "Products"
+      n: "products"
+      r: true
+      t: "`$ARRAY`"
+    }
+    start_date: {
+      fo: "date-time"
+      h: "Start Date"
+      n: "start_date"
+      r: true
+      t: "`$STRING`"
+    }
+    terms: {
+      h: "Terms"
+      n: "terms"
+      r: true
+      t: "`$STRING`"
+    }
+    title: {
+      h: "Title"
+      n: "title"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "campaign"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /campaigns"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "country_iso_code"
+                or: "country_iso_code"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "operator_id"
+                or: "operator_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "product_id"
+                or: "product_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/campaigns"
+          q: {
+            exist: [
+              "country_iso_code"
+              "operator_id"
+              "page"
+              "per_page"
+              "product_id"
+            ]
+          }
+          s: [
+            {
+              lit: "campaigns"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /campaigns/{campaign_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "campaign_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/campaigns/{campaign_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              campaign_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "campaigns"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

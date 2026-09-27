@@ -71,8 +71,8 @@ func init() {
 	core.NewCreditPartyStatusEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
 		return entity.NewCreditPartyStatusEntity(client, entopts)
 	}
-	core.NewMobileNumberLookupEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
-		return entity.NewMobileNumberLookupEntity(client, entopts)
+	core.NewMobileNumberEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewMobileNumberEntity(client, entopts)
 	}
 	core.NewOperatorEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
 		return entity.NewOperatorEntity(client, entopts)
@@ -86,8 +86,8 @@ func init() {
 	core.NewServiceEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
 		return entity.NewServiceEntity(client, entopts)
 	}
-	core.NewStatementInquiryEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
-		return entity.NewStatementInquiryEntity(client, entopts)
+	core.NewStatementEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
+		return entity.NewStatementEntity(client, entopts)
 	}
 	core.NewTransactionEntityFunc = func(client *core.DtoneSDK, entopts map[string]any) core.DtoneEntity {
 		return entity.NewTransactionEntity(client, entopts)

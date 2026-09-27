@@ -37,7 +37,7 @@ const SDK_NAME = 'DtoneSDK'
 
 // A fixture for every entity, so list()/load() resolve offline with no
 // network. Snippet client construction is rewritten to seed this.
-const TEST_SEED = {"entity":{"balance":{"test01":{"id":"test01"}},"benefit_type":{"test01":{"id":"test01"}},"campaign":{"test01":{"id":"test01"}},"country":{"test01":{"id":"test01"}},"credit_party_benefit":{"test01":{"id":"test01"}},"credit_party_status":{"test01":{"id":"test01"}},"mobile_number_lookup":{"test01":{"id":"test01"}},"operator":{"test01":{"id":"test01"}},"product":{"test01":{"id":"test01"}},"promotion":{"test01":{"id":"test01"}},"service":{"test01":{"id":"test01"}},"statement_inquiry":{"test01":{"id":"test01"}},"transaction":{"test01":{"id":"test01"}}}}
+const TEST_SEED = {"entity":{"balance":{"test01":{"id":"test01"}},"benefit_type":{"test01":{"id":"test01"}},"campaign":{"test01":{"id":"test01"}},"country":{"test01":{"id":"test01"}},"credit_party_benefit":{"test01":{"id":"test01"}},"credit_party_status":{"test01":{"id":"test01"}},"mobile_number":{"test01":{"id":"test01"}},"operator":{"test01":{"id":"test01"}},"product":{"test01":{"id":"test01"}},"promotion":{"test01":{"id":"test01"}},"service":{"test01":{"id":"test01"}},"statement":{"test01":{"id":"test01"}},"transaction":{"test01":{"id":"test01"}}}}
 const SEED_ARG = JSON.stringify(TEST_SEED)
 const SEEDED_CTOR = SDK_NAME + '.test(' + SEED_ARG + ')'
 

@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreditPartyBenefitEntity = void 0;
 const DtoneEntityBase_1 = require("../DtoneEntityBase");
-// TODO: needs Entity superclass
 class CreditPartyBenefitEntity extends DtoneEntityBase_1.DtoneEntityBase {
     constructor(client, entopts) {
         super(client, entopts);
@@ -13,18 +12,18 @@ class CreditPartyBenefitEntity extends DtoneEntityBase_1.DtoneEntityBase {
     make() {
         return new CreditPartyBenefitEntity(this._client, this.entopts());
     }
-    async list(reqmatch, ctrl) {
+    async create(reqdata, ctrl) {
         const utility = this._utility;
         const { makeContext, done, 
         // The registry name is `makeError`; `error` is the local alias.
         makeError: error, featureHook, makePoint, makeRequest, makeResponse, makeResult, makeSpec, } = utility;
         let fres = undefined;
         let ctx = makeContext({
-            opname: 'list',
+            opname: 'create',
             ctrl,
             match: this._match,
             data: this._data,
-            reqmatch
+            reqdata
         }, this._entctx);
         try {
             fres = featureHook(ctx, 'PrePoint');
@@ -72,11 +71,12 @@ class CreditPartyBenefitEntity extends DtoneEntityBase_1.DtoneEntityBase {
                 await fres;
             }
             if (null != ctx.result) {
-                if (null != ctx.result.resmatch) {
-                    this._match = ctx.result.resmatch;
+                if (null != ctx.result.resdata) {
+                    this._data = ctx.result.resdata;
                 }
             }
-            return done(ctx);
+            const out = done(ctx);
+            return (ctx.result && ctx.result.ok) ? this : out;
         }
         catch (err) {
             fres = featureHook(ctx, 'PreUnexpected');
@@ -89,7 +89,7 @@ class CreditPartyBenefitEntity extends DtoneEntityBase_1.DtoneEntityBase {
             }
             else {
                 // Off-happy-path (throw disabled): typed as any so the method's
-                // Promise<CreditPartyBenefit[]> return stays clean under strict null checks.
+                // Promise<CreditPartyBenefit> return stays clean under strict null checks.
                 return undefined;
             }
         }

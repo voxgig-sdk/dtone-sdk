@@ -67,10 +67,10 @@ class TestTransactionDirect:
         params = {}
         query = {}
         if not setup["live"]:
-            params["transaction_id"] = "direct01"
+            params["id"] = "direct01"
 
         result = client.direct({
-            "path": "transactions/{transaction_id}",
+            "path": "transactions/{id}",
             "method": "GET",
             "params": params,
             "query": query,

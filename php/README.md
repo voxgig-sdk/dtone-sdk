@@ -4,7 +4,7 @@
 
 The PHP SDK for the Dtone API — an entity-oriented client using PHP conventions.
 
-The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Balance()` — with named operations (`list`/`load`/`create`/`update`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
+The SDK exposes the API as capitalised, semantic **Entities** — for example `$client->Balance()` — with named operations (`list`/`load`/`create`) instead of raw URL paths and query strings. Working with resources and verbs keeps call sites self-describing and reduces cognitive load.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -48,20 +48,6 @@ try {
 }
 ```
 
-### 3. Load a campaign
-
-Campaign is nested under campaign, so provide the `campaign_id`.
-
-```php
-try {
-    // load() returns the ENTITY — call data_get() for the Campaign record (throws on error).
-    $campaign = $client->Campaign()->load(["campaign_id" => 1]);
-    print_r($campaign->data_get());
-} catch (\Throwable $err) {
-    echo "Error: " . $err->getMessage();
-}
-```
-
 
 ## Error handling
 
@@ -70,7 +56,7 @@ Entity operations throw a `\Throwable` on failure, so wrap them in
 
 ```php
 try {
-    $balances = $client->Balance()->list();
+    $operators = $client->Operator()->list();
 } catch (\Throwable $err) {
     echo "Error: " . $err->getMessage();
 }
@@ -137,15 +123,18 @@ print_r($fetchdef["headers"]);
 
 ### Use test mode
 
-Create a mock client for unit testing — no server required:
+Create a mock client for unit testing — no server required. Seed fixture
+data via the `entity` option so offline calls resolve without a live server:
 
 ```php
-$client = DtoneSDK::test();
+$client = DtoneSDK::test([
+    "entity" => ["operator" => ["test01" => ["id" => "test01"]]],
+]);
 
 // list() returns entity instances (throws on error);
 // call data_get() for the mock record.
-$balance = $client->Balance()->list();
-print_r(array_map(fn($item) => $item->data_get(), $balance));
+$operator = $client->Operator()->list();
+print_r(array_map(fn($item) => $item->data_get(), $operator));
 ```
 
 ### Use a custom fetch function
@@ -232,12 +221,12 @@ Creates a test-mode client with mock transport. Both arguments may be `null`.
 | `Country` | `($data): CountryEntity` | Create a Country entity instance. |
 | `CreditPartyBenefit` | `($data): CreditPartyBenefitEntity` | Create a CreditPartyBenefit entity instance. |
 | `CreditPartyStatus` | `($data): CreditPartyStatusEntity` | Create a CreditPartyStatus entity instance. |
-| `MobileNumberLookup` | `($data): MobileNumberLookupEntity` | Create a MobileNumberLookup entity instance. |
+| `MobileNumber` | `($data): MobileNumberEntity` | Create a MobileNumber entity instance. |
 | `Operator` | `($data): OperatorEntity` | Create an Operator entity instance. |
 | `Product` | `($data): ProductEntity` | Create a Product entity instance. |
 | `Promotion` | `($data): PromotionEntity` | Create a Promotion entity instance. |
 | `Service` | `($data): ServiceEntity` | Create a Service entity instance. |
-| `StatementInquiry` | `($data): StatementInquiryEntity` | Create a StatementInquiry entity instance. |
+| `Statement` | `($data): StatementEntity` | Create a Statement entity instance. |
 | `Transaction` | `($data): TransactionEntity` | Create a Transaction entity instance. |
 
 ### Entity interface
@@ -249,7 +238,6 @@ All entities share the same interface.
 | `load` | `($reqmatch, $ctrl): array` | Load a single entity by match criteria. |
 | `list` | `(?array $reqmatch = null, $ctrl): array` | List entities matching the criteria (call with no argument to list all). |
 | `create` | `($reqdata, $ctrl): array` | Create a new entity. |
-| `update` | `($reqdata, $ctrl): array` | Update an existing entity. |
 | `data_get` | `(): array` | Get entity data. |
 | `data_set` | `($data): void` | Set entity data. |
 | `match_get` | `(): array` | Get entity match criteria. |
@@ -322,6 +310,7 @@ API path: `/campaigns`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 | `iso_code` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` |  |
 | `regions` |  |
@@ -334,18 +323,12 @@ API path: `/countries`
 
 | Field | Description |
 | --- | --- |
-| `amount` | Remaining benefit amount. |
-| `country` |  |
 | `credit_party_identifier` |  |
-| `expiration_date` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | Page number |
 | `per_page` | Number of records per page |
 | `service_id` | Service identifier. |
-| `type` |  |
-| `unit` |  |
-| `unit_type` |  |
 
-Operations: List.
+Operations: Create.
 
 API path: `/lookup/credit-party-benefits`
 
@@ -358,26 +341,22 @@ API path: `/lookup/credit-party-benefits`
 | `installation_date` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
 | `service_id` | Service identifier. |
 
-Operations: Load.
+Operations: Create.
 
 API path: `/lookup/credit-party-status`
 
-#### MobileNumberLookup
+#### MobileNumber
 
 | Field | Description |
 | --- | --- |
-| `country` |  |
-| `id` | Operator identifier. |
-| `identified` | Indicates whether operator was identified as a direct match |
+| `id` |  |
 | `mobile_number` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` |  |
 | `page` | Page number |
 | `per_page` | Number of records per page |
-| `regions` |  |
 
-Operations: List.
+Operations: Create, Load.
 
-API path: `/lookup/mobile-number/{mobile_number}`
+API path: `/lookup/mobile-number`
 
 #### Operator
 
@@ -396,6 +375,7 @@ API path: `/operators`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: List, Load.
 
@@ -430,20 +410,17 @@ Operations: List, Load.
 
 API path: `/services`
 
-#### StatementInquiry
+#### Statement
 
 | Field | Description |
 | --- | --- |
 | `account_number` | Account number. |
 | `account_qualifier` |  |
-| `balance` |  |
-| `dates` |  |
 | `page` | Page number |
 | `per_page` | Number of records per page |
 | `product_id` | Product identifier. |
-| `reference` |  |
 
-Operations: List.
+Operations: Create.
 
 API path: `/lookup/statement-inquiry`
 
@@ -480,9 +457,9 @@ API path: `/lookup/statement-inquiry`
 | `statement_identifier` | Qualifying statement details for a payment transaction. |
 | `status` |  |
 
-Operations: Create, List, Load, Update.
+Operations: Create, List, Load.
 
-API path: `/async/transactions`
+API path: `/transactions/{transaction_id}/cancel`
 
 
 
@@ -569,7 +546,7 @@ Create an instance: `$campaign = $client->Campaign();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Campaign record (throws on error).
-$campaign = $client->Campaign()->load(["campaign_id" => 1]);
+$campaign = $client->Campaign()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -595,6 +572,7 @@ Create an instance: `$country = $client->Country();`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `id` | `string` |  |
 | `iso_code` | `string` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` | `string` |  |
 | `regions` | `array` |  |
@@ -603,7 +581,7 @@ Create an instance: `$country = $client->Country();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Country record (throws on error).
-$country = $client->Country()->load(["country_iso_code" => "country_iso_code"]);
+$country = $client->Country()->load(["id" => "country_id"]);
 ```
 
 #### Example: List
@@ -622,28 +600,24 @@ Create an instance: `$credit_party_benefit = $client->CreditPartyBenefit();`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `amount` | `float` | Remaining benefit amount. |
-| `country` | `array` |  |
 | `credit_party_identifier` | `array` |  |
-| `expiration_date` | `string` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | `int` | Page number |
 | `per_page` | `int` | Number of records per page |
 | `service_id` | `int` | Service identifier. |
-| `type` | `string` |  |
-| `unit` | `string` |  |
-| `unit_type` | `string` |  |
 
-#### Example: List
+#### Example: Create
 
 ```php
-// list() returns an array of CreditPartyBenefit records (throws on error).
-$credit_party_benefits = $client->CreditPartyBenefit()->list();
+$credit_party_benefit = $client->CreditPartyBenefit()->create([
+    "credit_party_identifier" => null, // array
+    "service_id" => null, // int
+]);
 ```
 
 
@@ -655,7 +629,7 @@ Create an instance: `$credit_party_status = $client->CreditPartyStatus();`
 
 | Method | Description |
 | --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -666,42 +640,51 @@ Create an instance: `$credit_party_status = $client->CreditPartyStatus();`
 | `installation_date` | `string` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
 | `service_id` | `int` | Service identifier. |
 
-#### Example: Load
+#### Example: Create
 
 ```php
-// load() returns the ENTITY — call data_get() for the CreditPartyStatus record (throws on error).
-$credit_party_status = $client->CreditPartyStatus()->load();
+$credit_party_status = $client->CreditPartyStatus()->create([
+    "activation_date" => null, // string
+    "credit_party_identifier" => null, // array
+    "installation_date" => null, // string
+    "service_id" => null, // int
+]);
 ```
 
 
-### MobileNumberLookup
+### MobileNumber
 
-Create an instance: `$mobile_number_lookup = $client->MobileNumberLookup();`
+Create an instance: `$mobile_number = $client->MobileNumber();`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country` | `array` |  |
-| `id` | `int` | Operator identifier. |
-| `identified` | `bool` | Indicates whether operator was identified as a direct match |
+| `id` | `string` |  |
 | `mobile_number` | `string` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` | `string` |  |
 | `page` | `int` | Page number |
 | `per_page` | `int` | Number of records per page |
-| `regions` | `array` |  |
 
-#### Example: List
+#### Example: Load
 
 ```php
-// list() returns an array of MobileNumberLookup records (throws on error).
-$mobile_number_lookups = $client->MobileNumberLookup()->list();
+// load() returns the ENTITY — call data_get() for the MobileNumber record (throws on error).
+$mobile_number = $client->MobileNumber()->load(["id" => "mobile_number_id"]);
+```
+
+#### Example: Create
+
+```php
+$mobile_number = $client->MobileNumber()->create([
+    "mobile_number" => null, // string
+]);
 ```
 
 
@@ -729,7 +712,7 @@ Create an instance: `$operator = $client->Operator();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Operator record (throws on error).
-$operator = $client->Operator()->load(["operator_id" => 1]);
+$operator = $client->Operator()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -751,11 +734,17 @@ Create an instance: `$product = $client->Product();`
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
 #### Example: Load
 
 ```php
 // load() returns the ENTITY — call data_get() for the Product record (throws on error).
-$product = $client->Product()->load(["product_id" => 1]);
+$product = $client->Product()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -794,7 +783,7 @@ Create an instance: `$promotion = $client->Promotion();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Promotion record (throws on error).
-$promotion = $client->Promotion()->load(["promotion_id" => 1]);
+$promotion = $client->Promotion()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -828,7 +817,7 @@ Create an instance: `$service = $client->Service();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Service record (throws on error).
-$service = $client->Service()->load(["service_id" => 1]);
+$service = $client->Service()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -839,15 +828,15 @@ $services = $client->Service()->list();
 ```
 
 
-### StatementInquiry
+### Statement
 
-Create an instance: `$statement_inquiry = $client->StatementInquiry();`
+Create an instance: `$statement = $client->Statement();`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -855,18 +844,17 @@ Create an instance: `$statement_inquiry = $client->StatementInquiry();`
 | --- | --- | --- |
 | `account_number` | `string` | Account number. |
 | `account_qualifier` | `string` |  |
-| `balance` | `array` |  |
-| `dates` | `array` |  |
 | `page` | `int` | Page number |
 | `per_page` | `int` | Number of records per page |
 | `product_id` | `int` | Product identifier. |
-| `reference` | `mixed` |  |
 
-#### Example: List
+#### Example: Create
 
 ```php
-// list() returns an array of StatementInquiry records (throws on error).
-$statement_inquirys = $client->StatementInquiry()->list();
+$statement = $client->Statement()->create([
+    "account_number" => null, // string
+    "product_id" => null, // int
+]);
 ```
 
 
@@ -881,7 +869,6 @@ Create an instance: `$transaction = $client->Transaction();`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
-| `update(data)` | Update an existing entity. |
 
 #### Fields
 
@@ -920,7 +907,7 @@ Create an instance: `$transaction = $client->Transaction();`
 
 ```php
 // load() returns the ENTITY — call data_get() for the Transaction record (throws on error).
-$transaction = $client->Transaction()->load(["transaction_id" => 1]);
+$transaction = $client->Transaction()->load(["id" => 1]);
 ```
 
 #### Example: List
@@ -954,14 +941,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -970,7 +957,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -982,7 +969,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -995,7 +982,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -1005,7 +992,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -1021,7 +1008,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -1037,7 +1024,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -1056,7 +1043,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -1066,7 +1053,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -1118,14 +1105,14 @@ with hook methods named after pipeline stages (e.g. `PrePoint`,
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.
@@ -1145,6 +1132,7 @@ Use `Helpers::to_map()` to safely validate that a value is an array.
 php/
 ├── dtone_sdk.php          -- Main SDK class
 ├── config.php                     -- Configuration
+├── schema.php                     -- Generated option + entity specs
 ├── features.php                   -- Feature factory
 ├── core/                          -- Core types and context
 ├── entity/                        -- Entity implementations
@@ -1163,11 +1151,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```php
-$balance = $client->Balance();
-$balance->list();
+$operator = $client->Operator();
+$operator->list();
 
-// $balance->data_get() now returns the balance data from the last list
-// $balance->match_get() returns the last match criteria
+// $operator->data_get() now returns the operator data from the last list
+// $operator->match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

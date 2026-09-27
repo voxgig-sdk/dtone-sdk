@@ -1,0 +1,40 @@
+# BasicMobileNumberFlow
+
+main: kit: flow: BasicMobileNumberFlow:
+{
+  entity: "mobile_number",
+  kind: "basic",
+  name: "BasicMobileNumberFlow",
+  step: [
+    {
+      i: {
+        ref: "mobile_number_ref01"
+      }
+
+      o: "create"
+    }
+
+    {
+      i: {
+        ref: "mobile_number_ref01",
+        srcdatavar: "mobile_number_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "mobile_number01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-mobile_number_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicMobileNumberFlow"
+}

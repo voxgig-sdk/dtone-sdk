@@ -27,7 +27,7 @@ class TestCreditPartyStatusEntity:
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["load"]:
+        for _op in ["create"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "credit_party_status." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
@@ -39,18 +39,13 @@ class TestCreditPartyStatusEntity:
                         "set DTONE_TEST_CREDIT_PARTY_STATUS_ENTID JSON to run live")
         client = setup["client"]
 
-        # Bootstrap entity data from existing test data.
-        credit_party_status_ref01_data_raw = vs.items(helpers.to_map(
-            vs.getpath(setup["data"], "existing.credit_party_status")))
-        credit_party_status_ref01_data = None
-        if len(credit_party_status_ref01_data_raw) > 0:
-            credit_party_status_ref01_data = helpers.to_map(credit_party_status_ref01_data_raw[0][1])
-
-        # LOAD
+        # CREATE
         credit_party_status_ref01_ent = client.CreditPartyStatus(None)
-        credit_party_status_ref01_match_dt0 = {}
-        credit_party_status_ref01_data_dt0_loaded = credit_party_status_ref01_ent.load(credit_party_status_ref01_match_dt0, None)
-        assert credit_party_status_ref01_data_dt0_loaded is not None
+        credit_party_status_ref01_data = helpers.to_map(vs.getprop(
+            vs.getpath(setup["data"], "new.credit_party_status"), "credit_party_status_ref01"))
+
+        credit_party_status_ref01_data = helpers.to_map(runner.entity_data(credit_party_status_ref01_ent.create(credit_party_status_ref01_data, None)))
+        assert credit_party_status_ref01_data is not None
 
 
 

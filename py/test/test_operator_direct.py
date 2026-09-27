@@ -67,10 +67,10 @@ class TestOperatorDirect:
         params = {}
         query = {}
         if not setup["live"]:
-            params["operator_id"] = "direct01"
+            params["id"] = "direct01"
 
         result = client.direct({
-            "path": "operators/{operator_id}",
+            "path": "operators/{id}",
             "method": "GET",
             "params": params,
             "query": query,

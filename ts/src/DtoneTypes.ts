@@ -1,7 +1,7 @@
 // Typed models for the Dtone SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 
@@ -41,7 +41,7 @@ export interface Campaign {
 }
 
 export interface CampaignLoadMatch {
-  campaign_id: number
+  id: number
 }
 
 export interface CampaignListMatch {
@@ -53,13 +53,14 @@ export interface CampaignListMatch {
 }
 
 export interface Country {
+  id?: string
   iso_code: string
   name: string
   regions: any[]
 }
 
 export interface CountryLoadMatch {
-  country_iso_code: string
+  id: string
 }
 
 export interface CountryListMatch {
@@ -70,29 +71,17 @@ export interface CountryListMatch {
 }
 
 export interface CreditPartyBenefit {
-  amount: number
-  country: Record<string, any>
   credit_party_identifier: Record<string, any>
-  expiration_date: string
   page?: number
   per_page?: number
   service_id: number
-  type: string
-  unit: string
-  unit_type: string
 }
 
-export interface CreditPartyBenefitListMatch {
-  amount?: number
-  country?: Record<string, any>
-  credit_party_identifier?: Record<string, any>
-  expiration_date?: string
+export interface CreditPartyBenefitCreateData {
+  credit_party_identifier: Record<string, any>
   page?: number
   per_page?: number
-  service_id?: number
-  type?: string
-  unit?: string
-  unit_type?: string
+  service_id: number
 }
 
 export interface CreditPartyStatus {
@@ -102,25 +91,28 @@ export interface CreditPartyStatus {
   service_id: number
 }
 
-export interface CreditPartyStatusLoadMatch {
-  activation_date?: string
-  credit_party_identifier?: Record<string, any>
-  installation_date?: string
-  service_id?: number
+export interface CreditPartyStatusCreateData {
+  activation_date: string
+  credit_party_identifier: Record<string, any>
+  installation_date: string
+  service_id: number
 }
 
-export interface MobileNumberLookup {
-  country: Record<string, any>
-  id: number
-  identified: boolean
+export interface MobileNumber {
+  id?: string
   mobile_number: string
-  name: string
   page?: number
   per_page?: number
-  regions: any[]
 }
 
-export interface MobileNumberLookupListMatch {
+export interface MobileNumberLoadMatch {
+  id: string
+  page?: number
+  per_page?: number
+}
+
+export interface MobileNumberCreateData {
+  id?: string
   mobile_number: string
   page?: number
   per_page?: number
@@ -134,7 +126,7 @@ export interface Operator {
 }
 
 export interface OperatorLoadMatch {
-  operator_id: number
+  id: number
 }
 
 export interface OperatorListMatch {
@@ -146,10 +138,11 @@ export interface OperatorListMatch {
 }
 
 export interface Product {
+  id?: string
 }
 
 export interface ProductLoadMatch {
-  product_id: number
+  id: number
 }
 
 export interface ProductListMatch {
@@ -178,7 +171,7 @@ export interface Promotion {
 }
 
 export interface PromotionLoadMatch {
-  promotion_id: number
+  id: number
 }
 
 export interface PromotionListMatch {
@@ -196,7 +189,7 @@ export interface Service {
 }
 
 export interface ServiceLoadMatch {
-  service_id: number
+  id: number
 }
 
 export interface ServiceListMatch {
@@ -205,26 +198,20 @@ export interface ServiceListMatch {
   per_page?: number
 }
 
-export interface StatementInquiry {
+export interface Statement {
   account_number: string
   account_qualifier?: string
-  balance: Record<string, any>
-  dates: Record<string, any>
   page?: number
   per_page?: number
   product_id: number
-  reference: any
 }
 
-export interface StatementInquiryListMatch {
-  account_number?: string
+export interface StatementCreateData {
+  account_number: string
   account_qualifier?: string
-  balance?: Record<string, any>
-  dates?: Record<string, any>
   page?: number
   per_page?: number
-  product_id?: number
-  reference?: any
+  product_id: number
 }
 
 export interface Transaction {
@@ -259,7 +246,7 @@ export interface Transaction {
 }
 
 export interface TransactionLoadMatch {
-  transaction_id: number
+  id: number
 }
 
 export interface TransactionListMatch {
@@ -309,45 +296,7 @@ export interface TransactionCreateData {
   status?: Record<string, any>
 
   // Selects a custom action instead of the plain create:
-  //   'asyncCreate' | 'syncCreate'
-  // The remaining keys are that action's own payload.
-  $action?: string
-  [action: string]: any
-}
-
-export interface TransactionUpdateData {
-  transaction_id: number
-  additional_identifier?: Record<string, any>
-  adjusted_values?: Record<string, any>
-  auto_confirm?: boolean
-  beneficiary?: Record<string, any>
-  benefits?: any[]
-  calculation_mode?: any
-  callback_url?: string
-  confirmation_date?: string
-  confirmation_expiration_date?: string
-  creation_date?: string
-  credit_party_identifier?: Record<string, any>
-  debit_party_identifier?: Record<string, any>
-  destination?: Record<string, any>
-  external_id?: string
-  id?: string
-  metadata?: Record<string, any>
-  operator_reference?: string
-  pin?: Record<string, any>
-  prices?: Record<string, any>
-  product?: any
-  product_id?: string
-  promotions?: any[]
-  rates?: any
-  requested_values?: Record<string, any>
-  sender?: Record<string, any>
-  source?: Record<string, any>
-  statement_identifier?: Record<string, any>
-  status?: Record<string, any>
-
-  // Selects a custom action instead of the plain update:
-  //   'cancel' | 'confirmAsync' | 'confirmSync'
+  //   'cancel' | 'confirm' | 'confirm'
   // The remaining keys are that action's own payload.
   $action?: string
   [action: string]: any

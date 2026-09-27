@@ -88,9 +88,13 @@ class TestCountryEntity:
         assert isinstance(country_ref01_list_result, list)
 
         # LOAD
-        country_ref01_match_dt0 = {}
+        country_ref01_match_dt0 = {
+            "id": country_ref01_data["id"],
+        }
         country_ref01_data_dt0_loaded = country_ref01_ent.load(country_ref01_match_dt0, None)
-        assert country_ref01_data_dt0_loaded is not None
+        country_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(country_ref01_data_dt0_loaded))
+        assert country_ref01_data_dt0_load_result is not None
+        assert country_ref01_data_dt0_load_result["id"] == country_ref01_data["id"]
 
 
 

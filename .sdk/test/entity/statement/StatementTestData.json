@@ -4,24 +4,24 @@
       "STATEMENT00": {
         "account_number": "s32",
         "account_qualifier": "s33",
-        "page": "s34",
-        "per_page": "s35",
+        "page": 52,
+        "per_page": 53,
         "product_id": "PRODUCT01",
         "id": "STATEMENT00"
       },
       "STATEMENT01": {
         "account_number": "s64",
         "account_qualifier": "s65",
-        "page": "s66",
-        "per_page": "s67",
+        "page": 102,
+        "per_page": 103,
         "product_id": "PRODUCT01",
         "id": "STATEMENT01"
       },
       "STATEMENT02": {
         "account_number": "s96",
         "account_qualifier": "s97",
-        "page": "s98",
-        "per_page": "s99",
+        "page": 152,
+        "per_page": 153,
         "product_id": "PRODUCT01",
         "id": "STATEMENT02"
       }
@@ -32,10 +32,17 @@
       "statement_ref01": {
         "account_number": "sc8",
         "account_qualifier": "sc9",
-        "page": "sca",
-        "per_page": "scb",
+        "page": 202,
+        "per_page": 203,
         "product_id": "PRODUCT01"
       }
+    }
+  },
+  "requests": {
+    "POST /lookup/statement-inquiry": {
+      "provenance": "operation-contract",
+      "version": 2,
+      "source": "openapi3"
     }
   }
 }

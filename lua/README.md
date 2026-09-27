@@ -4,7 +4,7 @@
 
 The Lua SDK for the Dtone API — an entity-oriented client using Lua conventions.
 
-It exposes the API as capitalised, semantic **Entities** — e.g. `client:Balance()` — each with the same small set of operations (`list`, `load`, `create`, `update`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
+It exposes the API as capitalised, semantic **Entities** — e.g. `client:Balance()` — each with the same small set of operations (`list`, `load`, `create`) instead of raw URL paths and query strings. You call meaning, not endpoints, which keeps the cognitive load low.
 
 > Other languages, the CLI, and MCP server live alongside this one — see
 > the [top-level README](../README.md).
@@ -45,18 +45,8 @@ local balances, err = client:Balance():list()
 if err then error(err) end
 
 for _, item in ipairs(balances) do
-  print(item["id"], item["unit"])
+  print(item["id"])
 end
-```
-
-### 3. Load a campaign
-
-Campaign is nested under campaign, so provide the `campaign_id`.
-
-```lua
-local campaign, err = client:Campaign():load({ campaign_id = 1 })
-if err then error(err) end
-print(campaign)
 ```
 
 
@@ -66,7 +56,7 @@ Entity operations return `(value, err)`. Check `err` before using
 the value:
 
 ```lua
-local balances, err = client:Balance():list()
+local operators, err = client:Operator():list()
 if err then error(err) end
 ```
 
@@ -124,7 +114,7 @@ Create a mock client for unit testing — no server required:
 ```lua
 local client = sdk.test()
 
-local result, err = client:Balance():list()
+local result, err = client:Operator():list()
 -- result is the returned data; err is set on failure
 ```
 
@@ -211,12 +201,12 @@ Creates a test-mode client with mock transport. Both arguments may be `nil`.
 | `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
 | `CreditPartyBenefit` | `(data) -> CreditPartyBenefitEntity` | Create a CreditPartyBenefit entity instance. |
 | `CreditPartyStatus` | `(data) -> CreditPartyStatusEntity` | Create a CreditPartyStatus entity instance. |
-| `MobileNumberLookup` | `(data) -> MobileNumberLookupEntity` | Create a MobileNumberLookup entity instance. |
+| `MobileNumber` | `(data) -> MobileNumberEntity` | Create a MobileNumber entity instance. |
 | `Operator` | `(data) -> OperatorEntity` | Create an Operator entity instance. |
 | `Product` | `(data) -> ProductEntity` | Create a Product entity instance. |
 | `Promotion` | `(data) -> PromotionEntity` | Create a Promotion entity instance. |
 | `Service` | `(data) -> ServiceEntity` | Create a Service entity instance. |
-| `StatementInquiry` | `(data) -> StatementInquiryEntity` | Create a StatementInquiry entity instance. |
+| `Statement` | `(data) -> StatementEntity` | Create a Statement entity instance. |
 | `Transaction` | `(data) -> TransactionEntity` | Create a Transaction entity instance. |
 
 ### Entity interface
@@ -228,7 +218,6 @@ All entities share the same interface.
 | `load` | `(reqmatch, ctrl) -> any, err` | Load a single entity by match criteria. |
 | `list` | `(reqmatch, ctrl) -> any, err` | List entities matching the criteria. |
 | `create` | `(reqdata, ctrl) -> any, err` | Create a new entity. |
-| `update` | `(reqdata, ctrl) -> any, err` | Update an existing entity. |
 | `data_get` | `() -> table` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> table` | Get entity match criteria. |
@@ -243,12 +232,12 @@ data **directly** — there is no wrapper:
 
 | Operation | `value` |
 | --- | --- |
-| `load` / `create` / `update` | the entity record (a `table`) |
+| `load` / `create` | the entity record (a `table`) |
 | `list` | an array (`table`) of entity records |
 
 Check `err` first (it is non-`nil` on failure), then use `value`:
 
-    local campaign, err = client:Campaign():load()
+    local campaign, err = client:Campaign():load({ id = "example_id" })
     if err then error(err) end
     -- campaign is the loaded record
 
@@ -302,6 +291,7 @@ API path: `/campaigns`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 | `iso_code` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` |  |
 | `regions` |  |
@@ -314,18 +304,12 @@ API path: `/countries`
 
 | Field | Description |
 | --- | --- |
-| `amount` | Remaining benefit amount. |
-| `country` |  |
 | `credit_party_identifier` |  |
-| `expiration_date` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | Page number |
 | `per_page` | Number of records per page |
 | `service_id` | Service identifier. |
-| `type` |  |
-| `unit` |  |
-| `unit_type` |  |
 
-Operations: List.
+Operations: Create.
 
 API path: `/lookup/credit-party-benefits`
 
@@ -338,26 +322,22 @@ API path: `/lookup/credit-party-benefits`
 | `installation_date` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
 | `service_id` | Service identifier. |
 
-Operations: Load.
+Operations: Create.
 
 API path: `/lookup/credit-party-status`
 
-#### MobileNumberLookup
+#### MobileNumber
 
 | Field | Description |
 | --- | --- |
-| `country` |  |
-| `id` | Operator identifier. |
-| `identified` | Indicates whether operator was identified as a direct match |
+| `id` |  |
 | `mobile_number` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` |  |
 | `page` | Page number |
 | `per_page` | Number of records per page |
-| `regions` |  |
 
-Operations: List.
+Operations: Create, Load.
 
-API path: `/lookup/mobile-number/{mobile_number}`
+API path: `/lookup/mobile-number`
 
 #### Operator
 
@@ -376,6 +356,7 @@ API path: `/operators`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: List, Load.
 
@@ -410,20 +391,17 @@ Operations: List, Load.
 
 API path: `/services`
 
-#### StatementInquiry
+#### Statement
 
 | Field | Description |
 | --- | --- |
 | `account_number` | Account number. |
 | `account_qualifier` |  |
-| `balance` |  |
-| `dates` |  |
 | `page` | Page number |
 | `per_page` | Number of records per page |
 | `product_id` | Product identifier. |
-| `reference` |  |
 
-Operations: List.
+Operations: Create.
 
 API path: `/lookup/statement-inquiry`
 
@@ -460,9 +438,9 @@ API path: `/lookup/statement-inquiry`
 | `statement_identifier` | Qualifying statement details for a payment transaction. |
 | `status` |  |
 
-Operations: Create, List, Load, Update.
+Operations: Create, List, Load.
 
-API path: `/async/transactions`
+API path: `/transactions/{transaction_id}/cancel`
 
 
 
@@ -546,7 +524,7 @@ Create an instance: `local campaign = client:Campaign(nil)`
 #### Example: Load
 
 ```lua
-local campaign, err = client:Campaign():load({ campaign_id = 1 })
+local campaign, err = client:Campaign():load({ id = 1 })
 ```
 
 #### Example: List
@@ -571,6 +549,7 @@ Create an instance: `local country = client:Country(nil)`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `id` | `string` |  |
 | `iso_code` | `string` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` | `string` |  |
 | `regions` | `table` |  |
@@ -578,7 +557,7 @@ Create an instance: `local country = client:Country(nil)`
 #### Example: Load
 
 ```lua
-local country, err = client:Country():load({ country_iso_code = "country_iso_code" })
+local country, err = client:Country():load({ id = "country_id" })
 ```
 
 #### Example: List
@@ -596,27 +575,24 @@ Create an instance: `local credit_party_benefit = client:CreditPartyBenefit(nil)
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `amount` | `number` | Remaining benefit amount. |
-| `country` | `table` |  |
 | `credit_party_identifier` | `table` |  |
-| `expiration_date` | `string` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | `number` | Page number |
 | `per_page` | `number` | Number of records per page |
 | `service_id` | `number` | Service identifier. |
-| `type` | `string` |  |
-| `unit` | `string` |  |
-| `unit_type` | `string` |  |
 
-#### Example: List
+#### Example: Create
 
 ```lua
-local credit_party_benefits, err = client:CreditPartyBenefit():list()
+local credit_party_benefit, err = client:CreditPartyBenefit():create({
+  credit_party_identifier = {}, -- table
+  service_id = 1, -- number
+})
 ```
 
 
@@ -628,7 +604,7 @@ Create an instance: `local credit_party_status = client:CreditPartyStatus(nil)`
 
 | Method | Description |
 | --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -639,40 +615,50 @@ Create an instance: `local credit_party_status = client:CreditPartyStatus(nil)`
 | `installation_date` | `string` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
 | `service_id` | `number` | Service identifier. |
 
-#### Example: Load
+#### Example: Create
 
 ```lua
-local credit_party_status, err = client:CreditPartyStatus():load()
+local credit_party_status, err = client:CreditPartyStatus():create({
+  activation_date = "example_activation_date", -- string
+  credit_party_identifier = {}, -- table
+  installation_date = "example_installation_date", -- string
+  service_id = 1, -- number
+})
 ```
 
 
-### MobileNumberLookup
+### MobileNumber
 
-Create an instance: `local mobile_number_lookup = client:MobileNumberLookup(nil)`
+Create an instance: `local mobile_number = client:MobileNumber(nil)`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country` | `table` |  |
-| `id` | `number` | Operator identifier. |
-| `identified` | `boolean` | Indicates whether operator was identified as a direct match |
+| `id` | `string` |  |
 | `mobile_number` | `string` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` | `string` |  |
 | `page` | `number` | Page number |
 | `per_page` | `number` | Number of records per page |
-| `regions` | `table` |  |
 
-#### Example: List
+#### Example: Load
 
 ```lua
-local mobile_number_lookups, err = client:MobileNumberLookup():list()
+local mobile_number, err = client:MobileNumber():load({ id = "mobile_number_id" })
+```
+
+#### Example: Create
+
+```lua
+local mobile_number, err = client:MobileNumber():create({
+  mobile_number = "example_mobile_number", -- string
+})
 ```
 
 
@@ -699,7 +685,7 @@ Create an instance: `local operator = client:Operator(nil)`
 #### Example: Load
 
 ```lua
-local operator, err = client:Operator():load({ operator_id = 1 })
+local operator, err = client:Operator():load({ id = 1 })
 ```
 
 #### Example: List
@@ -720,10 +706,16 @@ Create an instance: `local product = client:Product(nil)`
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
 #### Example: Load
 
 ```lua
-local product, err = client:Product():load({ product_id = 1 })
+local product, err = client:Product():load({ id = 1 })
 ```
 
 #### Example: List
@@ -760,7 +752,7 @@ Create an instance: `local promotion = client:Promotion(nil)`
 #### Example: Load
 
 ```lua
-local promotion, err = client:Promotion():load({ promotion_id = 1 })
+local promotion, err = client:Promotion():load({ id = 1 })
 ```
 
 #### Example: List
@@ -792,7 +784,7 @@ Create an instance: `local service = client:Service(nil)`
 #### Example: Load
 
 ```lua
-local service, err = client:Service():load({ service_id = 1 })
+local service, err = client:Service():load({ id = 1 })
 ```
 
 #### Example: List
@@ -802,15 +794,15 @@ local services, err = client:Service():list()
 ```
 
 
-### StatementInquiry
+### Statement
 
-Create an instance: `local statement_inquiry = client:StatementInquiry(nil)`
+Create an instance: `local statement = client:Statement(nil)`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -818,17 +810,17 @@ Create an instance: `local statement_inquiry = client:StatementInquiry(nil)`
 | --- | --- | --- |
 | `account_number` | `string` | Account number. |
 | `account_qualifier` | `string` |  |
-| `balance` | `table` |  |
-| `dates` | `table` |  |
 | `page` | `number` | Page number |
 | `per_page` | `number` | Number of records per page |
 | `product_id` | `number` | Product identifier. |
-| `reference` | `any` |  |
 
-#### Example: List
+#### Example: Create
 
 ```lua
-local statement_inquirys, err = client:StatementInquiry():list()
+local statement, err = client:Statement():create({
+  account_number = "example_account_number", -- string
+  product_id = 1, -- number
+})
 ```
 
 
@@ -843,7 +835,6 @@ Create an instance: `local transaction = client:Transaction(nil)`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
-| `update(data)` | Update an existing entity. |
 
 #### Fields
 
@@ -881,7 +872,7 @@ Create an instance: `local transaction = client:Transaction(nil)`
 #### Example: Load
 
 ```lua
-local transaction, err = client:Transaction():load({ transaction_id = 1 })
+local transaction, err = client:Transaction():load({ id = 1 })
 ```
 
 #### Example: List
@@ -914,14 +905,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -930,7 +921,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -942,7 +933,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -955,7 +946,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -965,7 +956,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -981,7 +972,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -997,7 +988,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -1016,7 +1007,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -1026,7 +1017,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -1078,14 +1069,14 @@ with hook methods named after pipeline stages (e.g. `PrePoint`,
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.
@@ -1105,6 +1096,7 @@ Use `helpers.to_map()` to safely validate that a value is a table.
 lua/
 ├── dtone_sdk.lua    -- Main SDK module
 ├── config.lua               -- Configuration
+├── schema.lua               -- Generated option + entity specs
 ├── features.lua             -- Feature factory
 ├── core/                    -- Core types and context
 ├── entity/                  -- Entity implementations
@@ -1123,11 +1115,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```lua
-local balance = client:Balance()
-balance:list()
+local operator = client:Operator()
+operator:list()
 
--- balance:data_get() now returns the balance data from the last list
--- balance:match_get() returns the last match criteria
+-- operator:data_get() now returns the operator data from the last list
+-- operator:match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

@@ -46,11 +46,16 @@ class TestMobileNumberEntity:
 
         mobile_number_ref01_data = helpers.to_map(runner.entity_data(mobile_number_ref01_ent.create(mobile_number_ref01_data, None)))
         assert mobile_number_ref01_data is not None
+        assert mobile_number_ref01_data["id"] is not None
 
         # LOAD
-        mobile_number_ref01_match_dt0 = {}
+        mobile_number_ref01_match_dt0 = {
+            "id": mobile_number_ref01_data["id"],
+        }
         mobile_number_ref01_data_dt0_loaded = mobile_number_ref01_ent.load(mobile_number_ref01_match_dt0, None)
-        assert mobile_number_ref01_data_dt0_loaded is not None
+        mobile_number_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(mobile_number_ref01_data_dt0_loaded))
+        assert mobile_number_ref01_data_dt0_load_result is not None
+        assert mobile_number_ref01_data_dt0_load_result["id"] == mobile_number_ref01_data["id"]
 
 
 
@@ -90,7 +95,7 @@ def _mobile_number_basic_setup(extra):
         "DTONE_TEST_MOBILE_NUMBER_ENTID": idmap,
         "DTONE_TEST_LIVE": "FALSE",
         "DTONE_TEST_EXPLAIN": "FALSE",
-        "DTONE_APIKEY": "NONE",
+        "DTONE_APIKEY": "",
     })
 
     idmap_resolved = helpers.to_map(
@@ -100,6 +105,10 @@ def _mobile_number_basic_setup(extra):
 
     if env.get("DTONE_TEST_LIVE") == "TRUE":
         merged_opts = vs.merge([
+            # FIRST, so the generated fields below win: sdk-test-control.json's
+            # test.client.options adds to the live client, it does not
+            # redirect it.
+            runner.live_client_options(),
             {
                 "apikey": env.get("DTONE_APIKEY"),
             },

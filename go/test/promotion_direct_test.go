@@ -115,13 +115,12 @@ func TestPromotionDirect(t *testing.T) {
 			}
 			firstEnt := core.ToMapAny(listData[0])
 			params["id"] = firstEnt["id"]
-			params["promotion_id"] = setup.idmap["promotion01"]
 		} else {
-			params["promotion_id"] = "direct01"
+			params["id"] = "direct01"
 		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "promotions/{promotion_id}",
+			"path":   "promotions/{id}",
 			"method": "GET",
 			"params": params,
 			"query":  query,

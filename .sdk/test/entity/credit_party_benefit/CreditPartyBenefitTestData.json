@@ -2,313 +2,43 @@
   "existing": {
     "credit_party_benefit": {
       "CREDIT_PARTY_BENEFIT00": {
-        "amount": 100,
-        "country": {},
         "credit_party_identifier": {},
-        "expiration_date": "s67",
-        "page": 104,
-        "per_page": 105,
+        "page": 41,
+        "per_page": 42,
         "service_id": "SERVICE01",
-        "type": "s6b",
-        "unit": "s6c",
-        "unit_type": "s6d"
+        "id": "CREDIT_PARTY_BENEFIT00"
       },
       "CREDIT_PARTY_BENEFIT01": {
-        "amount": 200,
-        "country": {},
         "credit_party_identifier": {},
-        "expiration_date": "scb",
-        "page": 204,
-        "per_page": 205,
+        "page": 81,
+        "per_page": 82,
         "service_id": "SERVICE01",
-        "type": "scf",
-        "unit": "sd0",
-        "unit_type": "sd1"
+        "id": "CREDIT_PARTY_BENEFIT01"
       },
       "CREDIT_PARTY_BENEFIT02": {
-        "amount": 300,
-        "country": {},
         "credit_party_identifier": {},
-        "expiration_date": "s12f",
-        "page": 304,
-        "per_page": 305,
+        "page": 121,
+        "per_page": 122,
         "service_id": "SERVICE01",
-        "type": "s133",
-        "unit": "s134",
-        "unit_type": "s135"
+        "id": "CREDIT_PARTY_BENEFIT02"
       }
     }
   },
   "new": {
     "credit_party_benefit": {
       "credit_party_benefit_ref01": {
-        "amount": 400,
-        "country": {},
         "credit_party_identifier": {},
-        "expiration_date": "s193",
-        "page": 404,
-        "per_page": 405,
-        "service_id": "SERVICE01",
-        "type": "s197",
-        "unit": "s198",
-        "unit_type": "s199"
+        "page": 161,
+        "per_page": 162,
+        "service_id": "SERVICE01"
       }
     }
   },
   "requests": {
     "POST /lookup/credit-party-benefits": {
       "provenance": "operation-contract",
-      "contract": {
-        "operationId": "postLookupCreditPartyBenefits",
-        "parameters": [],
-        "protocol": "http",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "properties": {
-                  "credit_party_identifier": {
-                    "minProperties": 1,
-                    "properties": {
-                      "account_number": {
-                        "description": "Account number.",
-                        "maxLength": 90,
-                        "minLength": 1,
-                        "pattern": "\\S",
-                        "type": "string"
-                      },
-                      "account_qualifier": {
-                        "minLength": 1,
-                        "pattern": "\\S",
-                        "type": "string"
-                      },
-                      "mobile_number": {
-                        "description": "Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format.",
-                        "pattern": "^\\+[1-9][0-9]{6,14}$",
-                        "type": "string"
-                      }
-                    },
-                    "type": "object"
-                  },
-                  "page": {
-                    "default": 1,
-                    "description": "Page number",
-                    "format": "int32",
-                    "minimum": 1,
-                    "type": "integer"
-                  },
-                  "per_page": {
-                    "default": 50,
-                    "description": "Number of records per page",
-                    "format": "int32",
-                    "maximum": 100,
-                    "minimum": 1,
-                    "type": "integer"
-                  },
-                  "service_id": {
-                    "description": "Service identifier. See [Services](#tags/Services) for more details.",
-                    "format": "int32",
-                    "minimum": 1,
-                    "type": "integer"
-                  }
-                },
-                "required": [
-                  "service_id",
-                  "credit_party_identifier"
-                ],
-                "type": "object"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "additionalProperties": false,
-                    "properties": {
-                      "amount": {
-                        "default": 0,
-                        "description": "Remaining benefit amount. A value of `-1` indicates an unlimited benefit (e.g. unlimited data, calls, or SMS).",
-                        "format": "double",
-                        "type": "number"
-                      },
-                      "country": {
-                        "additionalProperties": false,
-                        "properties": {
-                          "iso_code": {
-                            "description": "Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. Note that the official list can be extended with additional country codes.",
-                            "pattern": "^[A-Z]{3}$",
-                            "type": "string"
-                          },
-                          "name": {
-                            "type": "string"
-                          },
-                          "regions": {
-                            "items": {
-                              "additionalProperties": false,
-                              "properties": {
-                                "code": {
-                                  "description": "Country subregion code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. Note that the official list can be extended with additional country codes.",
-                                  "pattern": "^[A-Z]{2,3}(?:-[A-Z0-9]{2,3}(?:-[A-Z]{2})?)?$",
-                                  "type": "string"
-                                },
-                                "name": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "name",
-                                "code"
-                              ],
-                              "type": "object"
-                            },
-                            "nullable": true,
-                            "type": "array"
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "iso_code",
-                          "regions"
-                        ],
-                        "type": "object"
-                      },
-                      "expiration_date": {
-                        "description": "A `null` value denotes either no expiration applies or that the product benefit has not yet been activated.",
-                        "format": "date-time",
-                        "nullable": true,
-                        "type": "string"
-                      },
-                      "type": {
-                        "enum": [
-                          "TALKTIME",
-                          "DATA",
-                          "SMS",
-                          "PAYMENT",
-                          "CREDITS"
-                        ],
-                        "type": "string"
-                      },
-                      "unit": {
-                        "type": "string"
-                      },
-                      "unit_type": {
-                        "enum": [
-                          "TIME",
-                          "DATA",
-                          "QUANTITY",
-                          "CURRENCY"
-                        ],
-                        "type": "string"
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "unit_type",
-                      "unit",
-                      "amount",
-                      "expiration_date",
-                      "country"
-                    ],
-                    "type": "object"
-                  },
-                  "type": "array"
-                }
-              }
-            },
-            "description": "successful operation",
-            "headers": {
-              "X-Next-Page": {
-                "description": "Next page number (if any).",
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "X-Page": {
-                "description": "Current page number.",
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "X-Per-Page": {
-                "description": "Number of records per page",
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "X-Prev-Page": {
-                "description": "Previous page number (if any).",
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "X-Total": {
-                "description": "Total number of records.",
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "X-Total-Pages": {
-                "description": "Total number of pages.",
-                "schema": {
-                  "type": "integer"
-                }
-              }
-            }
-          },
-          "default": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "errors": {
-                      "items": {
-                        "additionalProperties": false,
-                        "properties": {
-                          "code": {
-                            "type": "integer"
-                          },
-                          "message": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "code",
-                          "message"
-                        ],
-                        "type": "object"
-                      },
-                      "type": "array"
-                    }
-                  },
-                  "required": [
-                    "errors"
-                  ],
-                  "type": "object"
-                }
-              }
-            },
-            "description": "default error response"
-          }
-        },
-        "security": [
-          {
-            "BasicAuth": []
-          }
-        ],
-        "securitySchemes": {
-          "BasicAuth": {
-            "description": "The Digital Value Services API requires requests to be authenticated through individualized API keys. You can view and manage your API keys in [DT Shop](https://dtshop.dtone.com/).\n\nYour API keys carry many privileges, so please keep them secure! Do not share your secret API keys in publicly-accessible areas such as [GitHub](https://github.com/), client-side code, and so forth.\n\nAuthentication to the API is performed via [HTTP Basic Auth](https://tools.ietf.org/html/rfc7235). Provide your API key as the basic auth username value and your API secret as your password.\n\nExcept when site-to-site VPN is set up, all API requests must be made over [HTTPS](http://en.wikipedia.org/wiki/HTTP_Secure) with TLS 1.2.\n\nOn a side note, we strongly recommend securing your applications against common security flaws by employing best practices such as the [OWASP Top 10](https://www.owasp.org/index.php/Category:OWASP_Top_Ten_Project).\n",
-            "scheme": "basic",
-            "type": "http"
-          }
-        },
-        "securitySource": "definition"
-      }
+      "version": 2,
+      "source": "openapi3"
     }
   }
 }

@@ -20,7 +20,7 @@ local SDK_MODULE = "dtone_sdk"
 -- A test-mode client seeded with a fixture for every entity. The constructor
 -- of each runnable snippet is rewritten to this form so the offline mock has
 -- data to return.
-local TEST_SEED = '{ entity = { ["balance"] = { ["test01"] = { id = "test01" } }, ["benefit_type"] = { ["test01"] = { id = "test01" } }, ["campaign"] = { ["test01"] = { id = "test01" } }, ["country"] = { ["test01"] = { id = "test01" } }, ["credit_party_benefit"] = { ["test01"] = { id = "test01" } }, ["credit_party_status"] = { ["test01"] = { id = "test01" } }, ["mobile_number_lookup"] = { ["test01"] = { id = "test01" } }, ["operator"] = { ["test01"] = { id = "test01" } }, ["product"] = { ["test01"] = { id = "test01" } }, ["promotion"] = { ["test01"] = { id = "test01" } }, ["service"] = { ["test01"] = { id = "test01" } }, ["statement_inquiry"] = { ["test01"] = { id = "test01" } }, ["transaction"] = { ["test01"] = { id = "test01" } } } }'
+local TEST_SEED = '{ entity = { ["balance"] = { ["test01"] = { id = "test01" } }, ["benefit_type"] = { ["test01"] = { id = "test01" } }, ["campaign"] = { ["test01"] = { id = "test01" } }, ["country"] = { ["test01"] = { id = "test01" } }, ["credit_party_benefit"] = { ["test01"] = { id = "test01" } }, ["credit_party_status"] = { ["test01"] = { id = "test01" } }, ["mobile_number"] = { ["test01"] = { id = "test01" } }, ["operator"] = { ["test01"] = { id = "test01" } }, ["product"] = { ["test01"] = { id = "test01" } }, ["promotion"] = { ["test01"] = { id = "test01" } }, ["service"] = { ["test01"] = { id = "test01" } }, ["statement"] = { ["test01"] = { id = "test01" } }, ["transaction"] = { ["test01"] = { id = "test01" } } } }'
 local TEST_CTOR = "sdk.test(" .. TEST_SEED .. ")"
 
 local function script_dir()

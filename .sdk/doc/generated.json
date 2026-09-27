@@ -1,7 +1,18 @@
 {
+  "version": 2,
+  "roots": [
+    ".github/workflows/docgen.yml",
+    ".sdk/admin/setup-github-pages.sh",
+    ".sdk/doc/generated.json",
+    ".sdk/doc/qa",
+    ".sdk/doc/qa-manifest.json",
+    "SUMMARY.md",
+    "docs"
+  ],
   "files": [
     ".github/workflows/docgen.yml",
     ".sdk/admin/setup-github-pages.sh",
+    ".sdk/doc/generated.json",
     ".sdk/doc/qa-manifest.json",
     ".sdk/doc/qa/STYLE-GUIDE.md",
     ".sdk/doc/qa/pages-job.yml",
@@ -19,12 +30,12 @@
     "docs/api/credit_party_benefit.html",
     "docs/api/credit_party_status.html",
     "docs/api/index.html",
-    "docs/api/mobile_number_lookup.html",
+    "docs/api/mobile_number.html",
     "docs/api/operator.html",
     "docs/api/product.html",
     "docs/api/promotion.html",
     "docs/api/service.html",
-    "docs/api/statement_inquiry.html",
+    "docs/api/statement.html",
     "docs/api/transaction.html",
     "docs/assets/nunito.woff2",
     "docs/assets/nunito.woff2.license.txt",

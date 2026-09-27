@@ -1,10 +1,10 @@
 import { DtoneEntityBase } from '../DtoneEntityBase';
 import type { DtoneSDK } from '../DtoneSDK';
 import type { Control } from '../types';
-import type { CreditPartyBenefit, CreditPartyBenefitListMatch } from '../DtoneTypes';
+import type { CreditPartyBenefit, CreditPartyBenefitCreateData } from '../DtoneTypes';
 declare class CreditPartyBenefitEntity extends DtoneEntityBase<CreditPartyBenefit> {
     constructor(client: DtoneSDK, entopts: any);
     make(this: CreditPartyBenefitEntity): CreditPartyBenefitEntity;
-    list(this: any, reqmatch?: CreditPartyBenefitListMatch, ctrl?: Control): Promise<CreditPartyBenefitEntity[]>;
+    create(this: any, reqdata?: CreditPartyBenefitCreateData, ctrl?: Control): Promise<CreditPartyBenefitEntity>;
 }
 export { CreditPartyBenefitEntity };

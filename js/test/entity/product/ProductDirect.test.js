@@ -54,13 +54,13 @@ describe('ProductDirect', async () => {
         throw new Error('Live load blocked: discovery returned no usable entities')
       }
       params.id = listData[0].id
-      params.product_id = setup.idmap['product01']
+
     } else {
-      params.product_id = 'direct01'
+      params.id = 'direct01'
     }
 
     const result = await client.direct({
-      path: 'products/{product_id}',
+      path: 'products/{id}',
       method: 'GET',
       params,
     })

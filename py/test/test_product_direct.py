@@ -67,10 +67,10 @@ class TestProductDirect:
         params = {}
         query = {}
         if not setup["live"]:
-            params["product_id"] = "direct01"
+            params["id"] = "direct01"
 
         result = client.direct({
-            "path": "products/{product_id}",
+            "path": "products/{id}",
             "method": "GET",
             "params": params,
             "query": query,

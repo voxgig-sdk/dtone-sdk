@@ -1,0 +1,125 @@
+# Entity: balance
+
+main: kit: entity: balance: {
+
+  alias: field: {}
+
+  fields: {
+    available: {
+      fo: "double"
+      h: "Available"
+      n: "available"
+      r: true
+      t: "`$NUMBER`"
+    }
+    credit_limit: {
+      fo: "double"
+      h: "Credit Limit"
+      n: "credit_limit"
+      r: true
+      t: "`$NUMBER`"
+    }
+    holding: {
+      fo: "double"
+      h: "Holding"
+      n: "holding"
+      r: true
+      t: "`$NUMBER`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      t: "`$INTEGER`"
+    }
+    unit: {
+      h: "Unit"
+      n: "unit"
+      r: true
+      t: "`$STRING`"
+    }
+    unit_type: {
+      h: "Unit Type"
+      n: "unit_type"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "balance"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /balances"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "unit"
+                or: "unit"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "unit_type"
+                or: "unit_type"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/balances"
+          q: {
+            exist: [
+              "page"
+              "per_page"
+              "unit"
+              "unit_type"
+            ]
+          }
+          s: [
+            {
+              lit: "balances"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

@@ -121,13 +121,19 @@ func TestProductEntity(t *testing.T) {
 		}
 
 		// LOAD
-		productRef01MatchDt0 := map[string]any{}
+		productRef01MatchDt0 := map[string]any{
+			"id": productRef01Data["id"],
+		}
 		productRef01DataDt0Loaded, err := productRef01Ent.Load(productRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if productRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		productRef01DataDt0LoadResult := core.ToMapAny(entityData(productRef01DataDt0Loaded))
+		if productRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if productRef01DataDt0LoadResult["id"] != productRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})

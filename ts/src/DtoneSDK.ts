@@ -6,12 +6,12 @@ import { CampaignEntity } from './entity/CampaignEntity'
 import { CountryEntity } from './entity/CountryEntity'
 import { CreditPartyBenefitEntity } from './entity/CreditPartyBenefitEntity'
 import { CreditPartyStatusEntity } from './entity/CreditPartyStatusEntity'
-import { MobileNumberLookupEntity } from './entity/MobileNumberLookupEntity'
+import { MobileNumberEntity } from './entity/MobileNumberEntity'
 import { OperatorEntity } from './entity/OperatorEntity'
 import { ProductEntity } from './entity/ProductEntity'
 import { PromotionEntity } from './entity/PromotionEntity'
 import { ServiceEntity } from './entity/ServiceEntity'
-import { StatementInquiryEntity } from './entity/StatementInquiryEntity'
+import { StatementEntity } from './entity/StatementEntity'
 import { TransactionEntity } from './entity/TransactionEntity'
 
 export type * from './DtoneTypes'
@@ -136,7 +136,6 @@ class DtoneSDK {
 
     const options = this._options
 
-    // Build spec directly from SDK options + user-provided fetch args.
     const spec: any = {
       base: options.base,
       prefix: options.prefix,
@@ -152,7 +151,6 @@ class DtoneSDK {
 
     ctx.spec = spec
 
-    // Merge user-provided headers over SDK defaults.
     if (fetchargs.headers) {
       const uheaders = fetchargs.headers
       for (let key in uheaders) {
@@ -162,7 +160,6 @@ class DtoneSDK {
 
     
 
-    // Apply SDK auth (apikey, auth prefix, etc.)
     const authResult = prepareAuth(ctx)
     if (authResult instanceof Error) {
       return authResult
@@ -255,18 +252,6 @@ class DtoneSDK {
 
 
 
-  // Raw GraphQL access: the pressure valve that makes the generated
-  // surface's deliberate omissions (per-call selection sets, typed filter
-  // builders, batching, subscriptions) livable — the whole schema stays
-  // reachable.
-  //
-  // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-  // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-  // HTTP 200 as a top-level `errors` array, so status alone would report a
-  // failed query as ok.
-  //
-  // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-  // ratelimit or paging features apply.
   async graphql(query: string, variables?: any, ctrl?: any) {
     const options = this._options
 
@@ -363,12 +348,12 @@ class DtoneSDK {
   }
 
 
-  // Entity access: `client.MobileNumberLookup().list()` / `client.MobileNumberLookup().load({ id })`.
+  // Entity access: `client.MobileNumber().list()` / `client.MobileNumber().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  MobileNumberLookup(entopts?: Record<string, any>) {
+  MobileNumber(entopts?: Record<string, any>) {
     const self = this
-    return new MobileNumberLookupEntity(self, entopts)
+    return new MobileNumberEntity(self, entopts)
   }
 
 
@@ -408,12 +393,12 @@ class DtoneSDK {
   }
 
 
-  // Entity access: `client.StatementInquiry().list()` / `client.StatementInquiry().load({ id })`.
+  // Entity access: `client.Statement().list()` / `client.Statement().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  StatementInquiry(entopts?: Record<string, any>) {
+  Statement(entopts?: Record<string, any>) {
     const self = this
-    return new StatementInquiryEntity(self, entopts)
+    return new StatementEntity(self, entopts)
   }
 
 

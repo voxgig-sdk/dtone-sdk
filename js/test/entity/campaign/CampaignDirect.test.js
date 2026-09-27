@@ -54,13 +54,13 @@ describe('CampaignDirect', async () => {
         throw new Error('Live load blocked: discovery returned no usable entities')
       }
       params.id = listData[0].id
-      params.campaign_id = setup.idmap['campaign01']
+
     } else {
-      params.campaign_id = 'direct01'
+      params.id = 'direct01'
     }
 
     const result = await client.direct({
-      path: 'campaigns/{campaign_id}',
+      path: 'campaigns/{id}',
       method: 'GET',
       params,
     })

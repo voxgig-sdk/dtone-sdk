@@ -115,13 +115,12 @@ func TestCampaignDirect(t *testing.T) {
 			}
 			firstEnt := core.ToMapAny(listData[0])
 			params["id"] = firstEnt["id"]
-			params["campaign_id"] = setup.idmap["campaign01"]
 		} else {
-			params["campaign_id"] = "direct01"
+			params["id"] = "direct01"
 		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "campaigns/{campaign_id}",
+			"path":   "campaigns/{id}",
 			"method": "GET",
 			"params": params,
 			"query":  query,

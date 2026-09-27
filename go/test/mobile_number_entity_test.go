@@ -52,7 +52,7 @@ func TestMobileNumberEntity(t *testing.T) {
 		// CREATE
 		mobileNumberRef01Ent := client.MobileNumber(nil)
 		mobileNumberRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "mobile_number"}, setup.data), "mobile_number_ref01"))
+			vs.GetPath(setup.data, []any{"new", "mobile_number"}), "mobile_number_ref01"))
 
 		mobileNumberRef01DataResult, err := mobileNumberRef01Ent.Create(mobileNumberRef01Data, nil)
 		if err != nil {
@@ -62,15 +62,24 @@ func TestMobileNumberEntity(t *testing.T) {
 		if mobileNumberRef01Data == nil {
 			t.Fatal("expected create result to be a map")
 		}
+		if mobileNumberRef01Data["id"] == nil {
+			t.Fatal("expected created entity to have an id")
+		}
 
 		// LOAD
-		mobileNumberRef01MatchDt0 := map[string]any{}
+		mobileNumberRef01MatchDt0 := map[string]any{
+			"id": mobileNumberRef01Data["id"],
+		}
 		mobileNumberRef01DataDt0Loaded, err := mobileNumberRef01Ent.Load(mobileNumberRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if mobileNumberRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		mobileNumberRef01DataDt0LoadResult := core.ToMapAny(entityData(mobileNumberRef01DataDt0Loaded))
+		if mobileNumberRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if mobileNumberRef01DataDt0LoadResult["id"] != mobileNumberRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})
@@ -100,7 +109,7 @@ func mobile_numberBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"mobile_number01", "mobile_number02", "mobile_number03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -120,7 +129,7 @@ func mobile_numberBasicSetup(extra map[string]any) *entityTestSetup {
 		"DTONE_TEST_MOBILE_NUMBER_ENTID": idmap,
 		"DTONE_TEST_LIVE":      "FALSE",
 		"DTONE_TEST_EXPLAIN":   "FALSE",
-		"DTONE_APIKEY":         "NONE",
+		"DTONE_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["DTONE_TEST_MOBILE_NUMBER_ENTID"])
@@ -129,11 +138,23 @@ func mobile_numberBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["DTONE_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["DTONE_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewDtoneSDK(core.ToMapAny(mergedOpts))
 	}

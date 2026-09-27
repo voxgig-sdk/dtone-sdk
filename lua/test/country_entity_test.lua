@@ -92,10 +92,14 @@ describe("CountryEntity", function()
     assert.is_table(country_ref01_list_result)
 
     -- LOAD
-    local country_ref01_match_dt0 = {}
+    local country_ref01_match_dt0 = {
+      id = country_ref01_data["id"],
+    }
     local country_ref01_data_dt0_loaded, err = country_ref01_ent:load(country_ref01_match_dt0, nil)
     assert.is_nil(err)
-    assert.is_not_nil(country_ref01_data_dt0_loaded)
+    local country_ref01_data_dt0_load_result = helpers.to_map(type(country_ref01_data_dt0_loaded) == 'table' and country_ref01_data_dt0_loaded.data_get and country_ref01_data_dt0_loaded:data_get() or country_ref01_data_dt0_loaded)
+    assert.is_not_nil(country_ref01_data_dt0_load_result)
+    assert.are.equal(country_ref01_data_dt0_load_result["id"], country_ref01_data["id"])
 
   end)
 end)

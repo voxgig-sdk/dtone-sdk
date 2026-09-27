@@ -232,30 +232,30 @@ end
 
 
 
----@param reqmatch CreditPartyBenefitListMatch
+
+
+---@param reqdata CreditPartyBenefitCreateData
 ---@param ctrl? table
----@return CreditPartyBenefit[]
+---@return CreditPartyBenefit
 ---@return string? err
-function CreditPartyBenefitEntity:list(reqmatch, ctrl)
+function CreditPartyBenefitEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
-    opname = "list",
+    opname = "create",
     ctrl = ctrl,
     match = self._match,
     data = self._data,
-    reqmatch = reqmatch,
+    reqdata = reqdata,
   }, self._entctx)
 
   return self:_run_op(ctx, function()
     if ctx.result ~= nil then
-      if ctx.result.resmatch ~= nil then
-        self._match = ctx.result.resmatch
+      if ctx.result.resdata ~= nil then
+        self._data = helpers.to_map(vs.clone(ctx.result.resdata)) or {}
       end
     end
   end)
 end
-
-
 
 
 

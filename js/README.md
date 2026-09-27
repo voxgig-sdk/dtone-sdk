@@ -5,7 +5,7 @@
 The JavaScript SDK for the Dtone API — an entity-oriented client with full async/await support.
 
 The API is exposed as capitalised, semantic **Entities** — e.g.
-`client.Balance()` — each with a small set of operations (`list`, `load`, `create`, `update`)
+`client.Balance()` — each with a small set of operations (`list`, `load`, `create`)
 instead of raw URL paths and query parameters. This keeps the surface
 predictable and low-friction for both humans and AI agents.
 
@@ -26,7 +26,7 @@ loading a specific record.
 ### Create a Client
 
 ```js
-const { DtoneSDK } = require('@voxgig-sdk/dtone-js')
+const { DtoneSDK } = require('@voxgig-sdk/dtone-sdk-js')
 
 const client = new DtoneSDK({
   apikey: process.env.DTONE_APIKEY,
@@ -65,8 +65,8 @@ Entity operations reject on failure, so wrap them in `try` / `catch`:
 
 ```ts
 try {
-  const balances = await client.Balance().list()
-  console.log(balances)
+  const operators = await client.Operator().list()
+  console.log(operators)
 } catch (err) {
   console.error('list failed:', err)
 }
@@ -132,10 +132,10 @@ Create a mock client for unit testing — no server required:
 ```js
 const client = DtoneSDK.test()
 
-const balance = await client.Balance().list()
-// balance is the entity, populated with mock response data
-// — call balance.data() for the record itself
-console.log(balance)
+const operator = await client.Operator().list()
+// operator is the entity, populated with mock response data
+// — call operator.data() for the record itself
+console.log(operator)
 ```
 
 You can also use the instance method:
@@ -150,7 +150,7 @@ const testClient = client.tester()
 Entity instances remember their last match and data:
 
 ```js
-const entity = client.Balance()
+const entity = client.Operator()
 
 // First call runs the operation and stores its result
 await entity.list()
@@ -231,12 +231,12 @@ new DtoneSDK(options?)
 | `Country(data?)` | `CountryEntity` | Create a Country entity instance. |
 | `CreditPartyBenefit(data?)` | `CreditPartyBenefitEntity` | Create a CreditPartyBenefit entity instance. |
 | `CreditPartyStatus(data?)` | `CreditPartyStatusEntity` | Create a CreditPartyStatus entity instance. |
-| `MobileNumberLookup(data?)` | `MobileNumberLookupEntity` | Create a MobileNumberLookup entity instance. |
+| `MobileNumber(data?)` | `MobileNumberEntity` | Create a MobileNumber entity instance. |
 | `Operator(data?)` | `OperatorEntity` | Create an Operator entity instance. |
 | `Product(data?)` | `ProductEntity` | Create a Product entity instance. |
 | `Promotion(data?)` | `PromotionEntity` | Create a Promotion entity instance. |
 | `Service(data?)` | `ServiceEntity` | Create a Service entity instance. |
-| `StatementInquiry(data?)` | `StatementInquiryEntity` | Create a StatementInquiry entity instance. |
+| `Statement(data?)` | `StatementEntity` | Create a Statement entity instance. |
 | `Transaction(data?)` | `TransactionEntity` | Create a Transaction entity instance. |
 | `tester(testopts?, sdkopts?)` | `DtoneSDK` | Create a test-mode client instance. |
 
@@ -257,7 +257,6 @@ All entities share the same interface.
 | `load` | `load(reqmatch?, ctrl?): Promise<Entity>` | Load a single entity by match criteria. |
 | `list` | `list(reqmatch?, ctrl?): Promise<Entity[]>` | List entities matching the criteria. |
 | `create` | `create(reqdata?, ctrl?): Promise<Entity>` | Create a new entity. |
-| `update` | `update(reqdata?, ctrl?): Promise<Entity>` | Update an existing entity. |
 | `data` | `data(data?: Partial<Entity>): Entity` | Get or set entity data. |
 | `match` | `match(match?: Partial<Entity>): Partial<Entity>` | Get or set entity match criteria. |
 | `make` | `make(): Entity` | Create a new instance with the same options. |
@@ -269,7 +268,7 @@ All entities share the same interface.
 Entity operations resolve to the entity data directly — there is no
 result envelope:
 
-- `load`, `create` and `update` resolve to a single entity object.
+- `load` and `create` resolve to a single entity object.
 - `list` resolves to an **array** of entity objects (iterate it directly;
   there is no `.data` and no `.ok`).
 
@@ -352,6 +351,7 @@ API path: `/campaigns`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 | `iso_code` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` |  |
 | `regions` |  |
@@ -364,18 +364,12 @@ API path: `/countries`
 
 | Field | Description |
 | --- | --- |
-| `amount` | Remaining benefit amount. |
-| `country` |  |
 | `credit_party_identifier` |  |
-| `expiration_date` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | Page number |
 | `per_page` | Number of records per page |
 | `service_id` | Service identifier. |
-| `type` |  |
-| `unit` |  |
-| `unit_type` |  |
 
-Operations: list.
+Operations: create.
 
 API path: `/lookup/credit-party-benefits`
 
@@ -388,26 +382,22 @@ API path: `/lookup/credit-party-benefits`
 | `installation_date` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
 | `service_id` | Service identifier. |
 
-Operations: load.
+Operations: create.
 
 API path: `/lookup/credit-party-status`
 
-#### MobileNumberLookup
+#### MobileNumber
 
 | Field | Description |
 | --- | --- |
-| `country` |  |
-| `id` | Operator identifier. |
-| `identified` | Indicates whether operator was identified as a direct match |
+| `id` |  |
 | `mobile_number` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` |  |
 | `page` | Page number |
 | `per_page` | Number of records per page |
-| `regions` |  |
 
-Operations: list.
+Operations: create, load.
 
-API path: `/lookup/mobile-number/{mobile_number}`
+API path: `/lookup/mobile-number`
 
 #### Operator
 
@@ -426,6 +416,7 @@ API path: `/operators`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: list, load.
 
@@ -460,20 +451,17 @@ Operations: list, load.
 
 API path: `/services`
 
-#### StatementInquiry
+#### Statement
 
 | Field | Description |
 | --- | --- |
 | `account_number` | Account number. |
 | `account_qualifier` |  |
-| `balance` |  |
-| `dates` |  |
 | `page` | Page number |
 | `per_page` | Number of records per page |
 | `product_id` | Product identifier. |
-| `reference` |  |
 
-Operations: list.
+Operations: create.
 
 API path: `/lookup/statement-inquiry`
 
@@ -510,9 +498,9 @@ API path: `/lookup/statement-inquiry`
 | `statement_identifier` | Qualifying statement details for a payment transaction. |
 | `status` |  |
 
-Operations: create, list, load, update.
+Operations: create, list, load.
 
-API path: `/async/transactions`
+API path: `/transactions/{transaction_id}/cancel`
 
 
 
@@ -596,7 +584,7 @@ Create an instance: `const campaign = client.Campaign()`
 #### Example: Load
 
 ```ts
-const campaign = await client.Campaign().load({ campaign_id: 1 })
+const campaign = await client.Campaign().load({ id: 1 })
 ```
 
 #### Example: List
@@ -621,6 +609,7 @@ Create an instance: `const country = client.Country()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `id` | `string` |  |
 | `iso_code` | `string` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` | `string` |  |
 | `regions` | `Array` |  |
@@ -628,7 +617,7 @@ Create an instance: `const country = client.Country()`
 #### Example: Load
 
 ```ts
-const country = await client.Country().load({ country_iso_code: 'country_iso_code' })
+const country = await client.Country().load({ id: 'country_id' })
 ```
 
 #### Example: List
@@ -646,27 +635,24 @@ Create an instance: `const credit_party_benefit = client.CreditPartyBenefit()`
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `amount` | `number` | Remaining benefit amount. |
-| `country` | `Object` |  |
 | `credit_party_identifier` | `Object` |  |
-| `expiration_date` | `string` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | `number` | Page number |
 | `per_page` | `number` | Number of records per page |
 | `service_id` | `number` | Service identifier. |
-| `type` | `string` |  |
-| `unit` | `string` |  |
-| `unit_type` | `string` |  |
 
-#### Example: List
+#### Example: Create
 
 ```ts
-const credit_party_benefits = await client.CreditPartyBenefit().list()
+const credit_party_benefit = await client.CreditPartyBenefit().create({
+  credit_party_identifier: {},
+  service_id: 1,
+})
 ```
 
 
@@ -678,7 +664,7 @@ Create an instance: `const credit_party_status = client.CreditPartyStatus()`
 
 | Method | Description |
 | --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -689,40 +675,50 @@ Create an instance: `const credit_party_status = client.CreditPartyStatus()`
 | `installation_date` | `string` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
 | `service_id` | `number` | Service identifier. |
 
-#### Example: Load
+#### Example: Create
 
 ```ts
-const credit_party_status = await client.CreditPartyStatus().load()
+const credit_party_status = await client.CreditPartyStatus().create({
+  activation_date: 'example_activation_date',
+  credit_party_identifier: {},
+  installation_date: 'example_installation_date',
+  service_id: 1,
+})
 ```
 
 
-### MobileNumberLookup
+### MobileNumber
 
-Create an instance: `const mobile_number_lookup = client.MobileNumberLookup()`
+Create an instance: `const mobile_number = client.MobileNumber()`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country` | `Object` |  |
-| `id` | `number` | Operator identifier. |
-| `identified` | `boolean` | Indicates whether operator was identified as a direct match |
+| `id` | `string` |  |
 | `mobile_number` | `string` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` | `string` |  |
 | `page` | `number` | Page number |
 | `per_page` | `number` | Number of records per page |
-| `regions` | `Array` |  |
 
-#### Example: List
+#### Example: Load
 
 ```ts
-const mobile_number_lookups = await client.MobileNumberLookup().list({ mobile_number: "example" })
+const mobile_number = await client.MobileNumber().load({ id: 'mobile_number_id' })
+```
+
+#### Example: Create
+
+```ts
+const mobile_number = await client.MobileNumber().create({
+  mobile_number: 'example_mobile_number',
+})
 ```
 
 
@@ -749,7 +745,7 @@ Create an instance: `const operator = client.Operator()`
 #### Example: Load
 
 ```ts
-const operator = await client.Operator().load({ operator_id: 1 })
+const operator = await client.Operator().load({ id: 1 })
 ```
 
 #### Example: List
@@ -770,10 +766,16 @@ Create an instance: `const product = client.Product()`
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `string` |  |
+
 #### Example: Load
 
 ```ts
-const product = await client.Product().load({ product_id: 1 })
+const product = await client.Product().load({ id: 1 })
 ```
 
 #### Example: List
@@ -810,7 +812,7 @@ Create an instance: `const promotion = client.Promotion()`
 #### Example: Load
 
 ```ts
-const promotion = await client.Promotion().load({ promotion_id: 1 })
+const promotion = await client.Promotion().load({ id: 1 })
 ```
 
 #### Example: List
@@ -842,7 +844,7 @@ Create an instance: `const service = client.Service()`
 #### Example: Load
 
 ```ts
-const service = await client.Service().load({ service_id: 1 })
+const service = await client.Service().load({ id: 1 })
 ```
 
 #### Example: List
@@ -852,15 +854,15 @@ const services = await client.Service().list()
 ```
 
 
-### StatementInquiry
+### Statement
 
-Create an instance: `const statement_inquiry = client.StatementInquiry()`
+Create an instance: `const statement = client.Statement()`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list(match)` | List entities matching the criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -868,17 +870,17 @@ Create an instance: `const statement_inquiry = client.StatementInquiry()`
 | --- | --- | --- |
 | `account_number` | `string` | Account number. |
 | `account_qualifier` | `string` |  |
-| `balance` | `Object` |  |
-| `dates` | `Object` |  |
 | `page` | `number` | Page number |
 | `per_page` | `number` | Number of records per page |
 | `product_id` | `number` | Product identifier. |
-| `reference` | `*` |  |
 
-#### Example: List
+#### Example: Create
 
 ```ts
-const statement_inquirys = await client.StatementInquiry().list()
+const statement = await client.Statement().create({
+  account_number: 'example_account_number',
+  product_id: 1,
+})
 ```
 
 
@@ -893,7 +895,6 @@ Create an instance: `const transaction = client.Transaction()`
 | `create(data)` | Create a new entity with the given data. |
 | `list(match)` | List entities matching the criteria. |
 | `load(match)` | Load a single entity by match criteria. |
-| `update(data)` | Update an existing entity. |
 
 #### Fields
 
@@ -931,7 +932,7 @@ Create an instance: `const transaction = client.Transaction()`
 #### Example: Load
 
 ```ts
-const transaction = await client.Transaction().load({ transaction_id: 1 })
+const transaction = await client.Transaction().load({ id: 1 })
 ```
 
 #### Example: List
@@ -964,14 +965,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -980,7 +981,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -992,7 +993,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -1005,7 +1006,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -1015,7 +1016,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -1031,7 +1032,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -1047,7 +1048,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -1066,7 +1067,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -1076,7 +1077,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -1128,14 +1129,14 @@ a function that receives the context.
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.
@@ -1155,7 +1156,7 @@ dtone/
 Import the SDK from the package root:
 
 ```js
-const { DtoneSDK } = require('@voxgig-sdk/dtone-js')
+const { DtoneSDK } = require('@voxgig-sdk/dtone-sdk-js')
 ```
 
 ### Entity state
@@ -1165,11 +1166,11 @@ stores the returned data and match criteria internally. Subsequent
 calls on the same instance can rely on this state.
 
 ```ts
-const balance = client.Balance()
-await balance.list()
+const operator = client.Operator()
+await operator.list()
 
-// balance.data() now returns the balance data from the last `list`
-// balance.match() returns the last match criteria
+// operator.data() now returns the operator data from the last `list`
+// operator.match() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

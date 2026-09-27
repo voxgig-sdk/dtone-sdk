@@ -1,0 +1,148 @@
+# Entity: mobile_number
+
+main: kit: entity: mobile_number: {
+
+  alias: field: {}
+
+  fields: {
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      t: "`$STRING`"
+    }
+    mobile_number: {
+      h: "Mobile Number"
+      n: "mobile_number"
+      r: true
+      sh: "Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format."
+      t: "`$STRING`"
+    }
+    page: {
+      fo: "int32"
+      h: "Page"
+      n: "page"
+      r: false
+      sh: "Page number"
+      t: "`$INTEGER`"
+    }
+    per_page: {
+      fo: "int32"
+      h: "Per Page"
+      n: "per_page"
+      r: false
+      sh: "Number of records per page"
+      t: "`$INTEGER`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "mobile_number"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /lookup/mobile-number"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/lookup/mobile-number"
+          s: [
+            {
+              lit: "lookup"
+            }
+            {
+              lit: "mobile-number"
+            }
+          ]
+          t: {
+            req: {
+              mobile_number: "`reqdata`"
+            }
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /lookup/mobile-number/{mobile_number}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "mobile_number"
+                r: true
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/lookup/mobile-number/{mobile_number}"
+          q: {
+            exist: [
+              "id"
+              "page"
+              "per_page"
+            ]
+          }
+          r: {
+            param: {
+              mobile_number: "id"
+            }
+          }
+          s: [
+            {
+              lit: "lookup"
+            }
+            {
+              lit: "mobile-number"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

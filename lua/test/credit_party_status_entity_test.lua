@@ -19,7 +19,7 @@ describe("CreditPartyStatusEntity", function()
     local setup = credit_party_status_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"load"}) do
+    for _, _op in ipairs({"create"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "credit_party_status." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -34,20 +34,15 @@ describe("CreditPartyStatusEntity", function()
     end
     local client = setup.client
 
-    -- Bootstrap entity data from existing test data.
-    local credit_party_status_ref01_data_raw = vs.items(helpers.to_map(
-      vs.getpath(setup.data, "existing.credit_party_status")))
-    local credit_party_status_ref01_data = nil
-    if #credit_party_status_ref01_data_raw > 0 then
-      credit_party_status_ref01_data = helpers.to_map(credit_party_status_ref01_data_raw[1][2])
-    end
-
-    -- LOAD
+    -- CREATE
     local credit_party_status_ref01_ent = client:CreditPartyStatus(nil)
-    local credit_party_status_ref01_match_dt0 = {}
-    local credit_party_status_ref01_data_dt0_loaded, err = credit_party_status_ref01_ent:load(credit_party_status_ref01_match_dt0, nil)
+    local credit_party_status_ref01_data = helpers.to_map(vs.getprop(
+      vs.getpath(setup.data, "new.credit_party_status"), "credit_party_status_ref01"))
+
+    local credit_party_status_ref01_data_result, err = credit_party_status_ref01_ent:create(credit_party_status_ref01_data, nil)
     assert.is_nil(err)
-    assert.is_not_nil(credit_party_status_ref01_data_dt0_loaded)
+    credit_party_status_ref01_data = helpers.to_map(type(credit_party_status_ref01_data_result) == 'table' and credit_party_status_ref01_data_result.data_get and credit_party_status_ref01_data_result:data_get() or credit_party_status_ref01_data_result)
+    assert.is_not_nil(credit_party_status_ref01_data)
 
   end)
 end)

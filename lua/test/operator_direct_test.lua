@@ -68,11 +68,11 @@ describe("OperatorDirect", function()
     local params = {}
     local query = {}
     if not setup.live then
-      params["operator_id"] = "direct01"
+      params["id"] = "direct01"
     end
 
     local result, err = client:direct({
-      path = "operators/{operator_id}",
+      path = "operators/{id}",
       method = "GET",
       params = params,
       query = query,

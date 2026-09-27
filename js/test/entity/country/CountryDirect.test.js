@@ -54,13 +54,13 @@ describe('CountryDirect', async () => {
         throw new Error('Live load blocked: discovery returned no usable entities')
       }
       params.id = listData[0].id
-      params.country_iso_code = setup.idmap['country_iso_code01']
+
     } else {
-      params.country_iso_code = 'direct01'
+      params.id = 'direct01'
     }
 
     const result = await client.direct({
-      path: 'countries/{country_iso_code}',
+      path: 'countries/{id}',
       method: 'GET',
       params,
     })

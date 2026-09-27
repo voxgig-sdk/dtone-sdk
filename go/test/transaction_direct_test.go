@@ -115,13 +115,12 @@ func TestTransactionDirect(t *testing.T) {
 			}
 			firstEnt := core.ToMapAny(listData[0])
 			params["id"] = firstEnt["id"]
-			params["transaction_id"] = setup.idmap["transaction01"]
 		} else {
-			params["transaction_id"] = "direct01"
+			params["id"] = "direct01"
 		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "transactions/{transaction_id}",
+			"path":   "transactions/{id}",
 			"method": "GET",
 			"params": params,
 			"query":  query,

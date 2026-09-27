@@ -6,12 +6,12 @@ const { CampaignEntity } = require('./entity/CampaignEntity')
 const { CountryEntity } = require('./entity/CountryEntity')
 const { CreditPartyBenefitEntity } = require('./entity/CreditPartyBenefitEntity')
 const { CreditPartyStatusEntity } = require('./entity/CreditPartyStatusEntity')
-const { MobileNumberLookupEntity } = require('./entity/MobileNumberLookupEntity')
+const { MobileNumberEntity } = require('./entity/MobileNumberEntity')
 const { OperatorEntity } = require('./entity/OperatorEntity')
 const { ProductEntity } = require('./entity/ProductEntity')
 const { PromotionEntity } = require('./entity/PromotionEntity')
 const { ServiceEntity } = require('./entity/ServiceEntity')
-const { StatementInquiryEntity } = require('./entity/StatementInquiryEntity')
+const { StatementEntity } = require('./entity/StatementEntity')
 const { TransactionEntity } = require('./entity/TransactionEntity')
 
 
@@ -359,12 +359,12 @@ class DtoneSDK {
   }
 
 
-  // Entity access: `client.MobileNumberLookup().list()` / `client.MobileNumberLookup().load({ id })`.
+  // Entity access: `client.MobileNumber().list()` / `client.MobileNumber().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  MobileNumberLookup(entopts) {
+  MobileNumber(entopts) {
     const self = this
-    return new MobileNumberLookupEntity(self, entopts)
+    return new MobileNumberEntity(self, entopts)
   }
 
 
@@ -404,12 +404,12 @@ class DtoneSDK {
   }
 
 
-  // Entity access: `client.StatementInquiry().list()` / `client.StatementInquiry().load({ id })`.
+  // Entity access: `client.Statement().list()` / `client.Statement().load({ id })`.
   // The argument is the entity OPTIONS object (passed to the entity
   // constructor as entopts), not initial entity data.
-  StatementInquiry(entopts) {
+  Statement(entopts) {
     const self = this
-    return new StatementInquiryEntity(self, entopts)
+    return new StatementEntity(self, entopts)
   }
 
 

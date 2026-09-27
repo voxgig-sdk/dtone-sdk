@@ -77,15 +77,17 @@ function mobile_number_direct_setup($mockres)
     $env = Runner::env_override([
         "DTONE_TEST_MOBILE_NUMBER_ENTID" => [],
         "DTONE_TEST_LIVE" => "FALSE",
-        "DTONE_APIKEY" => "NONE",
+        "DTONE_APIKEY" => "",
     ]);
 
     $live = $env["DTONE_TEST_LIVE"] === "TRUE";
 
     if ($live) {
-        $merged_opts = [
+        // Merged so the generated fields win: sdk-test-control.json's
+        // test.client.options adds to the live client, it does not redirect it.
+        $merged_opts = array_merge(Runner::live_client_options(), [
             "apikey" => $env["DTONE_APIKEY"],
-        ];
+        ]);
         $client = new DtoneSDK($merged_opts);
         return [
             "client" => $client,

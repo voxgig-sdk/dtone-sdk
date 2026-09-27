@@ -66,9 +66,9 @@ Create a new `CreditPartyBenefitEntity` instance. Pass `null` for no initial dat
 
 Create a new `CreditPartyStatusEntity` instance. Pass `null` for no initial data.
 
-#### `MobileNumberLookup($data = null)`
+#### `MobileNumber($data = null)`
 
-Create a new `MobileNumberLookupEntity` instance. Pass `null` for no initial data.
+Create a new `MobileNumberEntity` instance. Pass `null` for no initial data.
 
 #### `Operator($data = null)`
 
@@ -86,9 +86,9 @@ Create a new `PromotionEntity` instance. Pass `null` for no initial data.
 
 Create a new `ServiceEntity` instance. Pass `null` for no initial data.
 
-#### `StatementInquiry($data = null)`
+#### `Statement($data = null)`
 
-Create a new `StatementInquiryEntity` instance. Pass `null` for no initial data.
+Create a new `StatementEntity` instance. Pass `null` for no initial data.
 
 #### `Transaction($data = null)`
 
@@ -273,7 +273,7 @@ $results = $client->Campaign()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Campaign()->load(["campaign_id" => 1]);
+$result = $client->Campaign()->load(["id" => 1]);
 ```
 
 ### Common Methods
@@ -316,6 +316,7 @@ $country = $client->Country();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | No |  |
 | `iso_code` | `string` | Yes | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` | `string` | Yes |  |
 | `regions` | `array` | Yes |  |
@@ -335,7 +336,7 @@ $results = $client->Country()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Country()->load(["country_iso_code" => "country_iso_code"]);
+$result = $client->Country()->load(["id" => "country_id"]);
 ```
 
 ### Common Methods
@@ -378,25 +379,22 @@ $credit_party_benefit = $client->CreditPartyBenefit();
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `float` | Yes | Remaining benefit amount. |
-| `country` | `array` | Yes |  |
 | `credit_party_identifier` | `array` | Yes |  |
-| `expiration_date` | `string` | Yes | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | `int` | No | Page number |
 | `per_page` | `int` | No | Number of records per page |
 | `service_id` | `int` | Yes | Service identifier. |
-| `type` | `string` | Yes |  |
-| `unit` | `string` | Yes |  |
-| `unit_type` | `string` | Yes |  |
 
 ### Operations
 
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+Create a new entity with the given data. Throws on error.
 
 ```php
-$results = $client->CreditPartyBenefit()->list();
+$result = $client->CreditPartyBenefit()->create([
+  "credit_party_identifier" => null, // array
+  "service_id" => null, // int
+]);
 ```
 
 ### Common Methods
@@ -446,12 +444,17 @@ $credit_party_status = $client->CreditPartyStatus();
 
 ### Operations
 
-#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-Load a single entity matching the given criteria. Throws on error.
+Create a new entity with the given data. Throws on error.
 
 ```php
-$result = $client->CreditPartyStatus()->load();
+$result = $client->CreditPartyStatus()->create([
+  "activation_date" => null, // string
+  "credit_party_identifier" => null, // array
+  "installation_date" => null, // string
+  "service_id" => null, // int
+]);
 ```
 
 ### Common Methods
@@ -484,33 +487,39 @@ Return the entity name.
 
 ---
 
-## MobileNumberLookupEntity
+## MobileNumberEntity
 
 ```php
-$mobile_number_lookup = $client->MobileNumberLookup();
+$mobile_number = $client->MobileNumber();
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country` | `array` | Yes |  |
-| `id` | `int` | Yes | Operator identifier. |
-| `identified` | `bool` | Yes | Indicates whether operator was identified as a direct match |
+| `id` | `string` | No |  |
 | `mobile_number` | `string` | Yes | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` | `string` | Yes |  |
 | `page` | `int` | No | Page number |
 | `per_page` | `int` | No | Number of records per page |
-| `regions` | `array` | Yes |  |
 
 ### Operations
 
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+Create a new entity with the given data. Throws on error.
 
 ```php
-$results = $client->MobileNumberLookup()->list();
+$result = $client->MobileNumber()->create([
+  "mobile_number" => null, // string
+]);
+```
+
+#### `load(array $reqmatch, ?array $ctrl = null): mixed`
+
+Load a single entity matching the given criteria. Throws on error.
+
+```php
+$result = $client->MobileNumber()->load(["id" => "mobile_number_id"]);
 ```
 
 ### Common Methods
@@ -531,9 +540,9 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): MobileNumberLookupEntity`
+#### `make(): MobileNumberEntity`
 
-Create a new `MobileNumberLookupEntity` instance with the same client and
+Create a new `MobileNumberEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -573,7 +582,7 @@ $results = $client->Operator()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Operator()->load(["operator_id" => 1]);
+$result = $client->Operator()->load(["id" => 1]);
 ```
 
 ### Common Methods
@@ -612,6 +621,12 @@ Return the entity name.
 $product = $client->Product();
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
@@ -627,7 +642,7 @@ $results = $client->Product()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Product()->load(["product_id" => 1]);
+$result = $client->Product()->load(["id" => 1]);
 ```
 
 ### Common Methods
@@ -694,7 +709,7 @@ $results = $client->Promotion()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Promotion()->load(["promotion_id" => 1]);
+$result = $client->Promotion()->load(["id" => 1]);
 ```
 
 ### Common Methods
@@ -756,7 +771,7 @@ $results = $client->Service()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Service()->load(["service_id" => 1]);
+$result = $client->Service()->load(["id" => 1]);
 ```
 
 ### Common Methods
@@ -789,10 +804,10 @@ Return the entity name.
 
 ---
 
-## StatementInquiryEntity
+## StatementEntity
 
 ```php
-$statement_inquiry = $client->StatementInquiry();
+$statement = $client->Statement();
 ```
 
 ### Fields
@@ -801,21 +816,21 @@ $statement_inquiry = $client->StatementInquiry();
 | --- | --- | --- | --- |
 | `account_number` | `string` | Yes | Account number. |
 | `account_qualifier` | `string` | No |  |
-| `balance` | `array` | Yes |  |
-| `dates` | `array` | Yes |  |
 | `page` | `int` | No | Page number |
 | `per_page` | `int` | No | Number of records per page |
 | `product_id` | `int` | Yes | Product identifier. |
-| `reference` | `mixed` | Yes |  |
 
 ### Operations
 
-#### `list(?array $reqmatch = null, ?array $ctrl = null): mixed`
+#### `create(array $reqdata, ?array $ctrl = null): mixed`
 
-List entities matching the given criteria (call with no argument to list all). Returns an array. Throws on error.
+Create a new entity with the given data. Throws on error.
 
 ```php
-$results = $client->StatementInquiry()->list();
+$result = $client->Statement()->create([
+  "account_number" => null, // string
+  "product_id" => null, // int
+]);
 ```
 
 ### Common Methods
@@ -836,9 +851,9 @@ Get the entity match criteria.
 
 Set the entity match criteria.
 
-#### `make(): StatementInquiryEntity`
+#### `make(): StatementEntity`
 
-Create a new `StatementInquiryEntity` instance with the same client and
+Create a new `StatementEntity` instance with the same client and
 options.
 
 #### `get_name(): string`
@@ -917,18 +932,7 @@ $results = $client->Transaction()->list();
 Load a single entity matching the given criteria. Throws on error.
 
 ```php
-$result = $client->Transaction()->load(["transaction_id" => 1]);
-```
-
-#### `update(array $reqdata, ?array $ctrl = null): mixed`
-
-Update an existing entity. The data must include the entity `id`. Throws on error.
-
-```php
-$result = $client->Transaction()->update([
-  "transaction_id" => 1,
-  // Fields to update
-]);
+$result = $client->Transaction()->load(["id" => 1]);
 ```
 
 ### Common Methods
@@ -965,14 +969,14 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1018,7 +1022,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1049,7 +1053,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1080,7 +1084,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1108,7 +1112,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1143,7 +1147,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -1174,7 +1178,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -1208,7 +1212,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -1239,7 +1243,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

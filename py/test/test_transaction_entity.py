@@ -61,7 +61,7 @@ class TestTransactionEntity:
         # multiple ops; skipping any one skips the whole flow (steps depend
         # on each other).
         _live = setup.get("live", False)
-        for _op in ["create", "list", "update", "load"]:
+        for _op in ["create", "list", "load"]:
             _skip, _reason = runner.is_control_skipped("entityOp", "transaction." + _op, "live" if _live else "unit")
             if _skip:
                 pytest.skip(_reason or "skipped via sdk-test-control.json")
@@ -92,20 +92,6 @@ class TestTransactionEntity:
             runner.entity_list_to_data(transaction_ref01_list_result),
             {"id": transaction_ref01_data["id"]})
         assert not vs.isempty(found_item)
-
-        # UPDATE
-        transaction_ref01_data_up0_up = {
-            "id": transaction_ref01_data["id"],
-        }
-
-        transaction_ref01_markdef_up0_name = "callback_url"
-        transaction_ref01_markdef_up0_value = "Mark01-transaction_ref01_" + str(setup["now"])
-        transaction_ref01_data_up0_up[transaction_ref01_markdef_up0_name] = transaction_ref01_markdef_up0_value
-
-        transaction_ref01_resdata_up0 = helpers.to_map(runner.entity_data(transaction_ref01_ent.update(transaction_ref01_data_up0_up, None)))
-        assert transaction_ref01_resdata_up0 is not None
-        assert transaction_ref01_resdata_up0["id"] == transaction_ref01_data_up0_up["id"]
-        assert transaction_ref01_resdata_up0[transaction_ref01_markdef_up0_name] == transaction_ref01_markdef_up0_value
 
         # LOAD
         transaction_ref01_match_dt0 = {

@@ -50,10 +50,6 @@ func NewCreditPartyStatusEntity(client *core.DtoneSDK, entopts map[string]any) *
 
 func (e *CreditPartyStatusEntity) GetName() string { return e.name }
 
-// Deleted marks this instance as removed. `Remove` resolves to the entity
-// like every other operation, and the instance KEEPS the data it held — a
-// caller can still read what was deleted — but it is no longer a live
-// record. See AGENTS.md "Entity operations return ENTITIES".
 func (e *CreditPartyStatusEntity) MarkDeleted() {
 	e.deleted = true
 }
@@ -122,15 +118,6 @@ func (e *CreditPartyStatusEntity) MatchTyped(match ...CreditPartyStatus) CreditP
 	return typedFrom[CreditPartyStatus](e.Match())
 }
 
-// Stream (feature #4). Runs `action` through the full pipeline and returns a
-// channel over result items, so the `streaming` feature's incremental output
-// is reachable from a generated entity (a normal op call materialises the
-// whole result). `callopts` parameterises the call:
-//   - inbound (download): the channel yields items/chunks (from the streaming
-//     feature when active, else the materialised items);
-//   - outbound (upload): a `body` in callopts is attached to the request so the
-//     transport can stream the payload;
-//   - `ctrl` (pipeline control) and `signal` (a done channel) are honoured.
 func (e *CreditPartyStatusEntity) Stream(action string, args map[string]any, callopts map[string]any) <-chan any {
 	out := make(chan any)
 
@@ -255,22 +242,29 @@ func (e *CreditPartyStatusEntity) Stream(action string, args map[string]any, cal
 	return out
 }
 
+func (e *CreditPartyStatusEntity) Load(_ map[string]any, _ map[string]any) (any, error) {
+	return core.UnsupportedOp("load", e.name)
+}
 
-func (e *CreditPartyStatusEntity) Load(reqmatch map[string]any, ctrl map[string]any) (any, error) {
+
+func (e *CreditPartyStatusEntity) List(_ map[string]any, _ map[string]any) (any, error) {
+	return core.UnsupportedOp("list", e.name)
+}
+
+
+
+func (e *CreditPartyStatusEntity) Create(reqdata map[string]any, ctrl map[string]any) (any, error) {
 	utility := e.utility
 	ctx := utility.MakeContext(map[string]any{
-		"opname":   "load",
-		"ctrl":     ctrl,
-		"match":    e.match,
-		"data":     e.data,
-		"reqmatch": reqmatch,
+		"opname":  "create",
+		"ctrl":    ctrl,
+		"match":   e.match,
+		"data":    e.data,
+		"reqdata": reqdata,
 	}, e.entctx)
 
 	return e.runOp(ctx, func() {
 		if ctx.Result != nil {
-			if ctx.Result.Resmatch != nil {
-				e.match = ctx.Result.Resmatch
-			}
 			if ctx.Result.Resdata != nil {
 				e.data = core.ToMapAny(vs.Clone(ctx.Result.Resdata))
 				if e.data == nil {
@@ -281,27 +275,17 @@ func (e *CreditPartyStatusEntity) Load(reqmatch map[string]any, ctrl map[string]
 	})
 }
 
-// LoadTyped is the statically-typed variant of Load: it takes an
-// CreditPartyStatusLoadMatch and returns an CreditPartyStatus. It delegates to the untyped
-// Load (identical runtime) and converts at the typed boundary.
-func (e *CreditPartyStatusEntity) LoadTyped(reqmatch CreditPartyStatusLoadMatch, ctrl map[string]any) (CreditPartyStatus, error) {
-	res, err := e.Load(asMap(reqmatch), ctrl)
+// CreateTyped is the statically-typed variant of Create: it takes an
+// CreditPartyStatusCreateData and returns an CreditPartyStatus. It delegates to the untyped
+// Create (identical runtime) and converts at the typed boundary.
+func (e *CreditPartyStatusEntity) CreateTyped(reqdata CreditPartyStatusCreateData, ctrl map[string]any) (CreditPartyStatus, error) {
+	res, err := e.Create(asMap(reqdata), ctrl)
 	if err != nil {
 		return CreditPartyStatus{}, err
 	}
 	return typedFrom[CreditPartyStatus](res), nil
 }
 
-
-
-func (e *CreditPartyStatusEntity) List(_ map[string]any, _ map[string]any) (any, error) {
-	return core.UnsupportedOp("list", e.name)
-}
-
-
-func (e *CreditPartyStatusEntity) Create(_ map[string]any, _ map[string]any) (any, error) {
-	return core.UnsupportedOp("create", e.name)
-}
 
 
 func (e *CreditPartyStatusEntity) Update(_ map[string]any, _ map[string]any) (any, error) {
@@ -360,14 +344,6 @@ func (e *CreditPartyStatusEntity) runOp(ctx *core.Context, postDone func()) (any
 		return out, doneErr
 	}
 
-	// An operation resolves to the ENTITY, not the raw data. Entities are
-	// stateful: post_done has just absorbed resdata/resmatch into this
-	// instance, and the caller reaches the record through data(). Two
-	// structural exceptions: `list` resolves to the ARRAY of entity
-	// instances make_result built, and a failed op with throwing disabled
-	// hands back the error payload unchanged. `remove` additionally marks
-	// the entity deleted; it KEEPS its data, so a caller can still read
-	// what was removed. See AGENTS.md "Entity operations return ENTITIES".
 	opname := ""
 	if ctx.Op != nil {
 		opname = ctx.Op.Name

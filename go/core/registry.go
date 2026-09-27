@@ -32,7 +32,7 @@ var NewCreditPartyBenefitEntityFunc func(client *DtoneSDK, entopts map[string]an
 
 var NewCreditPartyStatusEntityFunc func(client *DtoneSDK, entopts map[string]any) DtoneEntity
 
-var NewMobileNumberLookupEntityFunc func(client *DtoneSDK, entopts map[string]any) DtoneEntity
+var NewMobileNumberEntityFunc func(client *DtoneSDK, entopts map[string]any) DtoneEntity
 
 var NewOperatorEntityFunc func(client *DtoneSDK, entopts map[string]any) DtoneEntity
 
@@ -42,7 +42,7 @@ var NewPromotionEntityFunc func(client *DtoneSDK, entopts map[string]any) DtoneE
 
 var NewServiceEntityFunc func(client *DtoneSDK, entopts map[string]any) DtoneEntity
 
-var NewStatementInquiryEntityFunc func(client *DtoneSDK, entopts map[string]any) DtoneEntity
+var NewStatementEntityFunc func(client *DtoneSDK, entopts map[string]any) DtoneEntity
 
 var NewTransactionEntityFunc func(client *DtoneSDK, entopts map[string]any) DtoneEntity
 

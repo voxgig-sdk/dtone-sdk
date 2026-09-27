@@ -1,0 +1,15 @@
+# Flows
+
+@"./BasicBalanceFlow.aontu"
+@"./BasicBenefitTypeFlow.aontu"
+@"./BasicCampaignFlow.aontu"
+@"./BasicCountryFlow.aontu"
+@"./BasicCreditPartyBenefitFlow.aontu"
+@"./BasicCreditPartyStatusFlow.aontu"
+@"./BasicMobileNumberFlow.aontu"
+@"./BasicOperatorFlow.aontu"
+@"./BasicProductFlow.aontu"
+@"./BasicPromotionFlow.aontu"
+@"./BasicServiceFlow.aontu"
+@"./BasicStatementFlow.aontu"
+@"./BasicTransactionFlow.aontu"

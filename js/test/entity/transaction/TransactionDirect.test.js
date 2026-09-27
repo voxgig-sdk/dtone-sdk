@@ -54,13 +54,13 @@ describe('TransactionDirect', async () => {
         throw new Error('Live load blocked: discovery returned no usable entities')
       }
       params.id = listData[0].id
-      params.transaction_id = setup.idmap['transaction01']
+
     } else {
-      params.transaction_id = 'direct01'
+      params.id = 'direct01'
     }
 
     const result = await client.direct({
-      path: 'transactions/{transaction_id}',
+      path: 'transactions/{id}',
       method: 'GET',
       params,
     })

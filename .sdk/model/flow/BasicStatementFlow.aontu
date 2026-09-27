@@ -1,0 +1,18 @@
+# BasicStatementFlow
+
+main: kit: flow: BasicStatementFlow:
+{
+  entity: "statement",
+  kind: "basic",
+  name: "BasicStatementFlow",
+  step: [
+    {
+      i: {
+        ref: "statement_ref01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicStatementFlow"
+}

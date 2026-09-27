@@ -449,21 +449,21 @@ class DtoneSDK
     }
 
 
-    private $_mobile_number_lookup = null;
+    private $_mobile_number = null;
 
-    // Canonical facade: $client->MobileNumberLookup()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->mobile_number_lookup()
+    // Canonical facade: $client->MobileNumber()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->mobile_number()
     // resolves here too.
-    public function MobileNumberLookup($data = null)
+    public function MobileNumber($data = null)
     {
-        require_once __DIR__ . '/entity/mobile_number_lookup_entity.php';
+        require_once __DIR__ . '/entity/mobile_number_entity.php';
         if ($data === null) {
-            if ($this->_mobile_number_lookup === null) {
-                $this->_mobile_number_lookup = new MobileNumberLookupEntity($this, null);
+            if ($this->_mobile_number === null) {
+                $this->_mobile_number = new MobileNumberEntity($this, null);
             }
-            return $this->_mobile_number_lookup;
+            return $this->_mobile_number;
         }
-        return new MobileNumberLookupEntity($this, $data);
+        return new MobileNumberEntity($this, $data);
     }
 
 
@@ -539,21 +539,21 @@ class DtoneSDK
     }
 
 
-    private $_statement_inquiry = null;
+    private $_statement = null;
 
-    // Canonical facade: $client->StatementInquiry()->list() / ->load(["id" => ...]).
-    // PHP method names are case-insensitive, so lowercase $client->statement_inquiry()
+    // Canonical facade: $client->Statement()->list() / ->load(["id" => ...]).
+    // PHP method names are case-insensitive, so lowercase $client->statement()
     // resolves here too.
-    public function StatementInquiry($data = null)
+    public function Statement($data = null)
     {
-        require_once __DIR__ . '/entity/statement_inquiry_entity.php';
+        require_once __DIR__ . '/entity/statement_entity.php';
         if ($data === null) {
-            if ($this->_statement_inquiry === null) {
-                $this->_statement_inquiry = new StatementInquiryEntity($this, null);
+            if ($this->_statement === null) {
+                $this->_statement = new StatementEntity($this, null);
             }
-            return $this->_statement_inquiry;
+            return $this->_statement;
         }
-        return new StatementInquiryEntity($this, $data);
+        return new StatementEntity($this, $data);
     }
 
 

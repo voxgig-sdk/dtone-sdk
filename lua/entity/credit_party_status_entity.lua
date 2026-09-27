@@ -230,35 +230,32 @@ end
 
 
 
----@param reqmatch CreditPartyStatusLoadMatch
+
+
+
+
+---@param reqdata CreditPartyStatusCreateData
 ---@param ctrl? table
 ---@return CreditPartyStatus
 ---@return string? err
-function CreditPartyStatusEntity:load(reqmatch, ctrl)
+function CreditPartyStatusEntity:create(reqdata, ctrl)
   local utility = self._utility
   local ctx = utility.make_context({
-    opname = "load",
+    opname = "create",
     ctrl = ctrl,
     match = self._match,
     data = self._data,
-    reqmatch = reqmatch,
+    reqdata = reqdata,
   }, self._entctx)
 
   return self:_run_op(ctx, function()
     if ctx.result ~= nil then
-      if ctx.result.resmatch ~= nil then
-        self._match = ctx.result.resmatch
-      end
       if ctx.result.resdata ~= nil then
         self._data = helpers.to_map(vs.clone(ctx.result.resdata)) or {}
       end
     end
   end)
 end
-
-
-
-
 
 
 

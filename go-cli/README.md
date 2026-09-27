@@ -118,7 +118,6 @@ The CLI registers these boru words, each bound to the SDK:
 |----------|-----------------------------------------------|--------------------------------|
 | `list`   | `list <entity>` · `list <query> <entity>`     | First page of records          |
 | `load`   | `load <entity>` · `load <query> <entity>`     | A single record                |
-| `update` | `update <query> <entity>`                     | Update a record, return it     |
 
 - `<entity>` is a bareword, auto-quoted as an boru atom (e.g. `balance`).
 - `<query>` is either a **Map** (`{id:1}`) or a **Scalar** (`1`, treated as
@@ -163,7 +162,7 @@ Meta-commands use the `/` prefix (everything else on a line is evaluated as boru
 
 The 13 entities this SDK exposes (any is valid as `<entity>`):
 
-balance benefit_type campaign country credit_party_benefit credit_party_status mobile_number_lookup operator product promotion service statement_inquiry transaction
+balance benefit_type campaign country credit_party_benefit credit_party_status mobile_number operator product promotion service statement transaction
 
 ## Explanation
 

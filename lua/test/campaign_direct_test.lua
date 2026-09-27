@@ -68,11 +68,11 @@ describe("CampaignDirect", function()
     local params = {}
     local query = {}
     if not setup.live then
-      params["campaign_id"] = "direct01"
+      params["id"] = "direct01"
     end
 
     local result, err = client:direct({
-      path = "campaigns/{campaign_id}",
+      path = "campaigns/{id}",
       method = "GET",
       params = params,
       query = query,

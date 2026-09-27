@@ -72,9 +72,9 @@ Create a new `CreditPartyBenefit` entity instance. Pass `nil` for no initial dat
 
 Create a new `CreditPartyStatus` entity instance. Pass `nil` for no initial data.
 
-#### `MobileNumberLookup(data map[string]any) DtoneEntity`
+#### `MobileNumber(data map[string]any) DtoneEntity`
 
-Create a new `MobileNumberLookup` entity instance. Pass `nil` for no initial data.
+Create a new `MobileNumber` entity instance. Pass `nil` for no initial data.
 
 #### `Operator(data map[string]any) DtoneEntity`
 
@@ -92,9 +92,9 @@ Create a new `Promotion` entity instance. Pass `nil` for no initial data.
 
 Create a new `Service` entity instance. Pass `nil` for no initial data.
 
-#### `StatementInquiry(data map[string]any) DtoneEntity`
+#### `Statement(data map[string]any) DtoneEntity`
 
-Create a new `StatementInquiry` entity instance. Pass `nil` for no initial data.
+Create a new `Statement` entity instance. Pass `nil` for no initial data.
 
 #### `Transaction(data map[string]any) DtoneEntity`
 
@@ -281,7 +281,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Campaign(nil).Load(map[string]any{"campaign_id": 1}, nil)
+result, err := client.Campaign(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
@@ -323,6 +323,7 @@ fmt.Println(country.GetName()) // "country"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | No |  |
 | `iso_code` | `string` | Yes | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` | `string` | Yes |  |
 | `regions` | `[]any` | Yes |  |
@@ -346,7 +347,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Country(nil).Load(map[string]any{"country_iso_code": "country_iso_code"}, nil)
+result, err := client.Country(nil).Load(map[string]any{"id": "country_id"}, nil)
 if err != nil {
     panic(err)
 }
@@ -388,29 +389,26 @@ fmt.Println(creditPartyBenefit.GetName()) // "credit_party_benefit"
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `float64` | Yes | Remaining benefit amount. |
-| `country` | `map[string]any` | Yes |  |
 | `credit_party_identifier` | `map[string]any` | Yes |  |
-| `expiration_date` | `string` | Yes | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | `int` | No | Page number |
 | `per_page` | `int` | No | Number of records per page |
 | `service_id` | `int` | Yes | Service identifier. |
-| `type` | `string` | Yes |  |
-| `unit` | `string` | Yes |  |
-| `unit_type` | `string` | Yes |  |
 
 ### Operations
 
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
 
-List entities matching the given criteria. Returns an array.
+Create a new entity with the given data.
 
 ```go
-results, err := client.CreditPartyBenefit(nil).List(nil, nil)
+result, err := client.CreditPartyBenefit(nil).Create(map[string]any{
+    "credit_party_identifier": map[string]any{},
+    "service_id": 1,
+}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(results)
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -455,12 +453,17 @@ fmt.Println(creditPartyStatus.GetName()) // "credit_party_status"
 
 ### Operations
 
-#### `Load(reqmatch, ctrl map[string]any) (any, error)`
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
 
-Load a single entity matching the given criteria.
+Create a new entity with the given data.
 
 ```go
-result, err := client.CreditPartyStatus(nil).Load(nil, nil)
+result, err := client.CreditPartyStatus(nil).Create(map[string]any{
+    "activation_date": "example_activation_date",
+    "credit_party_identifier": map[string]any{},
+    "installation_date": "example_installation_date",
+    "service_id": 1,
+}, nil)
 if err != nil {
     panic(err)
 }
@@ -491,38 +494,48 @@ Return the entity name.
 
 ---
 
-## MobileNumberLookupEntity
+## MobileNumberEntity
 
 ```go
-mobileNumberLookup := client.MobileNumberLookup(nil)
-fmt.Println(mobileNumberLookup.GetName()) // "mobile_number_lookup"
+mobileNumber := client.MobileNumber(nil)
+fmt.Println(mobileNumber.GetName()) // "mobile_number"
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country` | `map[string]any` | Yes |  |
-| `id` | `int` | Yes | Operator identifier. |
-| `identified` | `bool` | Yes | Indicates whether operator was identified as a direct match |
+| `id` | `string` | No |  |
 | `mobile_number` | `string` | Yes | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` | `string` | Yes |  |
 | `page` | `int` | No | Page number |
 | `per_page` | `int` | No | Number of records per page |
-| `regions` | `[]any` | Yes |  |
 
 ### Operations
 
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
+#### `Load(reqmatch, ctrl map[string]any) (any, error)`
 
-List entities matching the given criteria. Returns an array.
+Load a single entity matching the given criteria.
 
 ```go
-results, err := client.MobileNumberLookup(nil).List(nil, nil)
+result, err := client.MobileNumber(nil).Load(map[string]any{"id": "mobile_number_id"}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(results)
+fmt.Println(result)
+```
+
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
+
+Create a new entity with the given data.
+
+```go
+result, err := client.MobileNumber(nil).Create(map[string]any{
+    "mobile_number": "example_mobile_number",
+}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -539,7 +552,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `MobileNumberLookupEntity` instance with the same client and
+Create a new `MobileNumberEntity` instance with the same client and
 options.
 
 #### `GetName() string`
@@ -584,7 +597,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Operator(nil).Load(map[string]any{"operator_id": 1}, nil)
+result, err := client.Operator(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
@@ -622,6 +635,12 @@ product := client.Product(nil)
 fmt.Println(product.GetName()) // "product"
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `List(reqmatch, ctrl map[string]any) (any, error)`
@@ -641,7 +660,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Product(nil).Load(map[string]any{"product_id": 1}, nil)
+result, err := client.Product(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
@@ -711,7 +730,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Promotion(nil).Load(map[string]any{"promotion_id": 1}, nil)
+result, err := client.Promotion(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
@@ -776,7 +795,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Service(nil).Load(map[string]any{"service_id": 1}, nil)
+result, err := client.Service(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
@@ -807,11 +826,11 @@ Return the entity name.
 
 ---
 
-## StatementInquiryEntity
+## StatementEntity
 
 ```go
-statementInquiry := client.StatementInquiry(nil)
-fmt.Println(statementInquiry.GetName()) // "statement_inquiry"
+statement := client.Statement(nil)
+fmt.Println(statement.GetName()) // "statement"
 ```
 
 ### Fields
@@ -820,25 +839,25 @@ fmt.Println(statementInquiry.GetName()) // "statement_inquiry"
 | --- | --- | --- | --- |
 | `account_number` | `string` | Yes | Account number. |
 | `account_qualifier` | `string` | No |  |
-| `balance` | `map[string]any` | Yes |  |
-| `dates` | `map[string]any` | Yes |  |
 | `page` | `int` | No | Page number |
 | `per_page` | `int` | No | Number of records per page |
 | `product_id` | `int` | Yes | Product identifier. |
-| `reference` | `any` | Yes |  |
 
 ### Operations
 
-#### `List(reqmatch, ctrl map[string]any) (any, error)`
+#### `Create(reqdata, ctrl map[string]any) (any, error)`
 
-List entities matching the given criteria. Returns an array.
+Create a new entity with the given data.
 
 ```go
-results, err := client.StatementInquiry(nil).List(nil, nil)
+result, err := client.Statement(nil).Create(map[string]any{
+    "account_number": "example_account_number",
+    "product_id": 1,
+}, nil)
 if err != nil {
     panic(err)
 }
-fmt.Println(results)
+fmt.Println(result)
 ```
 
 ### Common Methods
@@ -855,7 +874,7 @@ Get or set the entity match criteria. Works the same as `Data()`.
 
 #### `Make() Entity`
 
-Create a new `StatementInquiryEntity` instance with the same client and
+Create a new `StatementEntity` instance with the same client and
 options.
 
 #### `GetName() string`
@@ -924,7 +943,7 @@ fmt.Println(results)
 Load a single entity matching the given criteria.
 
 ```go
-result, err := client.Transaction(nil).Load(map[string]any{"transaction_id": 1}, nil)
+result, err := client.Transaction(nil).Load(map[string]any{"id": 1}, nil)
 if err != nil {
     panic(err)
 }
@@ -943,21 +962,6 @@ result, err := client.Transaction(nil).Create(map[string]any{
     "prices": map[string]any{},
     "product_id": "example_product_id",
     "source": map[string]any{},
-}, nil)
-if err != nil {
-    panic(err)
-}
-fmt.Println(result)
-```
-
-#### `Update(reqdata, ctrl map[string]any) (any, error)`
-
-Update an existing entity. The data must include the entity `id`.
-
-```go
-result, err := client.Transaction(nil).Update(map[string]any{
-    "transaction_id": 1,
-    // Fields to update
 }, nil)
 if err != nil {
     panic(err)
@@ -993,14 +997,14 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1046,7 +1050,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1077,7 +1081,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1108,7 +1112,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1136,7 +1140,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1171,7 +1175,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -1202,7 +1206,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -1236,7 +1240,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -1267,7 +1271,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

@@ -12,19 +12,19 @@
 <a href="../api/country.html">Country</a>
 <a href="../api/credit_party_benefit.html">CreditPartyBenefit</a>
 <a href="../api/credit_party_status.html">CreditPartyStatus</a>
-<a href="../api/mobile_number_lookup.html">MobileNumberLookup</a>
+<a href="../api/mobile_number.html">MobileNumber</a>
 <a href="../api/operator.html">Operator</a>
 <a href="../api/product.html">Product</a>
 <a href="../api/promotion.html">Promotion</a>
 <a href="../api/service.html">Service</a>
-<a href="../api/statement_inquiry.html">StatementInquiry</a>
-<a aria-current="page" href="../api/transaction.html">Transaction</a><div class="nav-sections"><a class="nav-section" href="#post-asynctransactions">POST /async/transactions</a>
+<a href="../api/statement.html">Statement</a>
+<a aria-current="page" href="../api/transaction.html">Transaction</a><div class="nav-sections"><a class="nav-section" href="#post-transactionstransaction_idcancel">POST /transactions/{transaction_id}/cancel</a>
+<a class="nav-section" href="#post-asynctransactionstransaction_idconfirm">POST /async/transactions/{transaction_id}/confirm</a>
+<a class="nav-section" href="#post-synctransactionstransaction_idconfirm">POST /sync/transactions/{transaction_id}/confirm</a>
+<a class="nav-section" href="#post-asynctransactions">POST /async/transactions</a>
 <a class="nav-section" href="#post-synctransactions">POST /sync/transactions</a>
 <a class="nav-section" href="#get-transactions">GET /transactions</a>
-<a class="nav-section" href="#get-transactionstransaction_id">GET /transactions/{transaction_id}</a>
-<a class="nav-section" href="#post-transactionstransaction_idcancel">POST /transactions/{transaction_id}/cancel</a>
-<a class="nav-section" href="#post-asynctransactionstransaction_idconfirm">POST /async/transactions/{transaction_id}/confirm</a>
-<a class="nav-section" href="#post-synctransactionstransaction_idconfirm">POST /sync/transactions/{transaction_id}/confirm</a></div></details>
+<a class="nav-section" href="#get-transactionstransaction_id">GET /transactions/{transaction_id}</a></div></details>
 <details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
 <a href="../guides/first-call.html">Make your first API call</a>
 <a href="../guides/errors.html">Handle errors</a>
@@ -38,14 +38,14 @@
 <a href="../sdks/ts.html">TypeScript</a></details>
 <details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
 <a href="../tools/go-mcp.html">Go MCP server</a></details>
-<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
-<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
-<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
-<a href="../features/paging.html">Pagination signals for list operations</a>
-<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
-<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
-<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
-<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="transaction">Transaction</h1>
+<details><summary>Features</summary><a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="transaction">Transaction</h1>
 <h2 id="operations">Operations</h2>
 <p>Every route this entity exposes. Each route links to its own reference on this page.</p>
 <table>
@@ -58,6 +58,24 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-transactionstransaction_idcancel"><code>/transactions/{transaction_id}/cancel</code></a></td>
+<td><code>create</code></td>
+<td>Transaction cancelled</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-asynctransactionstransaction_idconfirm"><code>/async/transactions/{transaction_id}/confirm</code></a></td>
+<td><code>create</code></td>
+<td>Transaction confirmed</td>
+</tr>
+<tr>
+<td><code>POST</code></td>
+<td><a href="#post-synctransactionstransaction_idconfirm"><code>/sync/transactions/{transaction_id}/confirm</code></a></td>
+<td><code>create</code></td>
+<td>Transaction confirmed</td>
+</tr>
 <tr>
 <td><code>POST</code></td>
 <td><a href="#post-asynctransactions"><code>/async/transactions</code></a></td>
@@ -82,26 +100,58 @@
 <td><code>load</code></td>
 <td>successful operation</td>
 </tr>
-<tr>
-<td><code>POST</code></td>
-<td><a href="#post-transactionstransaction_idcancel"><code>/transactions/{transaction_id}/cancel</code></a></td>
-<td><code>update</code></td>
-<td>Transaction cancelled</td>
-</tr>
-<tr>
-<td><code>POST</code></td>
-<td><a href="#post-asynctransactionstransaction_idconfirm"><code>/async/transactions/{transaction_id}/confirm</code></a></td>
-<td><code>update</code></td>
-<td>Transaction confirmed</td>
-</tr>
-<tr>
-<td><code>POST</code></td>
-<td><a href="#post-synctransactionstransaction_idconfirm"><code>/sync/transactions/{transaction_id}/confirm</code></a></td>
-<td><code>update</code></td>
-<td>Transaction confirmed</td>
-</tr>
 </tbody>
 </table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">transactions, err := client.Transaction(nil).List(nil, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(transactions)
+transaction, err := client.Transaction(nil).Load(map[string]any{&quot;id&quot;: 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(transaction)
+created, err := client.Transaction(nil).Create(map[string]any{&quot;destination&quot;: map[string]any{}, &quot;external_id&quot;: &quot;example&quot;, &quot;pin&quot;: map[string]any{}, &quot;prices&quot;: map[string]any{}, &quot;product_id&quot;: &quot;example&quot;, &quot;source&quot;: map[string]any{}}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(created)
+</code></pre>
+<h3 id="javascript">JavaScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/js.html#set-up-the-client">JavaScript setup</a>, then call the operations:</p>
+<pre><code class="language-js">const transactions = await client.Transaction().list()
+const transaction = await client.Transaction().load({ id: 1 })
+const created = await client.Transaction().create({ destination: {}, external_id: &quot;example&quot;, pin: {}, prices: {}, product_id: &quot;example&quot;, source: {} })
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local transactions, err = client:Transaction():list()
+local transaction, err = client:Transaction():load({ id = 1 })
+local created, err = client:Transaction():create({ destination = {}, external_id = &quot;example&quot;, pin = {}, prices = {}, product_id = &quot;example&quot;, source = {} })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$transactions = $client-&gt;Transaction()-&gt;list();
+$transaction = $client-&gt;Transaction()-&gt;load([&quot;id&quot; =&gt; 1]);
+$created = $client-&gt;Transaction()-&gt;create([&quot;destination&quot; =&gt; [], &quot;external_id&quot; =&gt; &quot;example&quot;, &quot;pin&quot; =&gt; [], &quot;prices&quot; =&gt; [], &quot;product_id&quot; =&gt; &quot;example&quot;, &quot;source&quot; =&gt; []]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">transactions = client.Transaction().list()
+transaction = client.Transaction().load({&quot;id&quot;: 1})
+created = client.Transaction().create({ &quot;destination&quot;: {}, &quot;external_id&quot;: &quot;example&quot;, &quot;pin&quot;: {}, &quot;prices&quot;: {}, &quot;product_id&quot;: &quot;example&quot;, &quot;source&quot;: {} })
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const transactions = await client.Transaction().list()
+const transaction = await client.Transaction().load({ id: 1 })
+const created = await client.Transaction().create({ destination: {}, external_id: &quot;example&quot;, pin: {}, prices: {}, product_id: &quot;example&quot;, source: {} })
+</code></pre>
 <h2 id="fields">Fields</h2>
 <table>
 <thead>
@@ -123,7 +173,7 @@
 <td><code>adjusted_values</code></td>
 <td><code>object</code></td>
 <td>No</td>
-<td></td>
+<td>Adjusted Values</td>
 </tr>
 <tr>
 <td><code>auto_confirm</code></td>
@@ -141,13 +191,13 @@
 <td><code>benefits</code></td>
 <td><code>array</code></td>
 <td>No</td>
-<td></td>
+<td>Benefits</td>
 </tr>
 <tr>
 <td><code>calculation_mode</code></td>
 <td><code>any</code></td>
 <td>No</td>
-<td></td>
+<td>Calculation Mode</td>
 </tr>
 <tr>
 <td><code>callback_url</code></td>
@@ -159,19 +209,19 @@
 <td><code>confirmation_date</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Confirmation Date</td>
 </tr>
 <tr>
 <td><code>confirmation_expiration_date</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Confirmation Expiration Date</td>
 </tr>
 <tr>
 <td><code>creation_date</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Creation Date</td>
 </tr>
 <tr>
 <td><code>credit_party_identifier</code></td>
@@ -195,13 +245,13 @@
 <td><code>external_id</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td></td>
+<td>External Id</td>
 </tr>
 <tr>
 <td><code>id</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Id</td>
 </tr>
 <tr>
 <td><code>metadata</code></td>
@@ -213,49 +263,49 @@
 <td><code>operator_reference</code></td>
 <td><code>string</code></td>
 <td>No</td>
-<td></td>
+<td>Operator Reference</td>
 </tr>
 <tr>
 <td><code>pin</code></td>
 <td><code>object</code></td>
 <td>Yes</td>
-<td></td>
+<td>Pin</td>
 </tr>
 <tr>
 <td><code>prices</code></td>
 <td><code>object</code></td>
 <td>Yes</td>
-<td></td>
+<td>Prices</td>
 </tr>
 <tr>
 <td><code>product</code></td>
 <td><code>any</code></td>
 <td>No</td>
-<td></td>
+<td>Product</td>
 </tr>
 <tr>
 <td><code>product_id</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td></td>
+<td>Product Id</td>
 </tr>
 <tr>
 <td><code>promotions</code></td>
 <td><code>array</code></td>
 <td>No</td>
-<td></td>
+<td>Promotions</td>
 </tr>
 <tr>
 <td><code>rates</code></td>
 <td><code>any</code></td>
 <td>No</td>
-<td></td>
+<td>Rates</td>
 </tr>
 <tr>
 <td><code>requested_values</code></td>
 <td><code>object</code></td>
 <td>No</td>
-<td></td>
+<td>Requested Values</td>
 </tr>
 <tr>
 <td><code>sender</code></td>
@@ -279,19 +329,20 @@
 <td><code>status</code></td>
 <td><code>object</code></td>
 <td>No</td>
-<td></td>
+<td>Status</td>
 </tr>
 </tbody>
 </table>
 <h2 id="create">create</h2>
-<h3 id="post-asynctransactions" class="operation" data-method="post"><code>POST</code> /async/transactions</h3>
-<p>Operation ID: <code>postTransactionAsync</code>.</p>
+<h3 id="post-transactionstransaction_idcancel" class="operation" data-method="post"><code>POST</code> /transactions/{transaction_id}/cancel</h3>
+<p>Operation ID: <code>postTransactionCancel</code>.</p>
 <p>Authentication: basic token (<code>BasicAuth</code>).</p>
-<h4 id="request-body">Request body</h4>
-<p><code>application/json</code></p>
-<p>The request body is <code>object and object</code>.</p>
+<h4 id="parameters">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>transaction_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |</p>
 <h4 id="responses">Responses</h4>
-<h5 id="201-transaction-created" class="status" data-status="2xx">201: Transaction created</h5>
+<h5 id="202-transaction-cancelled" class="status" data-status="2xx">202: Transaction cancelled</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -912,6 +963,1985 @@
 </tbody>
 </table>
 <h5 id="default-default-error-response">default: default error response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].code</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-asynctransactionstransaction_idconfirm" class="operation" data-method="post"><code>POST</code> /async/transactions/{transaction_id}/confirm</h3>
+<p>Operation ID: <code>postTransactionConfirmAsync</code>.</p>
+<p>Authentication: basic token (<code>BasicAuth</code>).</p>
+<h4 id="parameters-1">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>transaction_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |</p>
+<h4 id="responses-1">Responses</h4>
+<h5 id="202-transaction-confirmed" class="status" data-status="2xx">202: Transaction confirmed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>additional_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Additional details for a transaction. This information is mostly optional and will be required primarily for compliance reasons for products with additional information requirements as outlined in <code>required_additional_identifier_fields</code>.</td>
+</tr>
+<tr>
+<td><code>additional_identifier.purchaser_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Anonymized ID related to the purchase for compliance reasons (for example terminal, POS, agent, end user, etc).</td>
+</tr>
+<tr>
+<td><code>adjusted_values</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>auto_confirm</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Determines whether a transaction will be automatically confirmed upon creation or not. This is opted-out by default. Setting this field to <code>true</code> is recommended when transaction details, for example prices, are known as it removes the need to perform a separate API call to <a href="#operation/postTransactionConfirmAsync">confirm transactions</a>.</td>
+</tr>
+<tr>
+<td><code>beneficiary</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Beneficiary details for a transaction. This information is mostly optional and will only be required for products with beneficiary information requirements as outlined in <code>required_beneficiary_fields</code>.</td>
+</tr>
+<tr>
+<td><code>beneficiary.address_city</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.address_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>beneficiary.address_postal_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Postal code.</td>
+</tr>
+<tr>
+<td><code>beneficiary.address_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.first_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.last_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.middle_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>beneficiary.nationality_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>benefits</code></td>
+<td><code>array of object or object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>calculation_mode</code></td>
+<td><code>enum: SOURCE_AMOUNT, DESTINATION_AMOUNT and any and any and any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>confirmation_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>confirmation_expiration_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>creation_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>credit_party_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Receiving account details for a transaction. This information will be required for the majority of products with credit party inofrmation requirements outlined in <code>required_credit_party_identifier_fields</code>, but will be optional for certain products without any upfront recipient, for example Gift Cards.</td>
+</tr>
+<tr>
+<td><code>credit_party_identifier.account_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Account number.</td>
+</tr>
+<tr>
+<td><code>credit_party_identifier.account_qualifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>credit_party_identifier.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>debit_party_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Sending account details for a transaction. This information is mostly optional and will only be required for products with debit party information requirements as outlined in <code>required_debit_party_identifier_fields</code>.</td>
+</tr>
+<tr>
+<td><code>debit_party_identifier.account_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Account number.</td>
+</tr>
+<tr>
+<td><code>debit_party_identifier.account_qualifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>debit_party_identifier.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>DESTINATION_AMOUNT</code></td>
+</tr>
+<tr>
+<td><code>destination.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>destination.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>destination.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>external_id</code></td>
+<td><code>string and any and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Optional metadata related to the transaction. This can include any additional information that may be relevant for the transaction but is not covered by the other fields. The structure of this object can vary depending on the product type or service and specific use case. For example, for eSIM products, this field may contain additional details about the eSIM activation, balance and profile.</td>
+</tr>
+<tr>
+<td><code>operator_reference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pin</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pin.code</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pin.serial</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.fee</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.unit</code></td>
+<td><code>string and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.unit_type</code></td>
+<td><code>enum: CURRENCY and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.fee</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.unit</code></td>
+<td><code>string and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>object and object and any and any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>product_id</code></td>
+<td><code>integer (int32)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].end_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].id</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].start_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].terms</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>rates</code></td>
+<td><code>object and any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Sender details for a transaction. This information is mostly optional and will only be required for products with sender information requirements as outlined in <code>required_sender_fields</code>.</td>
+</tr>
+<tr>
+<td><code>sender.address_city</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.address_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>sender.address_postal_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Postal code.</td>
+</tr>
+<tr>
+<td><code>sender.address_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.first_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.last_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.middle_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>sender.nationality_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>SOURCE_AMOUNT</code></td>
+</tr>
+<tr>
+<td><code>source.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>statement_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Qualifying statement details for a payment transaction. This information is mostly optional and will only be required for specific payment products with statement identifier requirements as outlined in <code>required_statement_identifier_fields</code>.</td>
+</tr>
+<tr>
+<td><code>statement_identifier.due_date</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>statement_identifier.reference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.class</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.class.id</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.class.message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.id</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-default-error-response-1">default: default error response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].code</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-synctransactionstransaction_idconfirm" class="operation" data-method="post"><code>POST</code> /sync/transactions/{transaction_id}/confirm</h3>
+<p>Operation ID: <code>postTransactionConfirmSync</code>.</p>
+<p>Authentication: basic token (<code>BasicAuth</code>).</p>
+<h4 id="parameters-2">Parameters</h4>
+<p>| Parameter | In | Type | Required | Description |
+| --- | --- | --- | --- |
+| <code>transaction_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |</p>
+<h4 id="responses-2">Responses</h4>
+<h5 id="202-transaction-confirmed-1" class="status" data-status="2xx">202: Transaction confirmed</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>additional_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Additional details for a transaction. This information is mostly optional and will be required primarily for compliance reasons for products with additional information requirements as outlined in <code>required_additional_identifier_fields</code>.</td>
+</tr>
+<tr>
+<td><code>additional_identifier.purchaser_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Anonymized ID related to the purchase for compliance reasons (for example terminal, POS, agent, end user, etc).</td>
+</tr>
+<tr>
+<td><code>adjusted_values</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>auto_confirm</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Determines whether a transaction will be automatically confirmed upon creation or not. This is opted-out by default. Setting this field to <code>true</code> is recommended when transaction details, for example prices, are known as it removes the need to perform a separate API call to <a href="#operation/postTransactionConfirmAsync">confirm transactions</a>.</td>
+</tr>
+<tr>
+<td><code>beneficiary</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Beneficiary details for a transaction. This information is mostly optional and will only be required for products with beneficiary information requirements as outlined in <code>required_beneficiary_fields</code>.</td>
+</tr>
+<tr>
+<td><code>beneficiary.address_city</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.address_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>beneficiary.address_postal_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Postal code.</td>
+</tr>
+<tr>
+<td><code>beneficiary.address_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.first_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.last_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.middle_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>beneficiary.nationality_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>benefits</code></td>
+<td><code>array of object or object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>calculation_mode</code></td>
+<td><code>enum: SOURCE_AMOUNT, DESTINATION_AMOUNT and any and any and any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>confirmation_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>confirmation_expiration_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>creation_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>credit_party_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Receiving account details for a transaction. This information will be required for the majority of products with credit party inofrmation requirements outlined in <code>required_credit_party_identifier_fields</code>, but will be optional for certain products without any upfront recipient, for example Gift Cards.</td>
+</tr>
+<tr>
+<td><code>credit_party_identifier.account_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Account number.</td>
+</tr>
+<tr>
+<td><code>credit_party_identifier.account_qualifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>credit_party_identifier.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>debit_party_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Sending account details for a transaction. This information is mostly optional and will only be required for products with debit party information requirements as outlined in <code>required_debit_party_identifier_fields</code>.</td>
+</tr>
+<tr>
+<td><code>debit_party_identifier.account_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Account number.</td>
+</tr>
+<tr>
+<td><code>debit_party_identifier.account_qualifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>debit_party_identifier.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>DESTINATION_AMOUNT</code></td>
+</tr>
+<tr>
+<td><code>destination.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>destination.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>destination.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>external_id</code></td>
+<td><code>string and any and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Optional metadata related to the transaction. This can include any additional information that may be relevant for the transaction but is not covered by the other fields. The structure of this object can vary depending on the product type or service and specific use case. For example, for eSIM products, this field may contain additional details about the eSIM activation, balance and profile.</td>
+</tr>
+<tr>
+<td><code>operator_reference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pin</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pin.code</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pin.serial</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.fee</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.unit</code></td>
+<td><code>string and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.unit_type</code></td>
+<td><code>enum: CURRENCY and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.fee</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.unit</code></td>
+<td><code>string and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>object and object and any and any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>product_id</code></td>
+<td><code>integer (int32)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].end_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].id</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].start_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].terms</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>rates</code></td>
+<td><code>object and any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Sender details for a transaction. This information is mostly optional and will only be required for products with sender information requirements as outlined in <code>required_sender_fields</code>.</td>
+</tr>
+<tr>
+<td><code>sender.address_city</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.address_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>sender.address_postal_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Postal code.</td>
+</tr>
+<tr>
+<td><code>sender.address_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.first_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.last_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.middle_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>sender.nationality_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>SOURCE_AMOUNT</code></td>
+</tr>
+<tr>
+<td><code>source.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>statement_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Qualifying statement details for a payment transaction. This information is mostly optional and will only be required for specific payment products with statement identifier requirements as outlined in <code>required_statement_identifier_fields</code>.</td>
+</tr>
+<tr>
+<td><code>statement_identifier.due_date</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>statement_identifier.reference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.class</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.class.id</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.class.message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.id</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-default-error-response-2">default: default error response</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>errors</code></td>
+<td><code>array of object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].code</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>errors[].message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-asynctransactions" class="operation" data-method="post"><code>POST</code> /async/transactions</h3>
+<p>Operation ID: <code>postTransactionAsync</code>.</p>
+<p>Authentication: basic token (<code>BasicAuth</code>).</p>
+<h4 id="request-body">Request body</h4>
+<p><code>application/json</code></p>
+<p>The request body is <code>object and object</code>.</p>
+<h4 id="responses-3">Responses</h4>
+<h5 id="201-transaction-created" class="status" data-status="2xx">201: Transaction created</h5>
+<p><code>application/json</code></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>additional_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Additional details for a transaction. This information is mostly optional and will be required primarily for compliance reasons for products with additional information requirements as outlined in <code>required_additional_identifier_fields</code>.</td>
+</tr>
+<tr>
+<td><code>additional_identifier.purchaser_id</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Anonymized ID related to the purchase for compliance reasons (for example terminal, POS, agent, end user, etc).</td>
+</tr>
+<tr>
+<td><code>adjusted_values</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.destination.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>adjusted_values.source.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>auto_confirm</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>Determines whether a transaction will be automatically confirmed upon creation or not. This is opted-out by default. Setting this field to <code>true</code> is recommended when transaction details, for example prices, are known as it removes the need to perform a separate API call to <a href="#operation/postTransactionConfirmAsync">confirm transactions</a>.</td>
+</tr>
+<tr>
+<td><code>beneficiary</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Beneficiary details for a transaction. This information is mostly optional and will only be required for products with beneficiary information requirements as outlined in <code>required_beneficiary_fields</code>.</td>
+</tr>
+<tr>
+<td><code>beneficiary.address_city</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.address_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>beneficiary.address_postal_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Postal code.</td>
+</tr>
+<tr>
+<td><code>beneficiary.address_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.first_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.last_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.middle_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>beneficiary.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>beneficiary.nationality_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>benefits</code></td>
+<td><code>array of object or object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>calculation_mode</code></td>
+<td><code>enum: SOURCE_AMOUNT, DESTINATION_AMOUNT and any and any and any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>confirmation_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>confirmation_expiration_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>creation_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>credit_party_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Receiving account details for a transaction. This information will be required for the majority of products with credit party inofrmation requirements outlined in <code>required_credit_party_identifier_fields</code>, but will be optional for certain products without any upfront recipient, for example Gift Cards.</td>
+</tr>
+<tr>
+<td><code>credit_party_identifier.account_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Account number.</td>
+</tr>
+<tr>
+<td><code>credit_party_identifier.account_qualifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>credit_party_identifier.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>debit_party_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Sending account details for a transaction. This information is mostly optional and will only be required for products with debit party information requirements as outlined in <code>required_debit_party_identifier_fields</code>.</td>
+</tr>
+<tr>
+<td><code>debit_party_identifier.account_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Account number.</td>
+</tr>
+<tr>
+<td><code>debit_party_identifier.account_qualifier</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>debit_party_identifier.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>destination</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>DESTINATION_AMOUNT</code></td>
+</tr>
+<tr>
+<td><code>destination.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>destination.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>destination.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>external_id</code></td>
+<td><code>string and any and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td><code>integer (int64)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>metadata</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Optional metadata related to the transaction. This can include any additional information that may be relevant for the transaction but is not covered by the other fields. The structure of this object can vary depending on the product type or service and specific use case. For example, for eSIM products, this field may contain additional details about the eSIM activation, balance and profile.</td>
+</tr>
+<tr>
+<td><code>operator_reference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pin</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pin.code</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>pin.serial</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.fee</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.unit</code></td>
+<td><code>string and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.retail.unit_type</code></td>
+<td><code>enum: CURRENCY and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale</code></td>
+<td><code>object</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.fee</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.unit</code></td>
+<td><code>string and any</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>prices.wholesale.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>product</code></td>
+<td><code>object and object and any and any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>product_id</code></td>
+<td><code>integer (int32)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions</code></td>
+<td><code>array of object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].description</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].end_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].id</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].start_date</code></td>
+<td><code>string (date-time)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].terms</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>promotions[].title</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>rates</code></td>
+<td><code>object and any</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.destination.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>requested_values.source.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Sender details for a transaction. This information is mostly optional and will only be required for products with sender information requirements as outlined in <code>required_sender_fields</code>.</td>
+</tr>
+<tr>
+<td><code>sender.address_city</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.address_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>sender.address_postal_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Postal code.</td>
+</tr>
+<tr>
+<td><code>sender.address_text</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.email</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.first_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.last_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.middle_name</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>sender.mobile_number</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
+</tr>
+<tr>
+<td><code>sender.nationality_country_iso_code</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
+</tr>
+<tr>
+<td><code>source</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>SOURCE_AMOUNT</code></td>
+</tr>
+<tr>
+<td><code>source.amount</code></td>
+<td><code>number (double)</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source.unit</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>source.unit_type</code></td>
+<td><code>enum: CURRENCY</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>statement_identifier</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td>Qualifying statement details for a payment transaction. This information is mostly optional and will only be required for specific payment products with statement identifier requirements as outlined in <code>required_statement_identifier_fields</code>.</td>
+</tr>
+<tr>
+<td><code>statement_identifier.due_date</code></td>
+<td><code>string (date)</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>statement_identifier.reference</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.class</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.class.id</code></td>
+<td><code>integer</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.class.message</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.id</code></td>
+<td><code>integer</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>status.message</code></td>
+<td><code>string</code></td>
+<td>No</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h5 id="default-default-error-response-3">default: default error response</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -1566,833 +3596,8 @@
 </tr>
 </tbody>
 </table>
-<h4 id="responses-1">Responses</h4>
-<h5 id="201-transaction-created-1" class="status" data-status="2xx">201: Transaction created</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>additional_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Additional details for a transaction. This information is mostly optional and will be required primarily for compliance reasons for products with additional information requirements as outlined in <code>required_additional_identifier_fields</code>.</td>
-</tr>
-<tr>
-<td><code>additional_identifier.purchaser_id</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Anonymized ID related to the purchase for compliance reasons (for example terminal, POS, agent, end user, etc).</td>
-</tr>
-<tr>
-<td><code>adjusted_values</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>auto_confirm</code></td>
-<td><code>boolean</code></td>
-<td>No</td>
-<td>Determines whether a transaction will be automatically confirmed upon creation or not. This is opted-out by default. Setting this field to <code>true</code> is recommended when transaction details, for example prices, are known as it removes the need to perform a separate API call to <a href="#operation/postTransactionConfirmAsync">confirm transactions</a>.</td>
-</tr>
-<tr>
-<td><code>beneficiary</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Beneficiary details for a transaction. This information is mostly optional and will only be required for products with beneficiary information requirements as outlined in <code>required_beneficiary_fields</code>.</td>
-</tr>
-<tr>
-<td><code>beneficiary.address_city</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.address_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>beneficiary.address_postal_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Postal code.</td>
-</tr>
-<tr>
-<td><code>beneficiary.address_text</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.email</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.first_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.last_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.middle_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>beneficiary.nationality_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>benefits</code></td>
-<td><code>array of object or object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>calculation_mode</code></td>
-<td><code>enum: SOURCE_AMOUNT, DESTINATION_AMOUNT and any and any and any</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>confirmation_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>confirmation_expiration_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>creation_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>credit_party_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Receiving account details for a transaction. This information will be required for the majority of products with credit party inofrmation requirements outlined in <code>required_credit_party_identifier_fields</code>, but will be optional for certain products without any upfront recipient, for example Gift Cards.</td>
-</tr>
-<tr>
-<td><code>credit_party_identifier.account_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Account number.</td>
-</tr>
-<tr>
-<td><code>credit_party_identifier.account_qualifier</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>credit_party_identifier.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>debit_party_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Sending account details for a transaction. This information is mostly optional and will only be required for products with debit party information requirements as outlined in <code>required_debit_party_identifier_fields</code>.</td>
-</tr>
-<tr>
-<td><code>debit_party_identifier.account_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Account number.</td>
-</tr>
-<tr>
-<td><code>debit_party_identifier.account_qualifier</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>debit_party_identifier.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>destination</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>DESTINATION_AMOUNT</code></td>
-</tr>
-<tr>
-<td><code>destination.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>destination.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>destination.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>external_id</code></td>
-<td><code>string and any and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>id</code></td>
-<td><code>integer (int64)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>metadata</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Optional metadata related to the transaction. This can include any additional information that may be relevant for the transaction but is not covered by the other fields. The structure of this object can vary depending on the product type or service and specific use case. For example, for eSIM products, this field may contain additional details about the eSIM activation, balance and profile.</td>
-</tr>
-<tr>
-<td><code>operator_reference</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>pin</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>pin.code</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>pin.serial</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.fee</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.unit</code></td>
-<td><code>string and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.unit_type</code></td>
-<td><code>enum: CURRENCY and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.fee</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.unit</code></td>
-<td><code>string and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>object and object and any and any</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>product_id</code></td>
-<td><code>integer (int32)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions</code></td>
-<td><code>array of object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].description</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].end_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].id</code></td>
-<td><code>integer</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].start_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].terms</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>rates</code></td>
-<td><code>object and any</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Sender details for a transaction. This information is mostly optional and will only be required for products with sender information requirements as outlined in <code>required_sender_fields</code>.</td>
-</tr>
-<tr>
-<td><code>sender.address_city</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.address_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>sender.address_postal_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Postal code.</td>
-</tr>
-<tr>
-<td><code>sender.address_text</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.email</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.first_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.last_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.middle_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>sender.nationality_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>source</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>SOURCE_AMOUNT</code></td>
-</tr>
-<tr>
-<td><code>source.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>source.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>source.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>statement_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Qualifying statement details for a payment transaction. This information is mostly optional and will only be required for specific payment products with statement identifier requirements as outlined in <code>required_statement_identifier_fields</code>.</td>
-</tr>
-<tr>
-<td><code>statement_identifier.due_date</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>statement_identifier.reference</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.class</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.class.id</code></td>
-<td><code>integer</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.class.message</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.id</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.message</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="default-default-error-response-1">default: default error response</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>errors</code></td>
-<td><code>array of object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].code</code></td>
-<td><code>integer</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].message</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="list">list</h2>
-<h3 id="get-transactions" class="operation" data-method="get"><code>GET</code> /transactions</h3>
-<p>Operation ID: <code>getTransactions</code>.</p>
-<p>Authentication: basic token (<code>BasicAuth</code>).</p>
-<h4 id="parameters">Parameters</h4>
-<p>| Parameter | In | Type | Required | Description |
-| --- | --- | --- | --- |
-| <code>external_id</code> | <code>query</code> | <code>string</code> | No | Unique identifier for the transaction in your system. |
-| <code>product_type</code> | <code>query</code> | <code>enum: FIXED_VALUE_RECHARGE, RANGED_VALUE_RECHARGE, FIXED_VALUE_PIN_PURCHASE, RANGED_VALUE_PIN_PURCHASE, RANGED_VALUE_PAYMENT</code> | No |  |
-| <code>service_id</code> | <code>query</code> | <code>integer (int32)</code> | No |  |
-| <code>subservice_id</code> | <code>query</code> | <code>integer (int32)</code> | No |  |
-| <code>country_iso_code</code> | <code>query</code> | <code>string</code> | No |  |
-| <code>operator_id</code> | <code>query</code> | <code>integer (int32)</code> | No |  |
-| <code>status_id</code> | <code>query</code> | <code>integer</code> | No |  |
-| <code>credit_party_mobile_number</code> | <code>query</code> | <code>string</code> | No |  |
-| <code>credit_party_account_number</code> | <code>query</code> | <code>string</code> | No |  |
-| <code>from_date</code> | <code>query</code> | <code>string (date-time)</code> | No | Starting date to filter transactions based on creation date, inclusive of the provided date. Please note that the window between <code>from_date</code> and <code>to_date</code> can not exceed 24 hours. |
-| <code>to_date</code> | <code>query</code> | <code>string (date-time)</code> | No | Ending date to filter transactions based on creation date, inclusive of the provided date. Please note that the window between <code>from_date</code> and <code>to_date</code> can not exceed 24 hours. |
-| <code>page</code> | <code>query</code> | <code>integer (int32)</code> | No | Page number. |
-| <code>per_page</code> | <code>query</code> | <code>integer (int32)</code> | No | Number of records per page. |</p>
-<h4 id="responses-2">Responses</h4>
-<h5 id="200-successful-operation" class="status" data-status="2xx">200: successful operation</h5>
-<p><code>application/json</code></p>
-<p>The response is <code>array of object and object</code>.</p>
-<h5 id="404-transaction-not-found" class="status" data-status="4xx">404: Transaction not found</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>errors</code></td>
-<td><code>array of object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].code</code></td>
-<td><code>integer</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].message</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="default-default-error-response-2">default: default error response</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>errors</code></td>
-<td><code>array of object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].code</code></td>
-<td><code>integer</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].message</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="load">load</h2>
-<h3 id="get-transactionstransaction_id" class="operation" data-method="get"><code>GET</code> /transactions/{transaction_id}</h3>
-<p>Operation ID: <code>getTransactionById</code>.</p>
-<p>Authentication: basic token (<code>BasicAuth</code>).</p>
-<h4 id="parameters-1">Parameters</h4>
-<p>| Parameter | In | Type | Required | Description |
-| --- | --- | --- | --- |
-| <code>transaction_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |</p>
-<h4 id="responses-3">Responses</h4>
-<h5 id="200-successful-operation-1" class="status" data-status="2xx">200: successful operation</h5>
-<p><code>application/json</code></p>
-<p>The response is <code>object and object</code>.</p>
-<h5 id="404-transaction-not-found-1" class="status" data-status="4xx">404: Transaction not found</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>errors</code></td>
-<td><code>array of object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].code</code></td>
-<td><code>integer</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].message</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h5 id="default-default-error-response-3">default: default error response</h5>
-<p><code>application/json</code></p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Type</th>
-<th>Required</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>errors</code></td>
-<td><code>array of object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].code</code></td>
-<td><code>integer</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>errors[].message</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<h2 id="update">update</h2>
-<h3 id="post-transactionstransaction_idcancel" class="operation" data-method="post"><code>POST</code> /transactions/{transaction_id}/cancel</h3>
-<p>Operation ID: <code>postTransactionCancel</code>.</p>
-<p>Authentication: basic token (<code>BasicAuth</code>).</p>
-<h4 id="parameters-2">Parameters</h4>
-<p>| Parameter | In | Type | Required | Description |
-| --- | --- | --- | --- |
-| <code>transaction_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |</p>
 <h4 id="responses-4">Responses</h4>
-<h5 id="202-transaction-cancelled" class="status" data-status="2xx">202: Transaction cancelled</h5>
+<h5 id="201-transaction-created-1" class="status" data-status="2xx">201: Transaction created</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -3044,15 +4249,31 @@
 </tr>
 </tbody>
 </table>
-<h3 id="post-asynctransactionstransaction_idconfirm" class="operation" data-method="post"><code>POST</code> /async/transactions/{transaction_id}/confirm</h3>
-<p>Operation ID: <code>postTransactionConfirmAsync</code>.</p>
+<h2 id="list">list</h2>
+<h3 id="get-transactions" class="operation" data-method="get"><code>GET</code> /transactions</h3>
+<p>Operation ID: <code>getTransactions</code>.</p>
 <p>Authentication: basic token (<code>BasicAuth</code>).</p>
 <h4 id="parameters-3">Parameters</h4>
 <p>| Parameter | In | Type | Required | Description |
 | --- | --- | --- | --- |
-| <code>transaction_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |</p>
+| <code>external_id</code> | <code>query</code> | <code>string</code> | No | Unique identifier for the transaction in your system. |
+| <code>product_type</code> | <code>query</code> | <code>enum: FIXED_VALUE_RECHARGE, RANGED_VALUE_RECHARGE, FIXED_VALUE_PIN_PURCHASE, RANGED_VALUE_PIN_PURCHASE, RANGED_VALUE_PAYMENT</code> | No |  |
+| <code>service_id</code> | <code>query</code> | <code>integer (int32)</code> | No |  |
+| <code>subservice_id</code> | <code>query</code> | <code>integer (int32)</code> | No |  |
+| <code>country_iso_code</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>operator_id</code> | <code>query</code> | <code>integer (int32)</code> | No |  |
+| <code>status_id</code> | <code>query</code> | <code>integer</code> | No |  |
+| <code>credit_party_mobile_number</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>credit_party_account_number</code> | <code>query</code> | <code>string</code> | No |  |
+| <code>from_date</code> | <code>query</code> | <code>string (date-time)</code> | No | Starting date to filter transactions based on creation date, inclusive of the provided date. Please note that the window between <code>from_date</code> and <code>to_date</code> can not exceed 24 hours. |
+| <code>to_date</code> | <code>query</code> | <code>string (date-time)</code> | No | Ending date to filter transactions based on creation date, inclusive of the provided date. Please note that the window between <code>from_date</code> and <code>to_date</code> can not exceed 24 hours. |
+| <code>page</code> | <code>query</code> | <code>integer (int32)</code> | No | Page number. |
+| <code>per_page</code> | <code>query</code> | <code>integer (int32)</code> | No | Number of records per page. |</p>
 <h4 id="responses-5">Responses</h4>
-<h5 id="202-transaction-confirmed" class="status" data-status="2xx">202: Transaction confirmed</h5>
+<h5 id="200-successful-operation" class="status" data-status="2xx">200: successful operation</h5>
+<p><code>application/json</code></p>
+<p>The response is <code>array of object and object</code>.</p>
+<h5 id="404-transaction-not-found" class="status" data-status="4xx">404: Transaction not found</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -3065,609 +4286,21 @@
 </thead>
 <tbody>
 <tr>
-<td><code>additional_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Additional details for a transaction. This information is mostly optional and will be required primarily for compliance reasons for products with additional information requirements as outlined in <code>required_additional_identifier_fields</code>.</td>
-</tr>
-<tr>
-<td><code>additional_identifier.purchaser_id</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Anonymized ID related to the purchase for compliance reasons (for example terminal, POS, agent, end user, etc).</td>
-</tr>
-<tr>
-<td><code>adjusted_values</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>auto_confirm</code></td>
-<td><code>boolean</code></td>
-<td>No</td>
-<td>Determines whether a transaction will be automatically confirmed upon creation or not. This is opted-out by default. Setting this field to <code>true</code> is recommended when transaction details, for example prices, are known as it removes the need to perform a separate API call to <a href="#operation/postTransactionConfirmAsync">confirm transactions</a>.</td>
-</tr>
-<tr>
-<td><code>beneficiary</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Beneficiary details for a transaction. This information is mostly optional and will only be required for products with beneficiary information requirements as outlined in <code>required_beneficiary_fields</code>.</td>
-</tr>
-<tr>
-<td><code>beneficiary.address_city</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.address_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>beneficiary.address_postal_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Postal code.</td>
-</tr>
-<tr>
-<td><code>beneficiary.address_text</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.email</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.first_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.last_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.middle_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>beneficiary.nationality_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>benefits</code></td>
-<td><code>array of object or object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>calculation_mode</code></td>
-<td><code>enum: SOURCE_AMOUNT, DESTINATION_AMOUNT and any and any and any</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>confirmation_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>confirmation_expiration_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>creation_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>credit_party_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Receiving account details for a transaction. This information will be required for the majority of products with credit party inofrmation requirements outlined in <code>required_credit_party_identifier_fields</code>, but will be optional for certain products without any upfront recipient, for example Gift Cards.</td>
-</tr>
-<tr>
-<td><code>credit_party_identifier.account_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Account number.</td>
-</tr>
-<tr>
-<td><code>credit_party_identifier.account_qualifier</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>credit_party_identifier.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>debit_party_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Sending account details for a transaction. This information is mostly optional and will only be required for products with debit party information requirements as outlined in <code>required_debit_party_identifier_fields</code>.</td>
-</tr>
-<tr>
-<td><code>debit_party_identifier.account_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Account number.</td>
-</tr>
-<tr>
-<td><code>debit_party_identifier.account_qualifier</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>debit_party_identifier.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>destination</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>DESTINATION_AMOUNT</code></td>
-</tr>
-<tr>
-<td><code>destination.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>destination.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>destination.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>external_id</code></td>
-<td><code>string and any and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>id</code></td>
-<td><code>integer (int64)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>metadata</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Optional metadata related to the transaction. This can include any additional information that may be relevant for the transaction but is not covered by the other fields. The structure of this object can vary depending on the product type or service and specific use case. For example, for eSIM products, this field may contain additional details about the eSIM activation, balance and profile.</td>
-</tr>
-<tr>
-<td><code>operator_reference</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>pin</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>pin.code</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>pin.serial</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.fee</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.unit</code></td>
-<td><code>string and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.unit_type</code></td>
-<td><code>enum: CURRENCY and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.fee</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.unit</code></td>
-<td><code>string and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>object and object and any and any</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>product_id</code></td>
-<td><code>integer (int32)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions</code></td>
+<td><code>errors</code></td>
 <td><code>array of object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].description</code></td>
-<td><code>string</code></td>
 <td>Yes</td>
 <td></td>
 </tr>
 <tr>
-<td><code>promotions[].end_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].id</code></td>
+<td><code>errors[].code</code></td>
 <td><code>integer</code></td>
 <td>Yes</td>
 <td></td>
 </tr>
 <tr>
-<td><code>promotions[].start_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].terms</code></td>
+<td><code>errors[].message</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>rates</code></td>
-<td><code>object and any</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Sender details for a transaction. This information is mostly optional and will only be required for products with sender information requirements as outlined in <code>required_sender_fields</code>.</td>
-</tr>
-<tr>
-<td><code>sender.address_city</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.address_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>sender.address_postal_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Postal code.</td>
-</tr>
-<tr>
-<td><code>sender.address_text</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.email</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.first_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.last_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.middle_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>sender.nationality_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>source</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>SOURCE_AMOUNT</code></td>
-</tr>
-<tr>
-<td><code>source.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>source.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>source.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>statement_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Qualifying statement details for a payment transaction. This information is mostly optional and will only be required for specific payment products with statement identifier requirements as outlined in <code>required_statement_identifier_fields</code>.</td>
-</tr>
-<tr>
-<td><code>statement_identifier.due_date</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>statement_identifier.reference</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.class</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.class.id</code></td>
-<td><code>integer</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.class.message</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.id</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.message</code></td>
-<td><code>string</code></td>
-<td>No</td>
 <td></td>
 </tr>
 </tbody>
@@ -3704,15 +4337,19 @@
 </tr>
 </tbody>
 </table>
-<h3 id="post-synctransactionstransaction_idconfirm" class="operation" data-method="post"><code>POST</code> /sync/transactions/{transaction_id}/confirm</h3>
-<p>Operation ID: <code>postTransactionConfirmSync</code>.</p>
+<h2 id="load">load</h2>
+<h3 id="get-transactionstransaction_id" class="operation" data-method="get"><code>GET</code> /transactions/{transaction_id}</h3>
+<p>Operation ID: <code>getTransactionById</code>.</p>
 <p>Authentication: basic token (<code>BasicAuth</code>).</p>
 <h4 id="parameters-4">Parameters</h4>
 <p>| Parameter | In | Type | Required | Description |
 | --- | --- | --- | --- |
 | <code>transaction_id</code> | <code>path</code> | <code>integer (int64)</code> | Yes |  |</p>
 <h4 id="responses-6">Responses</h4>
-<h5 id="202-transaction-confirmed-1" class="status" data-status="2xx">202: Transaction confirmed</h5>
+<h5 id="200-successful-operation-1" class="status" data-status="2xx">200: successful operation</h5>
+<p><code>application/json</code></p>
+<p>The response is <code>object and object</code>.</p>
+<h5 id="404-transaction-not-found-1" class="status" data-status="4xx">404: Transaction not found</h5>
 <p><code>application/json</code></p>
 <table>
 <thead>
@@ -3725,609 +4362,21 @@
 </thead>
 <tbody>
 <tr>
-<td><code>additional_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Additional details for a transaction. This information is mostly optional and will be required primarily for compliance reasons for products with additional information requirements as outlined in <code>required_additional_identifier_fields</code>.</td>
-</tr>
-<tr>
-<td><code>additional_identifier.purchaser_id</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Anonymized ID related to the purchase for compliance reasons (for example terminal, POS, agent, end user, etc).</td>
-</tr>
-<tr>
-<td><code>adjusted_values</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.destination.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>adjusted_values.source.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>auto_confirm</code></td>
-<td><code>boolean</code></td>
-<td>No</td>
-<td>Determines whether a transaction will be automatically confirmed upon creation or not. This is opted-out by default. Setting this field to <code>true</code> is recommended when transaction details, for example prices, are known as it removes the need to perform a separate API call to <a href="#operation/postTransactionConfirmAsync">confirm transactions</a>.</td>
-</tr>
-<tr>
-<td><code>beneficiary</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Beneficiary details for a transaction. This information is mostly optional and will only be required for products with beneficiary information requirements as outlined in <code>required_beneficiary_fields</code>.</td>
-</tr>
-<tr>
-<td><code>beneficiary.address_city</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.address_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>beneficiary.address_postal_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Postal code.</td>
-</tr>
-<tr>
-<td><code>beneficiary.address_text</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.email</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.first_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.last_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.middle_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>beneficiary.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>beneficiary.nationality_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>benefits</code></td>
-<td><code>array of object or object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>calculation_mode</code></td>
-<td><code>enum: SOURCE_AMOUNT, DESTINATION_AMOUNT and any and any and any</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>confirmation_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>confirmation_expiration_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>creation_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>credit_party_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Receiving account details for a transaction. This information will be required for the majority of products with credit party inofrmation requirements outlined in <code>required_credit_party_identifier_fields</code>, but will be optional for certain products without any upfront recipient, for example Gift Cards.</td>
-</tr>
-<tr>
-<td><code>credit_party_identifier.account_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Account number.</td>
-</tr>
-<tr>
-<td><code>credit_party_identifier.account_qualifier</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>credit_party_identifier.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>debit_party_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Sending account details for a transaction. This information is mostly optional and will only be required for products with debit party information requirements as outlined in <code>required_debit_party_identifier_fields</code>.</td>
-</tr>
-<tr>
-<td><code>debit_party_identifier.account_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Account number.</td>
-</tr>
-<tr>
-<td><code>debit_party_identifier.account_qualifier</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>debit_party_identifier.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>destination</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>DESTINATION_AMOUNT</code></td>
-</tr>
-<tr>
-<td><code>destination.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>destination.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>destination.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>external_id</code></td>
-<td><code>string and any and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>id</code></td>
-<td><code>integer (int64)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>metadata</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Optional metadata related to the transaction. This can include any additional information that may be relevant for the transaction but is not covered by the other fields. The structure of this object can vary depending on the product type or service and specific use case. For example, for eSIM products, this field may contain additional details about the eSIM activation, balance and profile.</td>
-</tr>
-<tr>
-<td><code>operator_reference</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>pin</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>pin.code</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>pin.serial</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.fee</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.unit</code></td>
-<td><code>string and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.retail.unit_type</code></td>
-<td><code>enum: CURRENCY and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.fee</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.unit</code></td>
-<td><code>string and any</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>prices.wholesale.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>product</code></td>
-<td><code>object and object and any and any</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>product_id</code></td>
-<td><code>integer (int32)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions</code></td>
+<td><code>errors</code></td>
 <td><code>array of object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].description</code></td>
-<td><code>string</code></td>
 <td>Yes</td>
 <td></td>
 </tr>
 <tr>
-<td><code>promotions[].end_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].id</code></td>
+<td><code>errors[].code</code></td>
 <td><code>integer</code></td>
 <td>Yes</td>
 <td></td>
 </tr>
 <tr>
-<td><code>promotions[].start_date</code></td>
-<td><code>string (date-time)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].terms</code></td>
+<td><code>errors[].message</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>promotions[].title</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>rates</code></td>
-<td><code>object and any</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.destination.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>requested_values.source.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Sender details for a transaction. This information is mostly optional and will only be required for products with sender information requirements as outlined in <code>required_sender_fields</code>.</td>
-</tr>
-<tr>
-<td><code>sender.address_city</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.address_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>sender.address_postal_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Postal code.</td>
-</tr>
-<tr>
-<td><code>sender.address_text</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.email</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.first_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.last_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.middle_name</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>sender.mobile_number</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Mobile number in <a href="https://en.wikipedia.org/wiki/E.164">E.164</a> format.</td>
-</tr>
-<tr>
-<td><code>sender.nationality_country_iso_code</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td>Country code in <a href="https://www.iso.org/iso-3166-country-codes.html">ISO 3166</a> format. Note that the official list can be extended with additional country codes.</td>
-</tr>
-<tr>
-<td><code>source</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Required for ranged value products and when <code>calculation_mode</code> is set to <code>SOURCE_AMOUNT</code></td>
-</tr>
-<tr>
-<td><code>source.amount</code></td>
-<td><code>number (double)</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>source.unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>source.unit_type</code></td>
-<td><code>enum: CURRENCY</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>statement_identifier</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td>Qualifying statement details for a payment transaction. This information is mostly optional and will only be required for specific payment products with statement identifier requirements as outlined in <code>required_statement_identifier_fields</code>.</td>
-</tr>
-<tr>
-<td><code>statement_identifier.due_date</code></td>
-<td><code>string (date)</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>statement_identifier.reference</code></td>
-<td><code>string</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.class</code></td>
-<td><code>object</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.class.id</code></td>
-<td><code>integer</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.class.message</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.id</code></td>
-<td><code>integer</code></td>
-<td>No</td>
-<td></td>
-</tr>
-<tr>
-<td><code>status.message</code></td>
-<td><code>string</code></td>
-<td>No</td>
 <td></td>
 </tr>
 </tbody>

@@ -54,13 +54,13 @@ describe('PromotionDirect', async () => {
         throw new Error('Live load blocked: discovery returned no usable entities')
       }
       params.id = listData[0].id
-      params.promotion_id = setup.idmap['promotion01']
+
     } else {
-      params.promotion_id = 'direct01'
+      params.id = 'direct01'
     }
 
     const result = await client.direct({
-      path: 'promotions/{promotion_id}',
+      path: 'promotions/{id}',
       method: 'GET',
       params,
     })

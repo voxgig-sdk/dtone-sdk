@@ -54,13 +54,13 @@ describe('ServiceDirect', async () => {
         throw new Error('Live load blocked: discovery returned no usable entities')
       }
       params.id = listData[0].id
-      params.service_id = setup.idmap['service01']
+
     } else {
-      params.service_id = 'direct01'
+      params.id = 'direct01'
     }
 
     const result = await client.direct({
-      path: 'services/{service_id}',
+      path: 'services/{id}',
       method: 'GET',
       params,
     })

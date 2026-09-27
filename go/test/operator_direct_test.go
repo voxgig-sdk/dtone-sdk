@@ -115,13 +115,12 @@ func TestOperatorDirect(t *testing.T) {
 			}
 			firstEnt := core.ToMapAny(listData[0])
 			params["id"] = firstEnt["id"]
-			params["operator_id"] = setup.idmap["operator01"]
 		} else {
-			params["operator_id"] = "direct01"
+			params["id"] = "direct01"
 		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "operators/{operator_id}",
+			"path":   "operators/{id}",
 			"method": "GET",
 			"params": params,
 			"query":  query,

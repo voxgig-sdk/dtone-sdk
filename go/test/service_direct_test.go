@@ -115,13 +115,12 @@ func TestServiceDirect(t *testing.T) {
 			}
 			firstEnt := core.ToMapAny(listData[0])
 			params["id"] = firstEnt["id"]
-			params["service_id"] = setup.idmap["service01"]
 		} else {
-			params["service_id"] = "direct01"
+			params["id"] = "direct01"
 		}
 
 		result, err := client.Direct(map[string]any{
-			"path":   "services/{service_id}",
+			"path":   "services/{id}",
 			"method": "GET",
 			"params": params,
 			"query":  query,

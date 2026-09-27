@@ -67,10 +67,10 @@ class TestCampaignDirect:
         params = {}
         query = {}
         if not setup["live"]:
-            params["campaign_id"] = "direct01"
+            params["id"] = "direct01"
 
         result = client.direct({
-            "path": "campaigns/{campaign_id}",
+            "path": "campaigns/{id}",
             "method": "GET",
             "params": params,
             "query": query,

@@ -187,12 +187,12 @@ def make_config():
                 "country": {},
                 "credit_party_benefit": {},
                 "credit_party_status": {},
-                "mobile_number_lookup": {},
+                "mobile_number": {},
                 "operator": {},
                 "product": {},
                 "promotion": {},
                 "service": {},
-                "statement_inquiry": {},
+                "statement": {},
                 "transaction": {},
             },
         },
@@ -200,37 +200,43 @@ def make_config():
       "balance": {
         "fields": [
           {
-            "format": "double",
             "name": "available",
-            "req": True,
+            "title": "Available",
             "type": "`$NUMBER`",
+            "req": True,
+            "format": "double",
           },
           {
-            "format": "double",
             "name": "credit_limit",
-            "req": True,
+            "title": "Credit Limit",
             "type": "`$NUMBER`",
+            "req": True,
+            "format": "double",
           },
           {
-            "format": "double",
             "name": "holding",
-            "req": True,
+            "title": "Holding",
             "type": "`$NUMBER`",
+            "req": True,
+            "format": "double",
           },
           {
             "name": "id",
-            "req": True,
+            "title": "Id",
             "type": "`$INTEGER`",
+            "req": True,
           },
           {
             "name": "unit",
-            "req": True,
+            "title": "Unit",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "unit_type",
-            "req": True,
+            "title": "Unit Type",
             "type": "`$STRING`",
+            "req": True,
           },
         ],
         "id": {
@@ -244,36 +250,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "unit",
-                      "orig": "unit",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "unit_type",
-                      "orig": "unit_type",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/balances",
@@ -282,6 +258,44 @@ def make_config():
                     "lit": "balances",
                   },
                 ],
+                "parts": [
+                  "balances",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                    {
+                      "name": "unit",
+                      "orig": "unit",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "unit_type",
+                      "orig": "unit_type",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "page",
@@ -290,13 +304,6 @@ def make_config():
                     "unit_type",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "balances",
-                ],
               },
             ],
           },
@@ -309,8 +316,9 @@ def make_config():
         "fields": [
           {
             "name": "name",
-            "req": True,
+            "title": "Name",
             "type": "`$STRING`",
+            "req": True,
           },
         ],
         "name": "benefit_type",
@@ -320,24 +328,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/benefit-types",
@@ -346,19 +336,38 @@ def make_config():
                     "lit": "benefit-types",
                   },
                 ],
+                "parts": [
+                  "benefit-types",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "page",
                     "per_page",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "benefit-types",
-                ],
               },
             ],
           },
@@ -371,40 +380,47 @@ def make_config():
         "fields": [
           {
             "name": "description",
-            "req": True,
+            "title": "Description",
             "type": "`$STRING`",
+            "req": True,
           },
           {
-            "format": "date-time",
             "name": "end_date",
-            "req": True,
+            "title": "End Date",
             "type": "`$STRING`",
+            "req": True,
+            "format": "date-time",
           },
           {
             "name": "id",
-            "req": True,
+            "title": "Id",
             "type": "`$INTEGER`",
+            "req": True,
           },
           {
             "name": "products",
-            "req": True,
+            "title": "Products",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
-            "format": "date-time",
             "name": "start_date",
-            "req": True,
+            "title": "Start Date",
             "type": "`$STRING`",
+            "req": True,
+            "format": "date-time",
           },
           {
             "name": "terms",
-            "req": True,
+            "title": "Terms",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "title",
-            "req": True,
+            "title": "Title",
             "type": "`$STRING`",
+            "req": True,
           },
         ],
         "id": {
@@ -418,42 +434,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "country_iso_code",
-                      "orig": "country_iso_code",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "operator_id",
-                      "orig": "operator_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "product_id",
-                      "orig": "product_id",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/campaigns",
@@ -462,6 +442,50 @@ def make_config():
                     "lit": "campaigns",
                   },
                 ],
+                "parts": [
+                  "campaigns",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "country_iso_code",
+                      "orig": "country_iso_code",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "operator_id",
+                      "orig": "operator_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                    {
+                      "name": "product_id",
+                      "orig": "product_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "country_iso_code",
@@ -471,13 +495,6 @@ def make_config():
                     "product_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "campaigns",
-                ],
               },
             ],
           },
@@ -486,17 +503,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "campaign_id",
-                      "orig": "campaign_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/campaigns/{campaign_id}",
@@ -505,53 +511,77 @@ def make_config():
                     "lit": "campaigns",
                   },
                   {
-                    "var": "campaign_id",
+                    "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "campaign_id",
-                  ],
+                "parts": [
+                  "campaigns",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "campaign_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "campaigns",
-                  "{campaign_id}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "campaign_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "campaign",
-            ],
-          ],
+          "ancestors": [],
         },
       },
       "country": {
         "fields": [
           {
+            "name": "id",
+            "title": "Id",
+            "type": "`$STRING`",
+          },
+          {
             "name": "iso_code",
+            "title": "Iso Code",
+            "type": "`$STRING`",
             "req": True,
             "short": "Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format.",
-            "type": "`$STRING`",
           },
           {
             "name": "name",
-            "req": True,
+            "title": "Name",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "regions",
-            "req": True,
+            "title": "Regions",
             "type": "`$ARRAY`",
+            "req": True,
           },
         ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "country",
         "op": {
           "list": {
@@ -559,36 +589,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "service_id",
-                      "orig": "service_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "subservice_id",
-                      "orig": "subservice_id",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/countries",
@@ -597,6 +597,44 @@ def make_config():
                     "lit": "countries",
                   },
                 ],
+                "parts": [
+                  "countries",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                    {
+                      "name": "service_id",
+                      "orig": "service_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "subservice_id",
+                      "orig": "subservice_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "page",
@@ -605,13 +643,6 @@ def make_config():
                     "subservice_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "countries",
-                ],
               },
             ],
           },
@@ -620,17 +651,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "country_iso_code",
-                      "orig": "country_iso_code",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/countries/{country_iso_code}",
@@ -639,103 +659,84 @@ def make_config():
                     "lit": "countries",
                   },
                   {
-                    "var": "country_iso_code",
+                    "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "country_iso_code",
-                  ],
+                "parts": [
+                  "countries",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "country_iso_code": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "countries",
-                  "{country_iso_code}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "country_iso_code",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "country",
-            ],
-          ],
+          "ancestors": [],
         },
       },
       "credit_party_benefit": {
         "fields": [
           {
-            "format": "double",
-            "name": "amount",
-            "req": True,
-            "short": "Remaining benefit amount.",
-            "type": "`$NUMBER`",
-          },
-          {
-            "name": "country",
-            "req": True,
-            "type": "`$OBJECT`",
-          },
-          {
             "name": "credit_party_identifier",
-            "req": True,
+            "title": "Credit Party Identifier",
             "type": "`$OBJECT`",
-          },
-          {
-            "format": "date-time",
-            "name": "expiration_date",
             "req": True,
-            "short": "A `null` value denotes either no expiration applies or that the product benefit has not yet been activated.",
-            "type": "`$STRING`",
           },
           {
-            "format": "int32",
             "name": "page",
+            "title": "Page",
+            "type": "`$INTEGER`",
             "short": "Page number",
-            "type": "`$INTEGER`",
+            "format": "int32",
           },
           {
-            "format": "int32",
             "name": "per_page",
-            "short": "Number of records per page",
+            "title": "Per Page",
             "type": "`$INTEGER`",
+            "short": "Number of records per page",
+            "format": "int32",
           },
           {
-            "format": "int32",
             "name": "service_id",
+            "title": "Service Id",
+            "type": "`$INTEGER`",
             "req": True,
             "short": "Service identifier.",
-            "type": "`$INTEGER`",
-          },
-          {
-            "name": "type",
-            "req": True,
-            "type": "`$STRING`",
-          },
-          {
-            "name": "unit",
-            "req": True,
-            "type": "`$STRING`",
-          },
-          {
-            "name": "unit_type",
-            "req": True,
-            "type": "`$STRING`",
+            "format": "int32",
           },
         ],
         "name": "credit_party_benefit",
         "op": {
-          "list": {
+          "create": {
             "input": "data",
-            "name": "list",
+            "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/lookup/credit-party-benefits",
@@ -747,15 +748,17 @@ def make_config():
                     "lit": "credit-party-benefits",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "lookup",
                   "credit-party-benefits",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -767,40 +770,43 @@ def make_config():
       "credit_party_status": {
         "fields": [
           {
-            "format": "date-time",
             "name": "activation_date",
+            "title": "Activation Date",
+            "type": "`$STRING`",
             "req": True,
             "short": "A `null` value denotes that credit party has not yet been activated on the actual network",
-            "type": "`$STRING`",
+            "format": "date-time",
           },
           {
             "name": "credit_party_identifier",
-            "req": True,
+            "title": "Credit Party Identifier",
             "type": "`$OBJECT`",
+            "req": True,
           },
           {
-            "format": "date-time",
             "name": "installation_date",
+            "title": "Installation Date",
+            "type": "`$STRING`",
             "req": True,
             "short": "A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed",
-            "type": "`$STRING`",
+            "format": "date-time",
           },
           {
-            "format": "int32",
             "name": "service_id",
+            "title": "Service Id",
+            "type": "`$INTEGER`",
             "req": True,
             "short": "Service identifier.",
-            "type": "`$INTEGER`",
+            "format": "int32",
           },
         ],
         "name": "credit_party_status",
         "op": {
-          "load": {
+          "create": {
             "input": "data",
-            "name": "load",
+            "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/lookup/credit-party-status",
@@ -812,15 +818,17 @@ def make_config():
                     "lit": "credit-party-status",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "lookup",
                   "credit-party-status",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -829,126 +837,46 @@ def make_config():
           "ancestors": [],
         },
       },
-      "mobile_number_lookup": {
+      "mobile_number": {
         "fields": [
           {
-            "name": "country",
-            "req": True,
-            "type": "`$OBJECT`",
-          },
-          {
-            "format": "int32",
             "name": "id",
-            "req": True,
-            "short": "Operator identifier.",
-            "type": "`$INTEGER`",
-          },
-          {
-            "name": "identified",
-            "req": True,
-            "short": "Indicates whether operator was identified as a direct match",
-            "type": "`$BOOLEAN`",
+            "title": "Id",
+            "type": "`$STRING`",
           },
           {
             "name": "mobile_number",
+            "title": "Mobile Number",
+            "type": "`$STRING`",
             "req": True,
             "short": "Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format.",
-            "type": "`$STRING`",
           },
           {
-            "name": "name",
-            "req": True,
-            "type": "`$STRING`",
-          },
-          {
-            "format": "int32",
             "name": "page",
+            "title": "Page",
+            "type": "`$INTEGER`",
             "short": "Page number",
-            "type": "`$INTEGER`",
-          },
-          {
             "format": "int32",
-            "name": "per_page",
-            "short": "Number of records per page",
-            "type": "`$INTEGER`",
           },
           {
-            "name": "regions",
-            "req": True,
-            "type": "`$ARRAY`",
+            "name": "per_page",
+            "title": "Per Page",
+            "type": "`$INTEGER`",
+            "short": "Number of records per page",
+            "format": "int32",
           },
         ],
         "id": {
           "field": "id",
           "name": "id",
         },
-        "name": "mobile_number_lookup",
+        "name": "mobile_number",
         "op": {
-          "list": {
+          "create": {
             "input": "data",
-            "name": "list",
+            "name": "create",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "mobile_number",
-                      "orig": "mobile_number",
-                      "reqd": True,
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
-                "kind": "http",
-                "method": "GET",
-                "orig": "/lookup/mobile-number/{mobile_number}",
-                "segments": [
-                  {
-                    "lit": "lookup",
-                  },
-                  {
-                    "lit": "mobile-number",
-                  },
-                  {
-                    "var": "mobile_number",
-                  },
-                ],
-                "select": {
-                  "exist": [
-                    "mobile_number",
-                    "page",
-                    "per_page",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "lookup",
-                  "mobile-number",
-                  "{mobile_number}",
-                ],
-              },
-              {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/lookup/mobile-number",
@@ -960,50 +888,124 @@ def make_config():
                     "lit": "mobile-number",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "lookup",
                   "mobile-number",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": {
+                    "mobile_number": "`reqdata`",
+                  },
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
+              },
+            ],
+          },
+          "load": {
+            "input": "data",
+            "name": "load",
+            "points": [
+              {
+                "kind": "http",
+                "method": "GET",
+                "orig": "/lookup/mobile-number/{mobile_number}",
+                "segments": [
+                  {
+                    "lit": "lookup",
+                  },
+                  {
+                    "lit": "mobile-number",
+                  },
+                  {
+                    "var": "id",
+                  },
+                ],
+                "parts": [
+                  "lookup",
+                  "mobile-number",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "mobile_number": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "mobile_number",
+                      "type": "`$STRING`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                    "page",
+                    "per_page",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "mobile_number",
-            ],
-          ],
+          "ancestors": [],
         },
       },
       "operator": {
         "fields": [
           {
             "name": "country",
-            "req": True,
+            "title": "Country",
             "type": "`$OBJECT`",
+            "req": True,
           },
           {
-            "format": "int32",
             "name": "id",
+            "title": "Id",
+            "type": "`$INTEGER`",
             "req": True,
             "short": "Operator identifier.",
-            "type": "`$INTEGER`",
+            "format": "int32",
           },
           {
             "name": "name",
-            "req": True,
+            "title": "Name",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "regions",
-            "req": True,
+            "title": "Regions",
             "type": "`$ARRAY`",
+            "req": True,
           },
         ],
         "id": {
@@ -1017,42 +1019,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "country_iso_code",
-                      "orig": "country_iso_code",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "service_id",
-                      "orig": "service_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "subservice_id",
-                      "orig": "subservice_id",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/operators",
@@ -1061,6 +1027,50 @@ def make_config():
                     "lit": "operators",
                   },
                 ],
+                "parts": [
+                  "operators",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "country_iso_code",
+                      "orig": "country_iso_code",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                    {
+                      "name": "service_id",
+                      "orig": "service_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "subservice_id",
+                      "orig": "subservice_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "country_iso_code",
@@ -1070,13 +1080,6 @@ def make_config():
                     "subservice_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "operators",
-                ],
               },
             ],
           },
@@ -1085,17 +1088,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "operator_id",
-                      "orig": "operator_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/operators/{operator_id}",
@@ -1104,36 +1096,58 @@ def make_config():
                     "lit": "operators",
                   },
                   {
-                    "var": "operator_id",
+                    "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "operator_id",
-                  ],
+                "parts": [
+                  "operators",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "operator_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "operators",
-                  "{operator_id}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "operator_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "operator",
-            ],
-          ],
+          "ancestors": [],
         },
       },
       "product": {
-        "fields": [],
+        "fields": [
+          {
+            "name": "id",
+            "title": "Id",
+            "type": "`$STRING`",
+          },
+        ],
+        "id": {
+          "field": "id",
+          "name": "id",
+        },
         "name": "product",
         "op": {
           "list": {
@@ -1141,88 +1155,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "example": "es",
-                      "kind": "header",
-                      "name": "accept_language",
-                      "orig": "accept_language",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "benefit_type",
-                      "orig": "benefit_type",
-                      "type": "`$ARRAY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "country_iso_code",
-                      "orig": "country_iso_code",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "operator_id",
-                      "orig": "operator_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "region",
-                      "orig": "region",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "service_id",
-                      "orig": "service_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": "name",
-                      "kind": "query",
-                      "name": "sort",
-                      "orig": "sort",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "subservice_id",
-                      "orig": "subservice_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "tag",
-                      "orig": "tag",
-                      "type": "`$ARRAY`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "type",
-                      "orig": "type",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/products",
@@ -1231,6 +1163,96 @@ def make_config():
                     "lit": "products",
                   },
                 ],
+                "parts": [
+                  "products",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "accept_language",
+                      "orig": "accept_language",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                      "example": "es",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "benefit_type",
+                      "orig": "benefit_type",
+                      "type": "`$ARRAY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "country_iso_code",
+                      "orig": "country_iso_code",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "operator_id",
+                      "orig": "operator_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                    {
+                      "name": "region",
+                      "orig": "region",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "service_id",
+                      "orig": "service_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "sort",
+                      "orig": "sort",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "example": "name",
+                    },
+                    {
+                      "name": "subservice_id",
+                      "orig": "subservice_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "tag",
+                      "orig": "tag",
+                      "type": "`$ARRAY`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "type",
+                      "orig": "type",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "accept_language",
@@ -1247,13 +1269,6 @@ def make_config():
                     "type",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "products",
-                ],
               },
             ],
           },
@@ -1262,26 +1277,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "example": "es",
-                      "kind": "header",
-                      "name": "accept_language",
-                      "orig": "accept_language",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "product_id",
-                      "orig": "product_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/products/{product_id}",
@@ -1290,78 +1285,107 @@ def make_config():
                     "lit": "products",
                   },
                   {
-                    "var": "product_id",
+                    "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "accept_language",
-                    "product_id",
-                  ],
+                "parts": [
+                  "products",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "product_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "products",
-                  "{product_id}",
-                ],
+                "args": {
+                  "header": [
+                    {
+                      "name": "accept_language",
+                      "orig": "accept_language",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                      "example": "es",
+                    },
+                  ],
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "product_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "accept_language",
+                    "id",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "product",
-            ],
-          ],
+          "ancestors": [],
         },
       },
       "promotion": {
         "fields": [
           {
             "name": "description",
-            "req": True,
+            "title": "Description",
             "type": "`$STRING`",
+            "req": True,
           },
           {
-            "format": "date-time",
             "name": "end_date",
-            "req": True,
+            "title": "End Date",
             "type": "`$STRING`",
+            "req": True,
+            "format": "date-time",
           },
           {
             "name": "id",
-            "req": True,
+            "title": "Id",
             "type": "`$INTEGER`",
+            "req": True,
           },
           {
             "name": "operator",
-            "req": True,
+            "title": "Operator",
             "type": "`$OBJECT`",
+            "req": True,
           },
           {
             "name": "products",
-            "req": True,
+            "title": "Products",
             "type": "`$ARRAY`",
+            "req": True,
           },
           {
-            "format": "date-time",
             "name": "start_date",
-            "req": True,
+            "title": "Start Date",
             "type": "`$STRING`",
+            "req": True,
+            "format": "date-time",
           },
           {
             "name": "terms",
-            "req": True,
+            "title": "Terms",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "title",
-            "req": True,
+            "title": "Title",
             "type": "`$STRING`",
+            "req": True,
           },
         ],
         "id": {
@@ -1375,51 +1399,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "example": "es",
-                      "kind": "header",
-                      "name": "accept_language",
-                      "orig": "accept_language",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "country_iso_code",
-                      "orig": "country_iso_code",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "operator_id",
-                      "orig": "operator_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "product_id",
-                      "orig": "product_id",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/promotions",
@@ -1428,6 +1407,59 @@ def make_config():
                     "lit": "promotions",
                   },
                 ],
+                "parts": [
+                  "promotions",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "header": [
+                    {
+                      "name": "accept_language",
+                      "orig": "accept_language",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                      "example": "es",
+                    },
+                  ],
+                  "query": [
+                    {
+                      "name": "country_iso_code",
+                      "orig": "country_iso_code",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "operator_id",
+                      "orig": "operator_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                    {
+                      "name": "product_id",
+                      "orig": "product_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "accept_language",
@@ -1438,13 +1470,6 @@ def make_config():
                     "product_id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "promotions",
-                ],
               },
             ],
           },
@@ -1453,26 +1478,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "header": [
-                    {
-                      "example": "es",
-                      "kind": "header",
-                      "name": "accept_language",
-                      "orig": "accept_language",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "promotion_id",
-                      "orig": "promotion_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/promotions/{promotion_id}",
@@ -1481,53 +1486,77 @@ def make_config():
                     "lit": "promotions",
                   },
                   {
-                    "var": "promotion_id",
+                    "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "accept_language",
-                    "promotion_id",
-                  ],
+                "parts": [
+                  "promotions",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "promotion_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "promotions",
-                  "{promotion_id}",
-                ],
+                "args": {
+                  "header": [
+                    {
+                      "name": "accept_language",
+                      "orig": "accept_language",
+                      "type": "`$STRING`",
+                      "kind": "header",
+                      "example": "es",
+                    },
+                  ],
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "promotion_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "accept_language",
+                    "id",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "promotion",
-            ],
-          ],
+          "ancestors": [],
         },
       },
       "service": {
         "fields": [
           {
-            "format": "int32",
             "name": "id",
+            "title": "Id",
+            "type": "`$INTEGER`",
             "req": True,
             "short": "Service identifier.",
-            "type": "`$INTEGER`",
+            "format": "int32",
           },
           {
             "name": "name",
-            "req": True,
+            "title": "Name",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "subservices",
-            "req": True,
+            "title": "Subservices",
             "type": "`$ARRAY`",
+            "req": True,
           },
         ],
         "id": {
@@ -1541,30 +1570,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "country_iso_code",
-                      "orig": "country_iso_code",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/services",
@@ -1573,6 +1578,38 @@ def make_config():
                     "lit": "services",
                   },
                 ],
+                "parts": [
+                  "services",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "country_iso_code",
+                      "orig": "country_iso_code",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "country_iso_code",
@@ -1580,13 +1617,6 @@ def make_config():
                     "per_page",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "services",
-                ],
               },
             ],
           },
@@ -1595,17 +1625,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "service_id",
-                      "orig": "service_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/services/{service_id}",
@@ -1614,89 +1633,90 @@ def make_config():
                     "lit": "services",
                   },
                   {
-                    "var": "service_id",
+                    "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "service_id",
-                  ],
+                "parts": [
+                  "services",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "service_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "services",
-                  "{service_id}",
-                ],
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "service_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "exist": [
+                    "id",
+                  ],
+                },
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "service",
-            ],
-          ],
+          "ancestors": [],
         },
       },
-      "statement_inquiry": {
+      "statement": {
         "fields": [
           {
             "name": "account_number",
+            "title": "Account Number",
+            "type": "`$STRING`",
             "req": True,
             "short": "Account number.",
-            "type": "`$STRING`",
           },
           {
             "name": "account_qualifier",
+            "title": "Account Qualifier",
             "type": "`$STRING`",
           },
           {
-            "name": "balance",
-            "req": True,
-            "type": "`$OBJECT`",
-          },
-          {
-            "name": "dates",
-            "req": True,
-            "type": "`$OBJECT`",
-          },
-          {
-            "format": "int32",
             "name": "page",
+            "title": "Page",
+            "type": "`$INTEGER`",
             "short": "Page number",
-            "type": "`$INTEGER`",
+            "format": "int32",
           },
           {
-            "format": "int32",
             "name": "per_page",
-            "short": "Number of records per page",
+            "title": "Per Page",
             "type": "`$INTEGER`",
+            "short": "Number of records per page",
+            "format": "int32",
           },
           {
-            "format": "int32",
             "name": "product_id",
+            "title": "Product Id",
+            "type": "`$INTEGER`",
             "req": True,
             "short": "Product identifier.",
-            "type": "`$INTEGER`",
-          },
-          {
-            "name": "reference",
-            "req": True,
-            "type": "`$ANY`",
+            "format": "int32",
           },
         ],
-        "name": "statement_inquiry",
+        "name": "statement",
         "op": {
-          "list": {
+          "create": {
             "input": "data",
-            "name": "list",
+            "name": "create",
             "points": [
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/lookup/statement-inquiry",
@@ -1708,15 +1728,17 @@ def make_config():
                     "lit": "statement-inquiry",
                   },
                 ],
-                "select": {},
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "lookup",
                   "statement-inquiry",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -1729,157 +1751,180 @@ def make_config():
         "fields": [
           {
             "name": "additional_identifier",
-            "short": "Additional details for a transaction.",
+            "title": "Additional Identifier",
             "type": "`$OBJECT`",
+            "short": "Additional details for a transaction.",
           },
           {
             "name": "adjusted_values",
-            "readOnly": True,
+            "title": "Adjusted Values",
             "type": "`$OBJECT`",
+            "readOnly": True,
           },
           {
             "name": "auto_confirm",
-            "short": "Determines whether a transaction will be automatically confirmed upon creation or not.",
+            "title": "Auto Confirm",
             "type": "`$BOOLEAN`",
+            "short": "Determines whether a transaction will be automatically confirmed upon creation or not.",
             "writeOnly": True,
           },
           {
             "name": "beneficiary",
-            "short": "Beneficiary details for a transaction.",
+            "title": "Beneficiary",
             "type": "`$OBJECT`",
+            "short": "Beneficiary details for a transaction.",
           },
           {
             "name": "benefits",
-            "readOnly": True,
+            "title": "Benefits",
             "type": "`$ARRAY`",
-            "union": {
-              "branches": 2,
-              "count": 1,
-              "depth": 1,
-            },
+            "readOnly": True,
           },
           {
             "name": "calculation_mode",
+            "title": "Calculation Mode",
             "type": "`$ANY`",
           },
           {
-            "format": "uri",
             "name": "callback_url",
+            "title": "Callback Url",
+            "type": "`$STRING`",
             "short": "Transaction status updates will be sent to this endpoint.",
-            "type": "`$STRING`",
+            "format": "uri",
           },
           {
-            "format": "date-time",
             "name": "confirmation_date",
-            "readOnly": True,
+            "title": "Confirmation Date",
             "type": "`$STRING`",
+            "readOnly": True,
+            "format": "date-time",
           },
           {
-            "format": "date-time",
             "name": "confirmation_expiration_date",
-            "readOnly": True,
+            "title": "Confirmation Expiration Date",
             "type": "`$STRING`",
+            "readOnly": True,
+            "format": "date-time",
           },
           {
-            "format": "date-time",
             "name": "creation_date",
-            "readOnly": True,
+            "title": "Creation Date",
             "type": "`$STRING`",
+            "readOnly": True,
+            "format": "date-time",
           },
           {
             "name": "credit_party_identifier",
-            "short": "Receiving account details for a transaction.",
+            "title": "Credit Party Identifier",
             "type": "`$OBJECT`",
+            "short": "Receiving account details for a transaction.",
           },
           {
             "name": "debit_party_identifier",
-            "short": "Sending account details for a transaction.",
+            "title": "Debit Party Identifier",
             "type": "`$OBJECT`",
+            "short": "Sending account details for a transaction.",
           },
           {
             "name": "destination",
+            "title": "Destination",
+            "type": "`$OBJECT`",
             "req": True,
             "short": "Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT`",
-            "type": "`$OBJECT`",
             "writeOnly": True,
           },
           {
             "name": "external_id",
-            "req": True,
+            "title": "External Id",
             "type": "`$STRING`",
+            "req": True,
           },
           {
             "name": "id",
-            "readOnly": True,
+            "title": "Id",
             "type": "`$STRING`",
+            "readOnly": True,
           },
           {
             "name": "metadata",
-            "short": "Optional metadata related to the transaction.",
+            "title": "Metadata",
             "type": "`$OBJECT`",
+            "short": "Optional metadata related to the transaction.",
           },
           {
             "name": "operator_reference",
-            "readOnly": True,
+            "title": "Operator Reference",
             "type": "`$STRING`",
+            "readOnly": True,
           },
           {
             "name": "pin",
-            "readOnly": True,
-            "req": True,
+            "title": "Pin",
             "type": "`$OBJECT`",
+            "req": True,
+            "readOnly": True,
           },
           {
             "name": "prices",
-            "readOnly": True,
-            "req": True,
+            "title": "Prices",
             "type": "`$OBJECT`",
+            "req": True,
+            "readOnly": True,
           },
           {
             "name": "product",
+            "title": "Product",
             "type": "`$ANY`",
           },
           {
             "name": "product_id",
-            "req": True,
+            "title": "Product Id",
             "type": "`$STRING`",
+            "req": True,
             "writeOnly": True,
           },
           {
             "name": "promotions",
-            "readOnly": True,
+            "title": "Promotions",
             "type": "`$ARRAY`",
+            "readOnly": True,
           },
           {
             "name": "rates",
+            "title": "Rates",
             "type": "`$ANY`",
           },
           {
             "name": "requested_values",
-            "readOnly": True,
+            "title": "Requested Values",
             "type": "`$OBJECT`",
+            "readOnly": True,
           },
           {
             "name": "sender",
-            "short": "Sender details for a transaction.",
+            "title": "Sender",
             "type": "`$OBJECT`",
+            "short": "Sender details for a transaction.",
           },
           {
             "name": "source",
+            "title": "Source",
+            "type": "`$OBJECT`",
             "req": True,
             "short": "Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT`",
-            "type": "`$OBJECT`",
             "writeOnly": True,
           },
           {
             "name": "statement_identifier",
-            "short": "Qualifying statement details for a payment transaction.",
+            "title": "Statement Identifier",
             "type": "`$OBJECT`",
+            "short": "Qualifying statement details for a payment transaction.",
           },
           {
             "name": "status",
-            "readOnly": True,
+            "title": "Status",
             "type": "`$OBJECT`",
+            "readOnly": True,
           },
         ],
         "id": {
@@ -1893,7 +1938,155 @@ def make_config():
             "name": "create",
             "points": [
               {
-                "args": {},
+                "kind": "http",
+                "method": "POST",
+                "orig": "/transactions/{transaction_id}/cancel",
+                "segments": [
+                  {
+                    "lit": "transactions",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "cancel",
+                  },
+                ],
+                "parts": [
+                  "transactions",
+                  "{id}",
+                  "cancel",
+                ],
+                "rename": {
+                  "param": {
+                    "transaction_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "transaction_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "$action": "cancel",
+                  "exist": [
+                    "id",
+                  ],
+                },
+              },
+              {
+                "kind": "http",
+                "method": "POST",
+                "orig": "/async/transactions/{transaction_id}/confirm",
+                "segments": [
+                  {
+                    "lit": "async",
+                  },
+                  {
+                    "lit": "transactions",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "confirm",
+                  },
+                ],
+                "parts": [
+                  "async",
+                  "transactions",
+                  "{id}",
+                  "confirm",
+                ],
+                "rename": {
+                  "param": {
+                    "transaction_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "transaction_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "$action": "confirm",
+                  "exist": [
+                    "id",
+                  ],
+                },
+              },
+              {
+                "kind": "http",
+                "method": "POST",
+                "orig": "/sync/transactions/{transaction_id}/confirm",
+                "segments": [
+                  {
+                    "lit": "sync",
+                  },
+                  {
+                    "lit": "transactions",
+                  },
+                  {
+                    "var": "id",
+                  },
+                  {
+                    "lit": "confirm",
+                  },
+                ],
+                "parts": [
+                  "sync",
+                  "transactions",
+                  "{id}",
+                  "confirm",
+                ],
+                "rename": {
+                  "param": {
+                    "transaction_id": "id",
+                  },
+                },
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "params": [
+                    {
+                      "name": "id",
+                      "orig": "transaction_id",
+                      "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
+                    },
+                  ],
+                },
+                "select": {
+                  "$action": "confirm",
+                  "exist": [
+                    "id",
+                  ],
+                },
+              },
+              {
                 "kind": "http",
                 "method": "POST",
                 "orig": "/async/transactions",
@@ -1905,20 +2098,19 @@ def make_config():
                     "lit": "transactions",
                   },
                 ],
-                "select": {
-                  "$action": "asyncCreate",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "async",
                   "transactions",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
               {
-                "args": {},
                 "kind": "http",
                 "method": "POST",
                 "orig": "/sync/transactions",
@@ -1930,17 +2122,17 @@ def make_config():
                     "lit": "transactions",
                   },
                 ],
-                "select": {
-                  "$action": "syncCreate",
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
                 "parts": [
                   "sync",
                   "transactions",
                 ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {},
+                "select": {},
               },
             ],
           },
@@ -1949,92 +2141,6 @@ def make_config():
             "name": "list",
             "points": [
               {
-                "args": {
-                  "query": [
-                    {
-                      "kind": "query",
-                      "name": "country_iso_code",
-                      "orig": "country_iso_code",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "credit_party_account_number",
-                      "orig": "credit_party_account_number",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "credit_party_mobile_number",
-                      "orig": "credit_party_mobile_number",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "external_id",
-                      "orig": "external_id",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "example": "1970-01-01T00:00:00.000000Z",
-                      "kind": "query",
-                      "name": "from_date",
-                      "orig": "from_date",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "operator_id",
-                      "orig": "operator_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 1,
-                      "kind": "query",
-                      "name": "page",
-                      "orig": "page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": 50,
-                      "kind": "query",
-                      "name": "per_page",
-                      "orig": "per_page",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "product_type",
-                      "orig": "product_type",
-                      "type": "`$STRING`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "service_id",
-                      "orig": "service_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "status_id",
-                      "orig": "status_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "kind": "query",
-                      "name": "subservice_id",
-                      "orig": "subservice_id",
-                      "type": "`$INTEGER`",
-                    },
-                    {
-                      "example": "2020-02-02T14:00:00.022220+08:00",
-                      "kind": "query",
-                      "name": "to_date",
-                      "orig": "to_date",
-                      "type": "`$STRING`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/transactions",
@@ -2043,6 +2149,100 @@ def make_config():
                     "lit": "transactions",
                   },
                 ],
+                "parts": [
+                  "transactions",
+                ],
+                "rename": {},
+                "transform": {
+                  "req": "`reqdata`",
+                  "res": "`body`",
+                },
+                "args": {
+                  "query": [
+                    {
+                      "name": "country_iso_code",
+                      "orig": "country_iso_code",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "credit_party_account_number",
+                      "orig": "credit_party_account_number",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "credit_party_mobile_number",
+                      "orig": "credit_party_mobile_number",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "external_id",
+                      "orig": "external_id",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "from_date",
+                      "orig": "from_date",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "example": "1970-01-01T00:00:00.000000Z",
+                    },
+                    {
+                      "name": "operator_id",
+                      "orig": "operator_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "page",
+                      "orig": "page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 1,
+                    },
+                    {
+                      "name": "per_page",
+                      "orig": "per_page",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                      "example": 50,
+                    },
+                    {
+                      "name": "product_type",
+                      "orig": "product_type",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "service_id",
+                      "orig": "service_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "status_id",
+                      "orig": "status_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "subservice_id",
+                      "orig": "subservice_id",
+                      "type": "`$INTEGER`",
+                      "kind": "query",
+                    },
+                    {
+                      "name": "to_date",
+                      "orig": "to_date",
+                      "type": "`$STRING`",
+                      "kind": "query",
+                      "example": "2020-02-02T14:00:00.022220+08:00",
+                    },
+                  ],
+                },
                 "select": {
                   "exist": [
                     "country_iso_code",
@@ -2060,13 +2260,6 @@ def make_config():
                     "to_date",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "transactions",
-                ],
               },
             ],
           },
@@ -2075,17 +2268,6 @@ def make_config():
             "name": "load",
             "points": [
               {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "transaction_id",
-                      "orig": "transaction_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
                 "kind": "http",
                 "method": "GET",
                 "orig": "/transactions/{transaction_id}",
@@ -2094,172 +2276,44 @@ def make_config():
                     "lit": "transactions",
                   },
                   {
-                    "var": "transaction_id",
+                    "var": "id",
                   },
                 ],
-                "select": {
-                  "exist": [
-                    "transaction_id",
-                  ],
+                "parts": [
+                  "transactions",
+                  "{id}",
+                ],
+                "rename": {
+                  "param": {
+                    "transaction_id": "id",
+                  },
                 },
                 "transform": {
                   "req": "`reqdata`",
                   "res": "`body`",
                 },
-                "parts": [
-                  "transactions",
-                  "{transaction_id}",
-                ],
-              },
-            ],
-          },
-          "update": {
-            "input": "data",
-            "name": "update",
-            "points": [
-              {
                 "args": {
                   "params": [
                     {
-                      "kind": "param",
-                      "name": "transaction_id",
+                      "name": "id",
                       "orig": "transaction_id",
-                      "reqd": True,
                       "type": "`$INTEGER`",
+                      "kind": "param",
+                      "reqd": True,
                     },
                   ],
                 },
-                "kind": "http",
-                "method": "POST",
-                "orig": "/transactions/{transaction_id}/cancel",
-                "segments": [
-                  {
-                    "lit": "transactions",
-                  },
-                  {
-                    "var": "transaction_id",
-                  },
-                  {
-                    "lit": "cancel",
-                  },
-                ],
                 "select": {
-                  "$action": "cancel",
                   "exist": [
-                    "transaction_id",
+                    "id",
                   ],
                 },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "transactions",
-                  "{transaction_id}",
-                  "cancel",
-                ],
-              },
-              {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "transaction_id",
-                      "orig": "transaction_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
-                "kind": "http",
-                "method": "POST",
-                "orig": "/async/transactions/{transaction_id}/confirm",
-                "segments": [
-                  {
-                    "lit": "async",
-                  },
-                  {
-                    "lit": "transactions",
-                  },
-                  {
-                    "var": "transaction_id",
-                  },
-                  {
-                    "lit": "confirm",
-                  },
-                ],
-                "select": {
-                  "$action": "confirmAsync",
-                  "exist": [
-                    "transaction_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "async",
-                  "transactions",
-                  "{transaction_id}",
-                  "confirm",
-                ],
-              },
-              {
-                "args": {
-                  "params": [
-                    {
-                      "kind": "param",
-                      "name": "transaction_id",
-                      "orig": "transaction_id",
-                      "reqd": True,
-                      "type": "`$INTEGER`",
-                    },
-                  ],
-                },
-                "kind": "http",
-                "method": "POST",
-                "orig": "/sync/transactions/{transaction_id}/confirm",
-                "segments": [
-                  {
-                    "lit": "sync",
-                  },
-                  {
-                    "lit": "transactions",
-                  },
-                  {
-                    "var": "transaction_id",
-                  },
-                  {
-                    "lit": "confirm",
-                  },
-                ],
-                "select": {
-                  "$action": "confirmSync",
-                  "exist": [
-                    "transaction_id",
-                  ],
-                },
-                "transform": {
-                  "req": "`reqdata`",
-                  "res": "`body`",
-                },
-                "parts": [
-                  "sync",
-                  "transactions",
-                  "{transaction_id}",
-                  "confirm",
-                ],
               },
             ],
           },
         },
         "relations": {
-          "ancestors": [
-            [
-              "transaction",
-            ],
-          ],
+          "ancestors": [],
         },
       },
     },

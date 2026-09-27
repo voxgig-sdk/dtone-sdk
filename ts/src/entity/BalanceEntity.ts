@@ -19,7 +19,6 @@ import type {
   BalanceListMatch,
 } from '../DtoneTypes'
 
-// TODO: needs Entity superclass
 class BalanceEntity extends DtoneEntityBase<Balance> {
 
   constructor(client: DtoneSDK, entopts: any) {

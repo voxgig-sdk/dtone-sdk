@@ -46,12 +46,12 @@ class ReadmeExamplesTest extends TestCase
         "Country" => "country",
         "CreditPartyBenefit" => "credit_party_benefit",
         "CreditPartyStatus" => "credit_party_status",
-        "MobileNumberLookup" => "mobile_number_lookup",
+        "MobileNumber" => "mobile_number",
         "Operator" => "operator",
         "Product" => "product",
         "Promotion" => "promotion",
         "Service" => "service",
-        "StatementInquiry" => "statement_inquiry",
+        "Statement" => "statement",
         "Transaction" => "transaction",
     ];
 

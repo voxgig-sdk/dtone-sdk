@@ -1,0 +1,72 @@
+# Entity: credit_party_benefit
+
+main: kit: entity: credit_party_benefit: {
+
+  alias: field: {}
+
+  fields: {
+    credit_party_identifier: {
+      h: "Credit Party Identifier"
+      n: "credit_party_identifier"
+      r: true
+      t: "`$OBJECT`"
+    }
+    page: {
+      fo: "int32"
+      h: "Page"
+      n: "page"
+      r: false
+      sh: "Page number"
+      t: "`$INTEGER`"
+    }
+    per_page: {
+      fo: "int32"
+      h: "Per Page"
+      n: "per_page"
+      r: false
+      sh: "Number of records per page"
+      t: "`$INTEGER`"
+    }
+    service_id: {
+      fo: "int32"
+      h: "Service Id"
+      n: "service_id"
+      r: true
+      sh: "Service identifier."
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "credit_party_benefit"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /lookup/credit-party-benefits"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/lookup/credit-party-benefits"
+          s: [
+            {
+              lit: "lookup"
+            }
+            {
+              lit: "credit-party-benefits"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

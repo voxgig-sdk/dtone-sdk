@@ -62,7 +62,7 @@ class TransactionEntityTest extends TestCase
         $setup = transaction_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["create", "list", "update", "load"] as $_op) {
+        foreach (["create", "list", "load"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "transaction." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -97,21 +97,6 @@ class TransactionEntityTest extends TestCase
             Runner::entity_list_to_data($transaction_ref01_list_result),
             ["id" => $transaction_ref01_data["id"]]);
         $this->assertNotEmpty($found_item);
-
-        // UPDATE
-        $transaction_ref01_data_up0_up = [
-            "id" => $transaction_ref01_data["id"],
-        ];
-
-        $transaction_ref01_markdef_up0_name = "callback_url";
-        $transaction_ref01_markdef_up0_value = "Mark01-transaction_ref01_" . $setup["now"];
-        $transaction_ref01_data_up0_up[$transaction_ref01_markdef_up0_name] = $transaction_ref01_markdef_up0_value;
-
-        $transaction_ref01_resdata_up0_result = $transaction_ref01_ent->update($transaction_ref01_data_up0_up, null);
-        $transaction_ref01_resdata_up0 = Helpers::to_map(is_object($transaction_ref01_resdata_up0_result) && method_exists($transaction_ref01_resdata_up0_result, 'data_get') ? $transaction_ref01_resdata_up0_result->data_get() : $transaction_ref01_resdata_up0_result);
-        $this->assertNotNull($transaction_ref01_resdata_up0);
-        $this->assertEquals($transaction_ref01_resdata_up0["id"], $transaction_ref01_data_up0_up["id"]);
-        $this->assertEquals($transaction_ref01_resdata_up0[$transaction_ref01_markdef_up0_name], $transaction_ref01_markdef_up0_value);
 
         // LOAD
         $transaction_ref01_match_dt0 = [

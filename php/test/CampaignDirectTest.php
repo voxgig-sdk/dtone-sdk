@@ -73,11 +73,11 @@ class CampaignDirectTest extends TestCase
         $params = [];
         $query = [];
         if (!$setup["live"]) {
-            $params["campaign_id"] = "direct01";
+            $params["id"] = "direct01";
         }
 
         $result = $client->direct([
-            "path" => "campaigns/{campaign_id}",
+            "path" => "campaigns/{id}",
             "method" => "GET",
             "params" => $params,
             "query" => $query,

@@ -67,10 +67,10 @@ class TestCountryDirect:
         params = {}
         query = {}
         if not setup["live"]:
-            params["country_iso_code"] = "direct01"
+            params["id"] = "direct01"
 
         result = client.direct({
-            "path": "countries/{country_iso_code}",
+            "path": "countries/{id}",
             "method": "GET",
             "params": params,
             "query": query,

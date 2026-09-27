@@ -1,7 +1,7 @@
 # Typed models for the Dtone SDK.
 #
-# GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-# params (op.<name>.points[].args.params[]). Field/param types come from the
+# GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+# params (op.<name>.points[].g.params[]). Field/param types come from the
 # canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 # @voxgig/apidef VALID_CANON). Do not edit by hand.
 #
@@ -52,7 +52,7 @@ class Campaign(TypedDict):
 
 
 class CampaignLoadMatch(TypedDict):
-    campaign_id: int
+    id: int
 
 
 class CampaignListMatch(TypedDict, total=False):
@@ -63,14 +63,18 @@ class CampaignListMatch(TypedDict, total=False):
     product_id: int
 
 
-class Country(TypedDict):
+class CountryRequired(TypedDict):
     iso_code: str
     name: str
     regions: list
 
 
+class Country(CountryRequired, total=False):
+    id: str
+
+
 class CountryLoadMatch(TypedDict):
-    country_iso_code: str
+    id: str
 
 
 class CountryListMatch(TypedDict, total=False):
@@ -81,14 +85,8 @@ class CountryListMatch(TypedDict, total=False):
 
 
 class CreditPartyBenefitRequired(TypedDict):
-    amount: float
-    country: dict
     credit_party_identifier: dict
-    expiration_date: str
     service_id: int
-    type: str
-    unit: str
-    unit_type: str
 
 
 class CreditPartyBenefit(CreditPartyBenefitRequired, total=False):
@@ -96,17 +94,14 @@ class CreditPartyBenefit(CreditPartyBenefitRequired, total=False):
     per_page: int
 
 
-class CreditPartyBenefitListMatch(TypedDict, total=False):
-    amount: float
-    country: dict
+class CreditPartyBenefitCreateDataRequired(TypedDict):
     credit_party_identifier: dict
-    expiration_date: str
+    service_id: int
+
+
+class CreditPartyBenefitCreateData(CreditPartyBenefitCreateDataRequired, total=False):
     page: int
     per_page: int
-    service_id: int
-    type: str
-    unit: str
-    unit_type: str
 
 
 class CreditPartyStatus(TypedDict):
@@ -116,32 +111,38 @@ class CreditPartyStatus(TypedDict):
     service_id: int
 
 
-class CreditPartyStatusLoadMatch(TypedDict, total=False):
+class CreditPartyStatusCreateData(TypedDict):
     activation_date: str
     credit_party_identifier: dict
     installation_date: str
     service_id: int
 
 
-class MobileNumberLookupRequired(TypedDict):
-    country: dict
-    id: int
-    identified: bool
+class MobileNumberRequired(TypedDict):
     mobile_number: str
-    name: str
-    regions: list
 
 
-class MobileNumberLookup(MobileNumberLookupRequired, total=False):
+class MobileNumber(MobileNumberRequired, total=False):
+    id: str
     page: int
     per_page: int
 
 
-class MobileNumberLookupListMatchRequired(TypedDict):
+class MobileNumberLoadMatchRequired(TypedDict):
+    id: str
+
+
+class MobileNumberLoadMatch(MobileNumberLoadMatchRequired, total=False):
+    page: int
+    per_page: int
+
+
+class MobileNumberCreateDataRequired(TypedDict):
     mobile_number: str
 
 
-class MobileNumberLookupListMatch(MobileNumberLookupListMatchRequired, total=False):
+class MobileNumberCreateData(MobileNumberCreateDataRequired, total=False):
+    id: str
     page: int
     per_page: int
 
@@ -154,7 +155,7 @@ class Operator(TypedDict):
 
 
 class OperatorLoadMatch(TypedDict):
-    operator_id: int
+    id: int
 
 
 class OperatorListMatch(TypedDict, total=False):
@@ -165,12 +166,12 @@ class OperatorListMatch(TypedDict, total=False):
     subservice_id: int
 
 
-class Product(TypedDict):
-    pass
+class Product(TypedDict, total=False):
+    id: str
 
 
 class ProductLoadMatch(TypedDict):
-    product_id: int
+    id: int
 
 
 class ProductListMatch(TypedDict, total=False):
@@ -199,7 +200,7 @@ class Promotion(TypedDict):
 
 
 class PromotionLoadMatch(TypedDict):
-    promotion_id: int
+    id: int
 
 
 class PromotionListMatch(TypedDict, total=False):
@@ -217,7 +218,7 @@ class Service(TypedDict):
 
 
 class ServiceLoadMatch(TypedDict):
-    service_id: int
+    id: int
 
 
 class ServiceListMatch(TypedDict, total=False):
@@ -226,29 +227,26 @@ class ServiceListMatch(TypedDict, total=False):
     per_page: int
 
 
-class StatementInquiryRequired(TypedDict):
+class StatementRequired(TypedDict):
     account_number: str
-    balance: dict
-    dates: dict
     product_id: int
-    reference: Any
 
 
-class StatementInquiry(StatementInquiryRequired, total=False):
+class Statement(StatementRequired, total=False):
     account_qualifier: str
     page: int
     per_page: int
 
 
-class StatementInquiryListMatch(TypedDict, total=False):
+class StatementCreateDataRequired(TypedDict):
     account_number: str
+    product_id: int
+
+
+class StatementCreateData(StatementCreateDataRequired, total=False):
     account_qualifier: str
-    balance: dict
-    dates: dict
     page: int
     per_page: int
-    product_id: int
-    reference: Any
 
 
 class TransactionRequired(TypedDict):
@@ -286,7 +284,7 @@ class Transaction(TransactionRequired, total=False):
 
 
 class TransactionLoadMatch(TypedDict):
-    transaction_id: int
+    id: int
 
 
 class TransactionListMatch(TypedDict, total=False):
@@ -335,40 +333,5 @@ class TransactionCreateData(TransactionCreateDataRequired, total=False):
     rates: Any
     requested_values: dict
     sender: dict
-    statement_identifier: dict
-    status: dict
-
-
-class TransactionUpdateDataRequired(TypedDict):
-    transaction_id: int
-
-
-class TransactionUpdateData(TransactionUpdateDataRequired, total=False):
-    additional_identifier: dict
-    adjusted_values: dict
-    auto_confirm: bool
-    beneficiary: dict
-    benefits: list
-    calculation_mode: Any
-    callback_url: str
-    confirmation_date: str
-    confirmation_expiration_date: str
-    creation_date: str
-    credit_party_identifier: dict
-    debit_party_identifier: dict
-    destination: dict
-    external_id: str
-    id: str
-    metadata: dict
-    operator_reference: str
-    pin: dict
-    prices: dict
-    product: Any
-    product_id: str
-    promotions: list
-    rates: Any
-    requested_values: dict
-    sender: dict
-    source: dict
     statement_identifier: dict
     status: dict

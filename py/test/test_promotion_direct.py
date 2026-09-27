@@ -67,10 +67,10 @@ class TestPromotionDirect:
         params = {}
         query = {}
         if not setup["live"]:
-            params["promotion_id"] = "direct01"
+            params["id"] = "direct01"
 
         result = client.direct({
-            "path": "promotions/{promotion_id}",
+            "path": "promotions/{id}",
             "method": "GET",
             "params": params,
             "query": query,

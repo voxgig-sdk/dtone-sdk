@@ -1,7 +1,7 @@
 // Typed models for the Dtone SDK (JSDoc typedefs).
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Annotations only — no runtime effect. Do not
 // edit by hand.
@@ -48,7 +48,7 @@
 
 /**
  * @typedef {Object} CampaignLoadMatch
- * @property {number} campaign_id
+ * @property {number} id
  */
 
 /**
@@ -62,6 +62,7 @@
 
 /**
  * @typedef {Object} Country
+ * @property {string} [id]
  * @property {string} iso_code
  * @property {string} name
  * @property {Array} regions
@@ -69,7 +70,7 @@
 
 /**
  * @typedef {Object} CountryLoadMatch
- * @property {string} country_iso_code
+ * @property {string} id
  */
 
 /**
@@ -82,30 +83,18 @@
 
 /**
  * @typedef {Object} CreditPartyBenefit
- * @property {number} amount
- * @property {Object} country
  * @property {Object} credit_party_identifier
- * @property {string} expiration_date
  * @property {number} [page]
  * @property {number} [per_page]
  * @property {number} service_id
- * @property {string} type
- * @property {string} unit
- * @property {string} unit_type
  */
 
 /**
- * @typedef {Object} CreditPartyBenefitListMatch
- * @property {number} [amount]
- * @property {Object} [country]
- * @property {Object} [credit_party_identifier]
- * @property {string} [expiration_date]
+ * @typedef {Object} CreditPartyBenefitCreateData
+ * @property {Object} credit_party_identifier
  * @property {number} [page]
  * @property {number} [per_page]
- * @property {number} [service_id]
- * @property {string} [type]
- * @property {string} [unit]
- * @property {string} [unit_type]
+ * @property {number} service_id
  */
 
 /**
@@ -117,27 +106,31 @@
  */
 
 /**
- * @typedef {Object} CreditPartyStatusLoadMatch
- * @property {string} [activation_date]
- * @property {Object} [credit_party_identifier]
- * @property {string} [installation_date]
- * @property {number} [service_id]
+ * @typedef {Object} CreditPartyStatusCreateData
+ * @property {string} activation_date
+ * @property {Object} credit_party_identifier
+ * @property {string} installation_date
+ * @property {number} service_id
  */
 
 /**
- * @typedef {Object} MobileNumberLookup
- * @property {Object} country
- * @property {number} id
- * @property {boolean} identified
+ * @typedef {Object} MobileNumber
+ * @property {string} [id]
  * @property {string} mobile_number
- * @property {string} name
  * @property {number} [page]
  * @property {number} [per_page]
- * @property {Array} regions
  */
 
 /**
- * @typedef {Object} MobileNumberLookupListMatch
+ * @typedef {Object} MobileNumberLoadMatch
+ * @property {string} id
+ * @property {number} [page]
+ * @property {number} [per_page]
+ */
+
+/**
+ * @typedef {Object} MobileNumberCreateData
+ * @property {string} [id]
  * @property {string} mobile_number
  * @property {number} [page]
  * @property {number} [per_page]
@@ -153,7 +146,7 @@
 
 /**
  * @typedef {Object} OperatorLoadMatch
- * @property {number} operator_id
+ * @property {number} id
  */
 
 /**
@@ -167,11 +160,12 @@
 
 /**
  * @typedef {Object} Product
+ * @property {string} [id]
  */
 
 /**
  * @typedef {Object} ProductLoadMatch
- * @property {number} product_id
+ * @property {number} id
  */
 
 /**
@@ -203,7 +197,7 @@
 
 /**
  * @typedef {Object} PromotionLoadMatch
- * @property {number} promotion_id
+ * @property {number} id
  */
 
 /**
@@ -224,7 +218,7 @@
 
 /**
  * @typedef {Object} ServiceLoadMatch
- * @property {number} service_id
+ * @property {number} id
  */
 
 /**
@@ -235,27 +229,21 @@
  */
 
 /**
- * @typedef {Object} StatementInquiry
+ * @typedef {Object} Statement
  * @property {string} account_number
  * @property {string} [account_qualifier]
- * @property {Object} balance
- * @property {Object} dates
  * @property {number} [page]
  * @property {number} [per_page]
  * @property {number} product_id
- * @property {*} reference
  */
 
 /**
- * @typedef {Object} StatementInquiryListMatch
- * @property {string} [account_number]
+ * @typedef {Object} StatementCreateData
+ * @property {string} account_number
  * @property {string} [account_qualifier]
- * @property {Object} [balance]
- * @property {Object} [dates]
  * @property {number} [page]
  * @property {number} [per_page]
- * @property {number} [product_id]
- * @property {*} [reference]
+ * @property {number} product_id
  */
 
 /**
@@ -292,7 +280,7 @@
 
 /**
  * @typedef {Object} TransactionLoadMatch
- * @property {number} transaction_id
+ * @property {number} id
  */
 
 /**
@@ -340,39 +328,6 @@
  * @property {Object} [requested_values]
  * @property {Object} [sender]
  * @property {Object} source
- * @property {Object} [statement_identifier]
- * @property {Object} [status]
- */
-
-/**
- * @typedef {Object} TransactionUpdateData
- * @property {number} transaction_id
- * @property {Object} [additional_identifier]
- * @property {Object} [adjusted_values]
- * @property {boolean} [auto_confirm]
- * @property {Object} [beneficiary]
- * @property {Array} [benefits]
- * @property {*} [calculation_mode]
- * @property {string} [callback_url]
- * @property {string} [confirmation_date]
- * @property {string} [confirmation_expiration_date]
- * @property {string} [creation_date]
- * @property {Object} [credit_party_identifier]
- * @property {Object} [debit_party_identifier]
- * @property {Object} [destination]
- * @property {string} [external_id]
- * @property {string} [id]
- * @property {Object} [metadata]
- * @property {string} [operator_reference]
- * @property {Object} [pin]
- * @property {Object} [prices]
- * @property {*} [product]
- * @property {string} [product_id]
- * @property {Array} [promotions]
- * @property {*} [rates]
- * @property {Object} [requested_values]
- * @property {Object} [sender]
- * @property {Object} [source]
  * @property {Object} [statement_identifier]
  * @property {Object} [status]
  */

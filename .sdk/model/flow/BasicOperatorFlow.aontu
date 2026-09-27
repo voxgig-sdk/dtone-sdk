@@ -1,0 +1,44 @@
+# BasicOperatorFlow
+
+main: kit: flow: BasicOperatorFlow:
+{
+  entity: "operator",
+  kind: "basic",
+  name: "BasicOperatorFlow",
+  step: [
+    {
+      o: "list",
+      v: [
+        {
+          apply: "ItemExists",
+          def: {
+            ref: "operator_ref01"
+          }
+        }
+      ]
+    }
+
+    {
+      i: {
+        ref: "operator_ref01",
+        srcdatavar: "operator_ref01_data",
+        suffix: "_dt0"
+      }
+
+      m: {
+        id: "operator01"
+      }
+
+      o: "load",
+      v: [
+        {
+          apply: "TextFieldMark",
+          def: {
+            mark: "Mark01-operator_ref01"
+          }
+        }
+      ]
+    }
+  ],
+  "key$": "BasicOperatorFlow"
+}

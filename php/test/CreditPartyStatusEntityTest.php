@@ -23,7 +23,7 @@ class CreditPartyStatusEntityTest extends TestCase
         $setup = credit_party_status_basic_setup(null);
         // Per-op sdk-test-control.json skip.
         $_live = !empty($setup["live"]);
-        foreach (["load"] as $_op) {
+        foreach (["create"] as $_op) {
             [$_shouldSkip, $_reason] = Runner::is_control_skipped("entityOp", "credit_party_status." . $_op, $_live ? "live" : "unit");
             if ($_shouldSkip) {
                 $this->markTestSkipped($_reason ?? "skipped via sdk-test-control.json");
@@ -38,19 +38,14 @@ class CreditPartyStatusEntityTest extends TestCase
         }
         $client = $setup["client"];
 
-        // Bootstrap entity data from existing test data.
-        $credit_party_status_ref01_data_raw = Vs::items(Helpers::to_map(
-            Vs::getpath($setup["data"], "existing.credit_party_status")));
-        $credit_party_status_ref01_data = null;
-        if (count($credit_party_status_ref01_data_raw) > 0) {
-            $credit_party_status_ref01_data = Helpers::to_map($credit_party_status_ref01_data_raw[0][1]);
-        }
-
-        // LOAD
+        // CREATE
         $credit_party_status_ref01_ent = $client->CreditPartyStatus(null);
-        $credit_party_status_ref01_match_dt0 = [];
-        $credit_party_status_ref01_data_dt0_loaded = $credit_party_status_ref01_ent->load($credit_party_status_ref01_match_dt0, null);
-        $this->assertNotNull($credit_party_status_ref01_data_dt0_loaded);
+        $credit_party_status_ref01_data = Helpers::to_map(Vs::getprop(
+            Vs::getpath($setup["data"], "new.credit_party_status"), "credit_party_status_ref01"));
+
+        $credit_party_status_ref01_data_result = $credit_party_status_ref01_ent->create($credit_party_status_ref01_data, null);
+        $credit_party_status_ref01_data = Helpers::to_map(is_object($credit_party_status_ref01_data_result) && method_exists($credit_party_status_ref01_data_result, 'data_get') ? $credit_party_status_ref01_data_result->data_get() : $credit_party_status_ref01_data_result);
+        $this->assertNotNull($credit_party_status_ref01_data);
 
     }
 }

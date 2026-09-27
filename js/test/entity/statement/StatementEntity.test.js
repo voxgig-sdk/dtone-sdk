@@ -1,18 +1,22 @@
 
 const envlocal = __dirname + '/../../../.env.local'
-require('dotenv').config({ quiet: true, path: [envlocal] })
+require('../../utility').loadEnvLocal(envlocal)
 
 const Path = require('node:path')
 const Fs = require('node:fs')
 
-const { test, describe } = require('node:test')
+const { test, describe, afterEach } = require('node:test')
 const assert = require('node:assert')
+const { createLiveTransport } = require('../../live-runner')
+const { runLiveEntity } = require('../../live-entity')
 
 
 const { DtoneSDK, BaseFeature, stdutil, config } = require('../../..')
 
 const {
   envOverride,
+  liveClientOptions,
+  liveDelay,
   makeCtrl,
   makeMatch,
   makeReqdata,
@@ -23,6 +27,10 @@ const {
 
 describe('StatementEntity', async () => {
 
+  // Per-test live pacing. Delay is read from sdk-test-control.json's
+  // `test.live.delayMs`; only sleeps when DTONE_TEST_LIVE=TRUE.
+  afterEach(liveDelay('DTONE_TEST_LIVE'))
+
   test('instance', async () => {
     const testsdk = DtoneSDK.test()
     const ent = testsdk.Statement()
@@ -30,9 +38,13 @@ describe('StatementEntity', async () => {
   })
 
 
-  test('basic', async () => {
+  test('basic', async (t) => {
 
+    
     const setup = basicSetup()
+    if (setup.live) {
+      return runLiveEntity(setup, {"active":true,"alias":{"field":{}},"fields":{"account_number":{"a":true,"h":"Account Number","n":"account_number","r":true,"sh":"Account number.","t":"`$STRING`","key$":"account_number","index$":0},"account_qualifier":{"a":true,"h":"Account Qualifier","n":"account_qualifier","r":false,"t":"`$STRING`","key$":"account_qualifier","index$":1},"page":{"a":true,"fo":"int32","h":"Page","n":"page","r":false,"sh":"Page number","t":"`$INTEGER`","key$":"page","index$":2},"per_page":{"a":true,"fo":"int32","h":"Per Page","n":"per_page","r":false,"sh":"Number of records per page","t":"`$INTEGER`","key$":"per_page","index$":3},"product_id":{"a":true,"fo":"int32","h":"Product Id","n":"product_id","r":true,"sh":"Product identifier.","t":"`$INTEGER`","key$":"product_id","index$":4}},"name":"statement","op":{"create":{"input":"data","name":"create","points":[{"a":true,"co":{"id":"POST /lookup/statement-inquiry","source":"openapi3","version":2},"g":{},"k":"http","m":"POST","o":"/lookup/statement-inquiry","q":{},"r":{},"s":[{"lit":"lookup"},{"lit":"statement-inquiry"}],"t":{"req":"`reqdata`","res":"`body`"},"index$":0}],"key$":"create"}},"relations":{"ancestors":[]},"key$":"statement","name__orig":"statement","Name":"Statement","name_":"statement","name-":"statement","NAME":"STATEMENT","index$":11}, {"active":true,"entity":"statement","key$":"BasicStatementFlow","kind":"basic","name":"BasicStatementFlow","param":{},"step":[{"a":true,"d":{},"i":{"ref":"statement_ref01"},"m":{},"o":"create","s":[],"v":[],"index$":0}]}, 'Statement', {"POST /lookup/statement-inquiry":{"protocol":"http","requestBody":{"required":true,"content":{"application/json":{"schema":{"type":"object","properties":{"product_id":{"type":"integer","format":"int32","minimum":1,"description":"Product identifier.","x-ref":"#/components/schemas/product_id","key$":"product_id"},"account_number":{"type":"string","minLength":1,"maxLength":90,"pattern":"\\S","description":"Account number.","x-ref":"#/components/schemas/account_number","key$":"account_number"},"account_qualifier":{"type":"string","minLength":1,"pattern":"\\S","x-ref":"#/components/schemas/non_empty_string","key$":"account_qualifier"},"page":{"description":"Page number","type":"integer","format":"int32","minimum":1,"default":1,"key$":"page"},"per_page":{"description":"Number of records per page","type":"integer","format":"int32","minimum":1,"maximum":100,"default":50,"key$":"per_page"}},"required":["product_id","account_number"],"index$":1}}}},"parameters":[]}})
+    }
     const client = setup.client
     const struct = setup.struct
 
@@ -88,17 +100,32 @@ function basicSetup(extra) {
     'DTONE_TEST_STATEMENT_ENTID': idmap,
     'DTONE_TEST_LIVE': 'FALSE',
     'DTONE_TEST_EXPLAIN': 'FALSE',
-    'DTONE_APIKEY': 'NONE',
+    'DTONE_APIKEY': '',
   })
 
   idmap = env['DTONE_TEST_STATEMENT_ENTID']
 
-  if ('TRUE' === env.DTONE_TEST_LIVE) {
+  const live = 'TRUE' === env.DTONE_TEST_LIVE
+  const transport = createLiveTransport()
+  if (live) {
+    const rawIds = process.env['DTONE_TEST_STATEMENT_ENTID']
+    idmap = rawIds && rawIds.trim() ? JSON.parse(rawIds) : {}
+    if (!idmap || Array.isArray(idmap) || typeof idmap !== 'object') {
+      throw new Error('Live ENTID must be a JSON object')
+    }
     client = new DtoneSDK(merge([
+      // FIRST, so the generated fields below win: sdk-test-control.json's
+      // test.client.options adds to the live client, it does not redirect it.
+      liveClientOptions(),
       {
         apikey: env.DTONE_APIKEY,
       },
-      extra
+      // 'extra || {}', not a bare 'extra': struct.merge returns UNDEFINED when
+      // the last entry is undefined, and basicSetup is normally called with no
+      // argument at all - so a bare 'extra' silently discarded the apikey and
+      // server values above and handed the SDK undefined.
+      extra || {},
+      { system: { fetch: transport.fetch } }
     ]))
   }
 
@@ -110,6 +137,8 @@ function basicSetup(extra) {
     struct,
     data: entityData,
     explain: 'TRUE' === env.DTONE_TEST_EXPLAIN,
+    live,
+    transport,
     now: Date.now(),
   }
 

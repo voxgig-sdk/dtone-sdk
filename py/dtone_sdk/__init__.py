@@ -343,10 +343,10 @@ class DtoneSDK:
         return CreditPartyStatusEntity(self, data)
 
 
-    def MobileNumberLookup(self, data=None) -> "MobileNumberLookupEntity":
-        """Entity factory: client.MobileNumberLookup().list() / client.MobileNumberLookup().load({"id": ...})."""
-        from dtone_sdk.entity.mobile_number_lookup_entity import MobileNumberLookupEntity
-        return MobileNumberLookupEntity(self, data)
+    def MobileNumber(self, data=None) -> "MobileNumberEntity":
+        """Entity factory: client.MobileNumber().list() / client.MobileNumber().load({"id": ...})."""
+        from dtone_sdk.entity.mobile_number_entity import MobileNumberEntity
+        return MobileNumberEntity(self, data)
 
 
     def Operator(self, data=None) -> "OperatorEntity":
@@ -373,10 +373,10 @@ class DtoneSDK:
         return ServiceEntity(self, data)
 
 
-    def StatementInquiry(self, data=None) -> "StatementInquiryEntity":
-        """Entity factory: client.StatementInquiry().list() / client.StatementInquiry().load({"id": ...})."""
-        from dtone_sdk.entity.statement_inquiry_entity import StatementInquiryEntity
-        return StatementInquiryEntity(self, data)
+    def Statement(self, data=None) -> "StatementEntity":
+        """Entity factory: client.Statement().list() / client.Statement().load({"id": ...})."""
+        from dtone_sdk.entity.statement_entity import StatementEntity
+        return StatementEntity(self, data)
 
 
     def Transaction(self, data=None) -> "TransactionEntity":
@@ -418,10 +418,10 @@ if TYPE_CHECKING:
     from dtone_sdk.entity.country_entity import CountryEntity
     from dtone_sdk.entity.credit_party_benefit_entity import CreditPartyBenefitEntity
     from dtone_sdk.entity.credit_party_status_entity import CreditPartyStatusEntity
-    from dtone_sdk.entity.mobile_number_lookup_entity import MobileNumberLookupEntity
+    from dtone_sdk.entity.mobile_number_entity import MobileNumberEntity
     from dtone_sdk.entity.operator_entity import OperatorEntity
     from dtone_sdk.entity.product_entity import ProductEntity
     from dtone_sdk.entity.promotion_entity import PromotionEntity
     from dtone_sdk.entity.service_entity import ServiceEntity
-    from dtone_sdk.entity.statement_inquiry_entity import StatementInquiryEntity
+    from dtone_sdk.entity.statement_entity import StatementEntity
     from dtone_sdk.entity.transaction_entity import TransactionEntity

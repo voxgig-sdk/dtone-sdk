@@ -8,12 +8,12 @@ const CampaignEntity_1 = require("./entity/CampaignEntity");
 const CountryEntity_1 = require("./entity/CountryEntity");
 const CreditPartyBenefitEntity_1 = require("./entity/CreditPartyBenefitEntity");
 const CreditPartyStatusEntity_1 = require("./entity/CreditPartyStatusEntity");
-const MobileNumberLookupEntity_1 = require("./entity/MobileNumberLookupEntity");
+const MobileNumberEntity_1 = require("./entity/MobileNumberEntity");
 const OperatorEntity_1 = require("./entity/OperatorEntity");
 const ProductEntity_1 = require("./entity/ProductEntity");
 const PromotionEntity_1 = require("./entity/PromotionEntity");
 const ServiceEntity_1 = require("./entity/ServiceEntity");
-const StatementInquiryEntity_1 = require("./entity/StatementInquiryEntity");
+const StatementEntity_1 = require("./entity/StatementEntity");
 const TransactionEntity_1 = require("./entity/TransactionEntity");
 const node_util_1 = require("node:util");
 const Config_1 = require("./Config");
@@ -96,7 +96,6 @@ class DtoneSDK {
             ctrl: fetchargs.ctrl || {},
         }, this._rootctx);
         const options = this._options;
-        // Build spec directly from SDK options + user-provided fetch args.
         const spec = {
             base: options.base,
             prefix: options.prefix,
@@ -110,14 +109,12 @@ class DtoneSDK {
             step: 'start',
         };
         ctx.spec = spec;
-        // Merge user-provided headers over SDK defaults.
         if (fetchargs.headers) {
             const uheaders = fetchargs.headers;
             for (let key in uheaders) {
                 spec.headers[key] = uheaders[key];
             }
         }
-        // Apply SDK auth (apikey, auth prefix, etc.)
         const authResult = prepareAuth(ctx);
         if (authResult instanceof Error) {
             return authResult;
@@ -192,18 +189,6 @@ class DtoneSDK {
             return { ok: false, err };
         }
     }
-    // Raw GraphQL access: the pressure valve that makes the generated
-    // surface's deliberate omissions (per-call selection sets, typed filter
-    // builders, batching, subscriptions) livable — the whole schema stays
-    // reachable.
-    //
-    // Thin wrapper over the same prepare/fetch path `direct` uses, with the
-    // one thing raw `direct` cannot do for GraphQL: a GraphQL failure rides
-    // HTTP 200 as a top-level `errors` array, so status alone would report a
-    // failed query as ok.
-    //
-    // NOTE: like `direct`, this bypasses the feature pipeline — no retry,
-    // ratelimit or paging features apply.
     async graphql(query, variables, ctrl) {
         const options = this._options;
         if (!options.allow.op.includes('graphql')) {
@@ -279,12 +264,12 @@ class DtoneSDK {
         const self = this;
         return new CreditPartyStatusEntity_1.CreditPartyStatusEntity(self, entopts);
     }
-    // Entity access: `client.MobileNumberLookup().list()` / `client.MobileNumberLookup().load({ id })`.
+    // Entity access: `client.MobileNumber().list()` / `client.MobileNumber().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    MobileNumberLookup(entopts) {
+    MobileNumber(entopts) {
         const self = this;
-        return new MobileNumberLookupEntity_1.MobileNumberLookupEntity(self, entopts);
+        return new MobileNumberEntity_1.MobileNumberEntity(self, entopts);
     }
     // Entity access: `client.Operator().list()` / `client.Operator().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
@@ -314,12 +299,12 @@ class DtoneSDK {
         const self = this;
         return new ServiceEntity_1.ServiceEntity(self, entopts);
     }
-    // Entity access: `client.StatementInquiry().list()` / `client.StatementInquiry().load({ id })`.
+    // Entity access: `client.Statement().list()` / `client.Statement().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity
     // constructor as entopts), not initial entity data.
-    StatementInquiry(entopts) {
+    Statement(entopts) {
         const self = this;
-        return new StatementInquiryEntity_1.StatementInquiryEntity(self, entopts);
+        return new StatementEntity_1.StatementEntity(self, entopts);
     }
     // Entity access: `client.Transaction().list()` / `client.Transaction().load({ id })`.
     // The argument is the entity OPTIONS object (passed to the entity

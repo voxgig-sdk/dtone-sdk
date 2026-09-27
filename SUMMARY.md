@@ -30,6 +30,10 @@ Results: successful operation.
 
 SDK operations: `list`, `load`.
 
+Key fields to recognise:
+
+- `id`: Operator identifier.
+
 ### [Country](docs/api/country.html)
 
 Results: successful operation.
@@ -44,12 +48,10 @@ Key fields to recognise:
 
 Results: successful operation.
 
-SDK operations: `list`.
+SDK operations: `create`.
 
 Key fields to recognise:
 
-- `amount`: Remaining benefit amount. A value of `-1` indicates an unlimited benefit (for example unlimited data, calls, or SMS).
-- `expiration_date`: A `null` value denotes either no expiration applies or that the product benefit has not yet been activated.
 - `page`: Page number
 - `per_page`: Number of records per page
 - `service_id`: Service identifier.
@@ -58,7 +60,7 @@ Key fields to recognise:
 
 Results: successful operation.
 
-SDK operations: `load`.
+SDK operations: `create`.
 
 Key fields to recognise:
 
@@ -66,16 +68,15 @@ Key fields to recognise:
 - `installation_date`: A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed
 - `service_id`: Service identifier.
 
-### [MobileNumberLookup](docs/api/mobile_number_lookup.html)
+### [MobileNumber](docs/api/mobile_number.html)
 
 Results: successful operation.
 
-SDK operations: `list`.
+SDK operations: `create`, `load`.
 
 Key fields to recognise:
 
 - `id`: Operator identifier.
-- `identified`: Indicates whether operator was identified as a direct match
 - `mobile_number`: Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format.
 - `page`: Page number
 - `per_page`: Number of records per page
@@ -96,11 +97,19 @@ Results: successful operation.
 
 SDK operations: `list`, `load`.
 
+Key fields to recognise:
+
+- `id`: Service identifier. See [Services](#tags/Services) for more details.
+
 ### [Promotion](docs/api/promotion.html)
 
 Results: successful operation.
 
 SDK operations: `list`, `load`.
+
+Key fields to recognise:
+
+- `id`: Operator identifier.
 
 ### [Service](docs/api/service.html)
 
@@ -112,11 +121,11 @@ Key fields to recognise:
 
 - `id`: Service identifier. See [Services](#tags/Services) for more details.
 
-### [StatementInquiry](docs/api/statement_inquiry.html)
+### [Statement](docs/api/statement.html)
 
 Results: successful operation.
 
-SDK operations: `list`.
+SDK operations: `create`.
 
 Key fields to recognise:
 
@@ -127,9 +136,9 @@ Key fields to recognise:
 
 ### [Transaction](docs/api/transaction.html)
 
-Results: Transaction created; successful operation; Transaction cancelled; Transaction confirmed.
+Results: Transaction cancelled; Transaction confirmed; Transaction created; successful operation.
 
-SDK operations: `create`, `list`, `load`, `update`.
+SDK operations: `create`, `list`, `load`.
 
 Key fields to recognise:
 
@@ -151,10 +160,10 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | [Campaign](docs/api/campaign.html) | `load` | `GET /campaigns/{campaign_id}` | Required |
 | [Country](docs/api/country.html) | `list` | `GET /countries` | Required |
 | [Country](docs/api/country.html) | `load` | `GET /countries/{country_iso_code}` | Required |
-| [CreditPartyBenefit](docs/api/credit_party_benefit.html) | `list` | `POST /lookup/credit-party-benefits` | Required |
-| [CreditPartyStatus](docs/api/credit_party_status.html) | `load` | `POST /lookup/credit-party-status` | Required |
-| [MobileNumberLookup](docs/api/mobile_number_lookup.html) | `list` | `GET /lookup/mobile-number/{mobile_number}` | Required |
-| [MobileNumberLookup](docs/api/mobile_number_lookup.html) | `list` | `POST /lookup/mobile-number` | Required |
+| [CreditPartyBenefit](docs/api/credit_party_benefit.html) | `create` | `POST /lookup/credit-party-benefits` | Required |
+| [CreditPartyStatus](docs/api/credit_party_status.html) | `create` | `POST /lookup/credit-party-status` | Required |
+| [MobileNumber](docs/api/mobile_number.html) | `create` | `POST /lookup/mobile-number` | Required |
+| [MobileNumber](docs/api/mobile_number.html) | `load` | `GET /lookup/mobile-number/{mobile_number}` | Required |
 | [Operator](docs/api/operator.html) | `list` | `GET /operators` | Required |
 | [Operator](docs/api/operator.html) | `load` | `GET /operators/{operator_id}` | Required |
 | [Product](docs/api/product.html) | `list` | `GET /products` | Required |
@@ -163,14 +172,14 @@ Use this map to locate a capability. Consult the entity reference before supplyi
 | [Promotion](docs/api/promotion.html) | `load` | `GET /promotions/{promotion_id}` | Required |
 | [Service](docs/api/service.html) | `list` | `GET /services` | Required |
 | [Service](docs/api/service.html) | `load` | `GET /services/{service_id}` | Required |
-| [StatementInquiry](docs/api/statement_inquiry.html) | `list` | `POST /lookup/statement-inquiry` | Required |
+| [Statement](docs/api/statement.html) | `create` | `POST /lookup/statement-inquiry` | Required |
+| [Transaction](docs/api/transaction.html) | `create` | `POST /transactions/{transaction_id}/cancel` | Required |
+| [Transaction](docs/api/transaction.html) | `create` | `POST /async/transactions/{transaction_id}/confirm` | Required |
+| [Transaction](docs/api/transaction.html) | `create` | `POST /sync/transactions/{transaction_id}/confirm` | Required |
 | [Transaction](docs/api/transaction.html) | `create` | `POST /async/transactions` | Required |
 | [Transaction](docs/api/transaction.html) | `create` | `POST /sync/transactions` | Required |
 | [Transaction](docs/api/transaction.html) | `list` | `GET /transactions` | Required |
 | [Transaction](docs/api/transaction.html) | `load` | `GET /transactions/{transaction_id}` | Required |
-| [Transaction](docs/api/transaction.html) | `update` | `POST /transactions/{transaction_id}/cancel` | Required |
-| [Transaction](docs/api/transaction.html) | `update` | `POST /async/transactions/{transaction_id}/confirm` | Required |
-| [Transaction](docs/api/transaction.html) | `update` | `POST /sync/transactions/{transaction_id}/confirm` | Required |
 
 ## Connect to the API
 
@@ -224,8 +233,8 @@ Use the MCP server to expose supported API operations to an MCP client.
 
 Repository directory: `go-mcp/`. Not published. Build from the go-mcp directory.
 
-- `dtone_list`: List records for an entity. Supported entities: `balance`, `benefit_type`, `campaign`, `country`, `credit_party_benefit`, `mobile_number_lookup`, `operator`, `product`, `promotion`, `service`, `statement_inquiry`, `transaction`.
-- `dtone_load`: Load one record for an entity. Supported entities: `campaign`, `country`, `credit_party_status`, `operator`, `product`, `promotion`, `service`, `transaction`.
+- `dtone_list`: List records for an entity. Supported entities: `balance`, `benefit_type`, `campaign`, `country`, `operator`, `product`, `promotion`, `service`, `transaction`.
+- `dtone_load`: Load one record for an entity. Supported entities: `campaign`, `country`, `mobile_number`, `operator`, `product`, `promotion`, `service`, `transaction`.
 
 ## Operational features
 

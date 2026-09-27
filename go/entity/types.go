@@ -1,7 +1,7 @@
 // Typed models for the Dtone SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 package entity
@@ -14,12 +14,6 @@ import (
 
 // Balance is the typed data model for the balance entity.
 type Balance struct {
-	Available float64 `json:"available"`
-	CreditLimit float64 `json:"credit_limit"`
-	Holding float64 `json:"holding"`
-	Id int `json:"id"`
-	Unit string `json:"unit"`
-	UnitType string `json:"unit_type"`
 }
 
 // BalanceListMatch is the typed request payload for Balance.ListTyped.
@@ -32,7 +26,6 @@ type BalanceListMatch struct {
 
 // BenefitType is the typed data model for the benefit_type entity.
 type BenefitType struct {
-	Name string `json:"name"`
 }
 
 // BenefitTypeListMatch is the typed request payload for BenefitType.ListTyped.
@@ -43,18 +36,11 @@ type BenefitTypeListMatch struct {
 
 // Campaign is the typed data model for the campaign entity.
 type Campaign struct {
-	Description string `json:"description"`
-	EndDate string `json:"end_date"`
-	Id int `json:"id"`
-	Products []any `json:"products"`
-	StartDate string `json:"start_date"`
-	Terms string `json:"terms"`
-	Title string `json:"title"`
 }
 
 // CampaignLoadMatch is the typed request payload for Campaign.LoadTyped.
 type CampaignLoadMatch struct {
-	CampaignId int `json:"campaign_id"`
+	Id int `json:"id"`
 }
 
 // CampaignListMatch is the typed request payload for Campaign.ListTyped.
@@ -68,14 +54,11 @@ type CampaignListMatch struct {
 
 // Country is the typed data model for the country entity.
 type Country struct {
-	IsoCode string `json:"iso_code"`
-	Name string `json:"name"`
-	Regions []any `json:"regions"`
 }
 
 // CountryLoadMatch is the typed request payload for Country.LoadTyped.
 type CountryLoadMatch struct {
-	CountryIsoCode string `json:"country_iso_code"`
+	Id string `json:"id"`
 }
 
 // CountryListMatch is the typed request payload for Country.ListTyped.
@@ -88,62 +71,42 @@ type CountryListMatch struct {
 
 // CreditPartyBenefit is the typed data model for the credit_party_benefit entity.
 type CreditPartyBenefit struct {
-	Amount float64 `json:"amount"`
-	Country map[string]any `json:"country"`
+}
+
+// CreditPartyBenefitCreateData is the typed request payload for CreditPartyBenefit.CreateTyped.
+type CreditPartyBenefitCreateData struct {
 	CreditPartyIdentifier map[string]any `json:"credit_party_identifier"`
-	ExpirationDate string `json:"expiration_date"`
 	Page *int `json:"page,omitempty"`
 	PerPage *int `json:"per_page,omitempty"`
 	ServiceId int `json:"service_id"`
-	Type string `json:"type"`
-	Unit string `json:"unit"`
-	UnitType string `json:"unit_type"`
-}
-
-// CreditPartyBenefitListMatch is the typed request payload for CreditPartyBenefit.ListTyped.
-type CreditPartyBenefitListMatch struct {
-	Amount *float64 `json:"amount,omitempty"`
-	Country *map[string]any `json:"country,omitempty"`
-	CreditPartyIdentifier *map[string]any `json:"credit_party_identifier,omitempty"`
-	ExpirationDate *string `json:"expiration_date,omitempty"`
-	Page *int `json:"page,omitempty"`
-	PerPage *int `json:"per_page,omitempty"`
-	ServiceId *int `json:"service_id,omitempty"`
-	Type *string `json:"type,omitempty"`
-	Unit *string `json:"unit,omitempty"`
-	UnitType *string `json:"unit_type,omitempty"`
 }
 
 // CreditPartyStatus is the typed data model for the credit_party_status entity.
 type CreditPartyStatus struct {
+}
+
+// CreditPartyStatusCreateData is the typed request payload for CreditPartyStatus.CreateTyped.
+type CreditPartyStatusCreateData struct {
 	ActivationDate string `json:"activation_date"`
 	CreditPartyIdentifier map[string]any `json:"credit_party_identifier"`
 	InstallationDate string `json:"installation_date"`
 	ServiceId int `json:"service_id"`
 }
 
-// CreditPartyStatusLoadMatch is the typed request payload for CreditPartyStatus.LoadTyped.
-type CreditPartyStatusLoadMatch struct {
-	ActivationDate *string `json:"activation_date,omitempty"`
-	CreditPartyIdentifier *map[string]any `json:"credit_party_identifier,omitempty"`
-	InstallationDate *string `json:"installation_date,omitempty"`
-	ServiceId *int `json:"service_id,omitempty"`
+// MobileNumber is the typed data model for the mobile_number entity.
+type MobileNumber struct {
 }
 
-// MobileNumberLookup is the typed data model for the mobile_number_lookup entity.
-type MobileNumberLookup struct {
-	Country map[string]any `json:"country"`
-	Id int `json:"id"`
-	Identified bool `json:"identified"`
-	MobileNumber string `json:"mobile_number"`
-	Name string `json:"name"`
+// MobileNumberLoadMatch is the typed request payload for MobileNumber.LoadTyped.
+type MobileNumberLoadMatch struct {
+	Id string `json:"id"`
 	Page *int `json:"page,omitempty"`
 	PerPage *int `json:"per_page,omitempty"`
-	Regions []any `json:"regions"`
 }
 
-// MobileNumberLookupListMatch is the typed request payload for MobileNumberLookup.ListTyped.
-type MobileNumberLookupListMatch struct {
+// MobileNumberCreateData is the typed request payload for MobileNumber.CreateTyped.
+type MobileNumberCreateData struct {
+	Id *string `json:"id,omitempty"`
 	MobileNumber string `json:"mobile_number"`
 	Page *int `json:"page,omitempty"`
 	PerPage *int `json:"per_page,omitempty"`
@@ -151,15 +114,11 @@ type MobileNumberLookupListMatch struct {
 
 // Operator is the typed data model for the operator entity.
 type Operator struct {
-	Country map[string]any `json:"country"`
-	Id int `json:"id"`
-	Name string `json:"name"`
-	Regions []any `json:"regions"`
 }
 
 // OperatorLoadMatch is the typed request payload for Operator.LoadTyped.
 type OperatorLoadMatch struct {
-	OperatorId int `json:"operator_id"`
+	Id int `json:"id"`
 }
 
 // OperatorListMatch is the typed request payload for Operator.ListTyped.
@@ -177,7 +136,7 @@ type Product struct {
 
 // ProductLoadMatch is the typed request payload for Product.LoadTyped.
 type ProductLoadMatch struct {
-	ProductId int `json:"product_id"`
+	Id int `json:"id"`
 }
 
 // ProductListMatch is the typed request payload for Product.ListTyped.
@@ -197,19 +156,11 @@ type ProductListMatch struct {
 
 // Promotion is the typed data model for the promotion entity.
 type Promotion struct {
-	Description string `json:"description"`
-	EndDate string `json:"end_date"`
-	Id int `json:"id"`
-	Operator map[string]any `json:"operator"`
-	Products []any `json:"products"`
-	StartDate string `json:"start_date"`
-	Terms string `json:"terms"`
-	Title string `json:"title"`
 }
 
 // PromotionLoadMatch is the typed request payload for Promotion.LoadTyped.
 type PromotionLoadMatch struct {
-	PromotionId int `json:"promotion_id"`
+	Id int `json:"id"`
 }
 
 // PromotionListMatch is the typed request payload for Promotion.ListTyped.
@@ -223,14 +174,11 @@ type PromotionListMatch struct {
 
 // Service is the typed data model for the service entity.
 type Service struct {
-	Id int `json:"id"`
-	Name string `json:"name"`
-	Subservices []any `json:"subservices"`
 }
 
 // ServiceLoadMatch is the typed request payload for Service.LoadTyped.
 type ServiceLoadMatch struct {
-	ServiceId int `json:"service_id"`
+	Id int `json:"id"`
 }
 
 // ServiceListMatch is the typed request payload for Service.ListTyped.
@@ -240,65 +188,26 @@ type ServiceListMatch struct {
 	PerPage *int `json:"per_page,omitempty"`
 }
 
-// StatementInquiry is the typed data model for the statement_inquiry entity.
-type StatementInquiry struct {
+// Statement is the typed data model for the statement entity.
+type Statement struct {
+}
+
+// StatementCreateData is the typed request payload for Statement.CreateTyped.
+type StatementCreateData struct {
 	AccountNumber string `json:"account_number"`
 	AccountQualifier *string `json:"account_qualifier,omitempty"`
-	Balance map[string]any `json:"balance"`
-	Dates map[string]any `json:"dates"`
 	Page *int `json:"page,omitempty"`
 	PerPage *int `json:"per_page,omitempty"`
 	ProductId int `json:"product_id"`
-	Reference any `json:"reference"`
-}
-
-// StatementInquiryListMatch is the typed request payload for StatementInquiry.ListTyped.
-type StatementInquiryListMatch struct {
-	AccountNumber *string `json:"account_number,omitempty"`
-	AccountQualifier *string `json:"account_qualifier,omitempty"`
-	Balance *map[string]any `json:"balance,omitempty"`
-	Dates *map[string]any `json:"dates,omitempty"`
-	Page *int `json:"page,omitempty"`
-	PerPage *int `json:"per_page,omitempty"`
-	ProductId *int `json:"product_id,omitempty"`
-	Reference *any `json:"reference,omitempty"`
 }
 
 // Transaction is the typed data model for the transaction entity.
 type Transaction struct {
-	AdditionalIdentifier *map[string]any `json:"additional_identifier,omitempty"`
-	AdjustedValues *map[string]any `json:"adjusted_values,omitempty"`
-	AutoConfirm *bool `json:"auto_confirm,omitempty"`
-	Beneficiary *map[string]any `json:"beneficiary,omitempty"`
-	Benefits *[]any `json:"benefits,omitempty"`
-	CalculationMode *any `json:"calculation_mode,omitempty"`
-	CallbackUrl *string `json:"callback_url,omitempty"`
-	ConfirmationDate *string `json:"confirmation_date,omitempty"`
-	ConfirmationExpirationDate *string `json:"confirmation_expiration_date,omitempty"`
-	CreationDate *string `json:"creation_date,omitempty"`
-	CreditPartyIdentifier *map[string]any `json:"credit_party_identifier,omitempty"`
-	DebitPartyIdentifier *map[string]any `json:"debit_party_identifier,omitempty"`
-	Destination map[string]any `json:"destination"`
-	ExternalId string `json:"external_id"`
-	Id *string `json:"id,omitempty"`
-	Metadata *map[string]any `json:"metadata,omitempty"`
-	OperatorReference *string `json:"operator_reference,omitempty"`
-	Pin map[string]any `json:"pin"`
-	Prices map[string]any `json:"prices"`
-	Product *any `json:"product,omitempty"`
-	ProductId string `json:"product_id"`
-	Promotions *[]any `json:"promotions,omitempty"`
-	Rates *any `json:"rates,omitempty"`
-	RequestedValues *map[string]any `json:"requested_values,omitempty"`
-	Sender *map[string]any `json:"sender,omitempty"`
-	Source map[string]any `json:"source"`
-	StatementIdentifier *map[string]any `json:"statement_identifier,omitempty"`
-	Status *map[string]any `json:"status,omitempty"`
 }
 
 // TransactionLoadMatch is the typed request payload for Transaction.LoadTyped.
 type TransactionLoadMatch struct {
-	TransactionId int `json:"transaction_id"`
+	Id int `json:"id"`
 }
 
 // TransactionListMatch is the typed request payload for Transaction.ListTyped.
@@ -346,39 +255,6 @@ type TransactionCreateData struct {
 	RequestedValues *map[string]any `json:"requested_values,omitempty"`
 	Sender *map[string]any `json:"sender,omitempty"`
 	Source map[string]any `json:"source"`
-	StatementIdentifier *map[string]any `json:"statement_identifier,omitempty"`
-	Status *map[string]any `json:"status,omitempty"`
-}
-
-// TransactionUpdateData is the typed request payload for Transaction.UpdateTyped.
-type TransactionUpdateData struct {
-	TransactionId int `json:"transaction_id"`
-	AdditionalIdentifier *map[string]any `json:"additional_identifier,omitempty"`
-	AdjustedValues *map[string]any `json:"adjusted_values,omitempty"`
-	AutoConfirm *bool `json:"auto_confirm,omitempty"`
-	Beneficiary *map[string]any `json:"beneficiary,omitempty"`
-	Benefits *[]any `json:"benefits,omitempty"`
-	CalculationMode *any `json:"calculation_mode,omitempty"`
-	CallbackUrl *string `json:"callback_url,omitempty"`
-	ConfirmationDate *string `json:"confirmation_date,omitempty"`
-	ConfirmationExpirationDate *string `json:"confirmation_expiration_date,omitempty"`
-	CreationDate *string `json:"creation_date,omitempty"`
-	CreditPartyIdentifier *map[string]any `json:"credit_party_identifier,omitempty"`
-	DebitPartyIdentifier *map[string]any `json:"debit_party_identifier,omitempty"`
-	Destination *map[string]any `json:"destination,omitempty"`
-	ExternalId *string `json:"external_id,omitempty"`
-	Id *string `json:"id,omitempty"`
-	Metadata *map[string]any `json:"metadata,omitempty"`
-	OperatorReference *string `json:"operator_reference,omitempty"`
-	Pin *map[string]any `json:"pin,omitempty"`
-	Prices *map[string]any `json:"prices,omitempty"`
-	Product *any `json:"product,omitempty"`
-	ProductId *string `json:"product_id,omitempty"`
-	Promotions *[]any `json:"promotions,omitempty"`
-	Rates *any `json:"rates,omitempty"`
-	RequestedValues *map[string]any `json:"requested_values,omitempty"`
-	Sender *map[string]any `json:"sender,omitempty"`
-	Source *map[string]any `json:"source,omitempty"`
 	StatementIdentifier *map[string]any `json:"statement_identifier,omitempty"`
 	Status *map[string]any `json:"status,omitempty"`
 }

@@ -88,9 +88,13 @@ class TestProductEntity:
         assert isinstance(product_ref01_list_result, list)
 
         # LOAD
-        product_ref01_match_dt0 = {}
+        product_ref01_match_dt0 = {
+            "id": product_ref01_data["id"],
+        }
         product_ref01_data_dt0_loaded = product_ref01_ent.load(product_ref01_match_dt0, None)
-        assert product_ref01_data_dt0_loaded is not None
+        product_ref01_data_dt0_load_result = helpers.to_map(runner.entity_data(product_ref01_data_dt0_loaded))
+        assert product_ref01_data_dt0_load_result is not None
+        assert product_ref01_data_dt0_load_result["id"] == product_ref01_data["id"]
 
 
 

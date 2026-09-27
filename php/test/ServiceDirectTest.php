@@ -73,11 +73,11 @@ class ServiceDirectTest extends TestCase
         $params = [];
         $query = [];
         if (!$setup["live"]) {
-            $params["service_id"] = "direct01";
+            $params["id"] = "direct01";
         }
 
         $result = $client->direct([
-            "path" => "services/{service_id}",
+            "path" => "services/{id}",
             "method" => "GET",
             "params" => $params,
             "query" => $query,

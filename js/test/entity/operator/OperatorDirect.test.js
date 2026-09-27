@@ -54,13 +54,13 @@ describe('OperatorDirect', async () => {
         throw new Error('Live load blocked: discovery returned no usable entities')
       }
       params.id = listData[0].id
-      params.operator_id = setup.idmap['operator01']
+
     } else {
-      params.operator_id = 'direct01'
+      params.id = 'direct01'
     }
 
     const result = await client.direct({
-      path: 'operators/{operator_id}',
+      path: 'operators/{id}',
       method: 'GET',
       params,
     })

@@ -2,7 +2,6 @@ package sdktest
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -81,7 +80,7 @@ func TestTransactionEntity(t *testing.T) {
 		if setup.live {
 			_mode = "live"
 		}
-		for _, _op := range []string{"create", "list", "update", "load"} {
+		for _, _op := range []string{"create", "list", "load"} {
 			if _shouldSkip, _reason := isControlSkipped("entityOp", "transaction." + _op, _mode); _shouldSkip {
 				if _reason == "" {
 					_reason = "skipped via sdk-test-control.json"
@@ -130,30 +129,6 @@ func TestTransactionEntity(t *testing.T) {
 		foundItem := vs.Select(entityListToData(transactionRef01List), map[string]any{"id": transactionRef01Data["id"]})
 		if vs.IsEmpty(foundItem) {
 			t.Fatal("expected to find created entity in list")
-		}
-
-		// UPDATE
-		transactionRef01DataUp0Up := map[string]any{
-			"id": transactionRef01Data["id"],
-		}
-
-		transactionRef01MarkdefUp0Name := "callback_url"
-		transactionRef01MarkdefUp0Value := fmt.Sprintf("Mark01-transaction_ref01_%d", setup.now)
-		transactionRef01DataUp0Up[transactionRef01MarkdefUp0Name] = transactionRef01MarkdefUp0Value
-
-		transactionRef01ResdataUp0Result, err := transactionRef01Ent.Update(transactionRef01DataUp0Up, nil)
-		if err != nil {
-			t.Fatalf("update failed: %v", err)
-		}
-		transactionRef01ResdataUp0 := core.ToMapAny(entityData(transactionRef01ResdataUp0Result))
-		if transactionRef01ResdataUp0 == nil {
-			t.Fatal("expected update result to be a map")
-		}
-		if transactionRef01ResdataUp0["id"] != transactionRef01DataUp0Up["id"] {
-			t.Fatal("expected update result id to match")
-		}
-		if transactionRef01ResdataUp0[transactionRef01MarkdefUp0Name] != transactionRef01MarkdefUp0Value {
-			t.Fatalf("expected %s to be updated, got %v", transactionRef01MarkdefUp0Name, transactionRef01ResdataUp0[transactionRef01MarkdefUp0Name])
 		}
 
 		// LOAD

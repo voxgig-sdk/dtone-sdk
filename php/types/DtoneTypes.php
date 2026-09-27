@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 // Typed models for the Dtone SDK.
 //
-// GENERATED from the API model: main.kit.entity.<e>.fields[] and per-op
-// params (op.<name>.points[].args.params[]). Field/param types come from the
+// GENERATED from the API model: main.kit.entity.<e>.fields{} and per-op
+// params (op.<name>.points[].g.params[]). Field/param types come from the
 // canonical type sentinels via @voxgig/sdkgen canonToType (source of truth:
 // @voxgig/apidef VALID_CANON). Do not edit by hand.
 //
@@ -60,7 +60,7 @@ class Campaign
 /** Request payload for Campaign#load. */
 class CampaignLoadMatch
 {
-    public int $campaign_id;
+    public int $id;
 }
 
 /** Request payload for Campaign#list. */
@@ -76,6 +76,7 @@ class CampaignListMatch
 /** Country entity data model. */
 class Country
 {
+    public ?string $id = null;
     public string $iso_code;
     public string $name;
     public array $regions;
@@ -84,7 +85,7 @@ class Country
 /** Request payload for Country#load. */
 class CountryLoadMatch
 {
-    public string $country_iso_code;
+    public string $id;
 }
 
 /** Request payload for Country#list. */
@@ -99,31 +100,19 @@ class CountryListMatch
 /** CreditPartyBenefit entity data model. */
 class CreditPartyBenefit
 {
-    public float $amount;
-    public array $country;
     public array $credit_party_identifier;
-    public string $expiration_date;
     public ?int $page = null;
     public ?int $per_page = null;
     public int $service_id;
-    public string $type;
-    public string $unit;
-    public string $unit_type;
 }
 
-/** Request payload for CreditPartyBenefit#list. */
-class CreditPartyBenefitListMatch
+/** Request payload for CreditPartyBenefit#create. */
+class CreditPartyBenefitCreateData
 {
-    public ?float $amount = null;
-    public ?array $country = null;
-    public ?array $credit_party_identifier = null;
-    public ?string $expiration_date = null;
+    public array $credit_party_identifier;
     public ?int $page = null;
     public ?int $per_page = null;
-    public ?int $service_id = null;
-    public ?string $type = null;
-    public ?string $unit = null;
-    public ?string $unit_type = null;
+    public int $service_id;
 }
 
 /** CreditPartyStatus entity data model. */
@@ -135,31 +124,36 @@ class CreditPartyStatus
     public int $service_id;
 }
 
-/** Request payload for CreditPartyStatus#load. */
-class CreditPartyStatusLoadMatch
+/** Request payload for CreditPartyStatus#create. */
+class CreditPartyStatusCreateData
 {
-    public ?string $activation_date = null;
-    public ?array $credit_party_identifier = null;
-    public ?string $installation_date = null;
-    public ?int $service_id = null;
+    public string $activation_date;
+    public array $credit_party_identifier;
+    public string $installation_date;
+    public int $service_id;
 }
 
-/** MobileNumberLookup entity data model. */
-class MobileNumberLookup
+/** MobileNumber entity data model. */
+class MobileNumber
 {
-    public array $country;
-    public int $id;
-    public bool $identified;
+    public ?string $id = null;
     public string $mobile_number;
-    public string $name;
     public ?int $page = null;
     public ?int $per_page = null;
-    public array $regions;
 }
 
-/** Request payload for MobileNumberLookup#list. */
-class MobileNumberLookupListMatch
+/** Request payload for MobileNumber#load. */
+class MobileNumberLoadMatch
 {
+    public string $id;
+    public ?int $page = null;
+    public ?int $per_page = null;
+}
+
+/** Request payload for MobileNumber#create. */
+class MobileNumberCreateData
+{
+    public ?string $id = null;
     public string $mobile_number;
     public ?int $page = null;
     public ?int $per_page = null;
@@ -177,7 +171,7 @@ class Operator
 /** Request payload for Operator#load. */
 class OperatorLoadMatch
 {
-    public int $operator_id;
+    public int $id;
 }
 
 /** Request payload for Operator#list. */
@@ -193,12 +187,13 @@ class OperatorListMatch
 /** Product entity data model. */
 class Product
 {
+    public ?string $id = null;
 }
 
 /** Request payload for Product#load. */
 class ProductLoadMatch
 {
-    public int $product_id;
+    public int $id;
 }
 
 /** Request payload for Product#list. */
@@ -233,7 +228,7 @@ class Promotion
 /** Request payload for Promotion#load. */
 class PromotionLoadMatch
 {
-    public int $promotion_id;
+    public int $id;
 }
 
 /** Request payload for Promotion#list. */
@@ -257,7 +252,7 @@ class Service
 /** Request payload for Service#load. */
 class ServiceLoadMatch
 {
-    public int $service_id;
+    public int $id;
 }
 
 /** Request payload for Service#list. */
@@ -268,30 +263,24 @@ class ServiceListMatch
     public ?int $per_page = null;
 }
 
-/** StatementInquiry entity data model. */
-class StatementInquiry
+/** Statement entity data model. */
+class Statement
 {
     public string $account_number;
     public ?string $account_qualifier = null;
-    public array $balance;
-    public array $dates;
     public ?int $page = null;
     public ?int $per_page = null;
     public int $product_id;
-    public mixed $reference;
 }
 
-/** Request payload for StatementInquiry#list. */
-class StatementInquiryListMatch
+/** Request payload for Statement#create. */
+class StatementCreateData
 {
-    public ?string $account_number = null;
+    public string $account_number;
     public ?string $account_qualifier = null;
-    public ?array $balance = null;
-    public ?array $dates = null;
     public ?int $page = null;
     public ?int $per_page = null;
-    public ?int $product_id = null;
-    public mixed $reference = null;
+    public int $product_id;
 }
 
 /** Transaction entity data model. */
@@ -330,7 +319,7 @@ class Transaction
 /** Request payload for Transaction#load. */
 class TransactionLoadMatch
 {
-    public int $transaction_id;
+    public int $id;
 }
 
 /** Request payload for Transaction#list. */
@@ -380,40 +369,6 @@ class TransactionCreateData
     public ?array $requested_values = null;
     public ?array $sender = null;
     public array $source;
-    public ?array $statement_identifier = null;
-    public ?array $status = null;
-}
-
-/** Request payload for Transaction#update. */
-class TransactionUpdateData
-{
-    public int $transaction_id;
-    public ?array $additional_identifier = null;
-    public ?array $adjusted_values = null;
-    public ?bool $auto_confirm = null;
-    public ?array $beneficiary = null;
-    public ?array $benefits = null;
-    public mixed $calculation_mode = null;
-    public ?string $callback_url = null;
-    public ?string $confirmation_date = null;
-    public ?string $confirmation_expiration_date = null;
-    public ?string $creation_date = null;
-    public ?array $credit_party_identifier = null;
-    public ?array $debit_party_identifier = null;
-    public ?array $destination = null;
-    public ?string $external_id = null;
-    public ?string $id = null;
-    public ?array $metadata = null;
-    public ?string $operator_reference = null;
-    public ?array $pin = null;
-    public ?array $prices = null;
-    public mixed $product = null;
-    public ?string $product_id = null;
-    public ?array $promotions = null;
-    public mixed $rates = null;
-    public ?array $requested_values = null;
-    public ?array $sender = null;
-    public ?array $source = null;
     public ?array $statement_identifier = null;
     public ?array $status = null;
 }

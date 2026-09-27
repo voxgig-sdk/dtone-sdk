@@ -68,11 +68,11 @@ describe("ServiceDirect", function()
     local params = {}
     local query = {}
     if not setup.live then
-      params["service_id"] = "direct01"
+      params["id"] = "direct01"
     end
 
     local result, err = client:direct({
-      path = "services/{service_id}",
+      path = "services/{id}",
       method = "GET",
       params = params,
       query = query,

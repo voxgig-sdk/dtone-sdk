@@ -5,7 +5,7 @@
 The Python SDK for the Dtone API — an entity-oriented client following Pythonic conventions.
 
 The SDK exposes the API as capitalised, semantic **Entities** — for example `client.Balance()` — each
-carrying a small, uniform set of operations (`list`, `load`, `create`, `update`) instead of raw URL
+carrying a small, uniform set of operations (`list`, `load`, `create`) instead of raw URL
 paths and query strings. You work with named resources and verbs, which
 keeps the cognitive load low.
 
@@ -53,19 +53,6 @@ except Exception as err:
     print(f"list failed: {err}")
 ```
 
-### 3. Load a campaign
-
-Campaign is nested under campaign, so provide the `campaign_id`.
-`load()` returns the ENTITY — call data_get() for the record — and raises on error.
-
-```python
-try:
-    campaign = client.Campaign().load({"campaign_id": 1})
-    print(campaign)
-except Exception as err:
-    print(f"load failed: {err}")
-```
-
 
 ## Error handling
 
@@ -73,8 +60,8 @@ Entity operations raise on failure, so wrap them in `try` / `except`:
 
 ```python
 try:
-    balances = client.Balance().list()
-    print(balances)
+    operators = client.Operator().list()
+    print(operators)
 except Exception as err:
     print(f"list failed: {err}")
 ```
@@ -142,8 +129,8 @@ client = DtoneSDK.test()
 
 # Entity ops return the ENTITY and raises on error;
 # call data_get() for the record.
-balance = client.Balance().list()
-# balance contains the mock response record
+operator = client.Operator().list()
+# operator contains the mock response record
 ```
 
 ### Use a custom fetch function
@@ -227,12 +214,12 @@ Creates a test-mode client with mock transport. Both arguments may be `None`.
 | `Country` | `(data) -> CountryEntity` | Create a Country entity instance. |
 | `CreditPartyBenefit` | `(data) -> CreditPartyBenefitEntity` | Create a CreditPartyBenefit entity instance. |
 | `CreditPartyStatus` | `(data) -> CreditPartyStatusEntity` | Create a CreditPartyStatus entity instance. |
-| `MobileNumberLookup` | `(data) -> MobileNumberLookupEntity` | Create a MobileNumberLookup entity instance. |
+| `MobileNumber` | `(data) -> MobileNumberEntity` | Create a MobileNumber entity instance. |
 | `Operator` | `(data) -> OperatorEntity` | Create an Operator entity instance. |
 | `Product` | `(data) -> ProductEntity` | Create a Product entity instance. |
 | `Promotion` | `(data) -> PromotionEntity` | Create a Promotion entity instance. |
 | `Service` | `(data) -> ServiceEntity` | Create a Service entity instance. |
-| `StatementInquiry` | `(data) -> StatementInquiryEntity` | Create a StatementInquiry entity instance. |
+| `Statement` | `(data) -> StatementEntity` | Create a Statement entity instance. |
 | `Transaction` | `(data) -> TransactionEntity` | Create a Transaction entity instance. |
 
 ### Entity interface
@@ -244,7 +231,6 @@ All entities share the same interface.
 | `load` | `(reqmatch, ctrl) -> any` | Load a single entity by match criteria. Raises on error. |
 | `list` | `(reqmatch, ctrl) -> list` | List entities matching the criteria. Raises on error. |
 | `create` | `(reqdata, ctrl) -> any` | Create a new entity. Raises on error. |
-| `update` | `(reqdata, ctrl) -> any` | Update an existing entity. Raises on error. |
 | `data_get` | `() -> dict` | Get entity data. |
 | `data_set` | `(data)` | Set entity data. |
 | `match_get` | `() -> dict` | Get entity match criteria. |
@@ -317,6 +303,7 @@ API path: `/campaigns`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 | `iso_code` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` |  |
 | `regions` |  |
@@ -329,18 +316,12 @@ API path: `/countries`
 
 | Field | Description |
 | --- | --- |
-| `amount` | Remaining benefit amount. |
-| `country` |  |
 | `credit_party_identifier` |  |
-| `expiration_date` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | Page number |
 | `per_page` | Number of records per page |
 | `service_id` | Service identifier. |
-| `type` |  |
-| `unit` |  |
-| `unit_type` |  |
 
-Operations: List.
+Operations: Create.
 
 API path: `/lookup/credit-party-benefits`
 
@@ -353,26 +334,22 @@ API path: `/lookup/credit-party-benefits`
 | `installation_date` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
 | `service_id` | Service identifier. |
 
-Operations: Load.
+Operations: Create.
 
 API path: `/lookup/credit-party-status`
 
-#### MobileNumberLookup
+#### MobileNumber
 
 | Field | Description |
 | --- | --- |
-| `country` |  |
-| `id` | Operator identifier. |
-| `identified` | Indicates whether operator was identified as a direct match |
+| `id` |  |
 | `mobile_number` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` |  |
 | `page` | Page number |
 | `per_page` | Number of records per page |
-| `regions` |  |
 
-Operations: List.
+Operations: Create, Load.
 
-API path: `/lookup/mobile-number/{mobile_number}`
+API path: `/lookup/mobile-number`
 
 #### Operator
 
@@ -391,6 +368,7 @@ API path: `/operators`
 
 | Field | Description |
 | --- | --- |
+| `id` |  |
 
 Operations: List, Load.
 
@@ -425,20 +403,17 @@ Operations: List, Load.
 
 API path: `/services`
 
-#### StatementInquiry
+#### Statement
 
 | Field | Description |
 | --- | --- |
 | `account_number` | Account number. |
 | `account_qualifier` |  |
-| `balance` |  |
-| `dates` |  |
 | `page` | Page number |
 | `per_page` | Number of records per page |
 | `product_id` | Product identifier. |
-| `reference` |  |
 
-Operations: List.
+Operations: Create.
 
 API path: `/lookup/statement-inquiry`
 
@@ -475,9 +450,9 @@ API path: `/lookup/statement-inquiry`
 | `statement_identifier` | Qualifying statement details for a payment transaction. |
 | `status` |  |
 
-Operations: Create, List, Load, Update.
+Operations: Create, List, Load.
 
-API path: `/async/transactions`
+API path: `/transactions/{transaction_id}/cancel`
 
 
 
@@ -561,7 +536,7 @@ Create an instance: `campaign = client.Campaign()`
 #### Example: Load
 
 ```python
-campaign = client.Campaign().load({"campaign_id": 1})
+campaign = client.Campaign().load({"id": 1})
 ```
 
 #### Example: List
@@ -586,6 +561,7 @@ Create an instance: `country = client.Country()`
 
 | Field | Type | Description |
 | --- | --- | --- |
+| `id` | `str` |  |
 | `iso_code` | `str` | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` | `str` |  |
 | `regions` | `list` |  |
@@ -593,7 +569,7 @@ Create an instance: `country = client.Country()`
 #### Example: Load
 
 ```python
-country = client.Country().load({"country_iso_code": "country_iso_code"})
+country = client.Country().load({"id": "country_id"})
 ```
 
 #### Example: List
@@ -611,27 +587,24 @@ Create an instance: `credit_party_benefit = client.CreditPartyBenefit()`
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `amount` | `float` | Remaining benefit amount. |
-| `country` | `dict` |  |
 | `credit_party_identifier` | `dict` |  |
-| `expiration_date` | `str` | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | `int` | Page number |
 | `per_page` | `int` | Number of records per page |
 | `service_id` | `int` | Service identifier. |
-| `type` | `str` |  |
-| `unit` | `str` |  |
-| `unit_type` | `str` |  |
 
-#### Example: List
+#### Example: Create
 
 ```python
-credit_party_benefits = client.CreditPartyBenefit().list()
+credit_party_benefit = client.CreditPartyBenefit().create({
+    "credit_party_identifier": {},  # dict
+    "service_id": 1,  # int
+})
 ```
 
 
@@ -643,7 +616,7 @@ Create an instance: `credit_party_status = client.CreditPartyStatus()`
 
 | Method | Description |
 | --- | --- |
-| `load(match)` | Load a single entity by match criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -654,40 +627,50 @@ Create an instance: `credit_party_status = client.CreditPartyStatus()`
 | `installation_date` | `str` | A `null` value denotes either the concept of installation does not apply for the given credit party or that the credit party has not yet been installed |
 | `service_id` | `int` | Service identifier. |
 
-#### Example: Load
+#### Example: Create
 
 ```python
-credit_party_status = client.CreditPartyStatus().load()
+credit_party_status = client.CreditPartyStatus().create({
+    "activation_date": "example_activation_date",  # str
+    "credit_party_identifier": {},  # dict
+    "installation_date": "example_installation_date",  # str
+    "service_id": 1,  # int
+})
 ```
 
 
-### MobileNumberLookup
+### MobileNumber
 
-Create an instance: `mobile_number_lookup = client.MobileNumberLookup()`
+Create an instance: `mobile_number = client.MobileNumber()`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
+| `create(data)` | Create a new entity with the given data. |
+| `load(match)` | Load a single entity by match criteria. |
 
 #### Fields
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `country` | `dict` |  |
-| `id` | `int` | Operator identifier. |
-| `identified` | `bool` | Indicates whether operator was identified as a direct match |
+| `id` | `str` |  |
 | `mobile_number` | `str` | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` | `str` |  |
 | `page` | `int` | Page number |
 | `per_page` | `int` | Number of records per page |
-| `regions` | `list` |  |
 
-#### Example: List
+#### Example: Load
 
 ```python
-mobile_number_lookups = client.MobileNumberLookup().list({"mobile_number": "example"})
+mobile_number = client.MobileNumber().load({"id": "mobile_number_id"})
+```
+
+#### Example: Create
+
+```python
+mobile_number = client.MobileNumber().create({
+    "mobile_number": "example_mobile_number",  # str
+})
 ```
 
 
@@ -714,7 +697,7 @@ Create an instance: `operator = client.Operator()`
 #### Example: Load
 
 ```python
-operator = client.Operator().load({"operator_id": 1})
+operator = client.Operator().load({"id": 1})
 ```
 
 #### Example: List
@@ -735,10 +718,16 @@ Create an instance: `product = client.Product()`
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
 
+#### Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | `str` |  |
+
 #### Example: Load
 
 ```python
-product = client.Product().load({"product_id": 1})
+product = client.Product().load({"id": 1})
 ```
 
 #### Example: List
@@ -775,7 +764,7 @@ Create an instance: `promotion = client.Promotion()`
 #### Example: Load
 
 ```python
-promotion = client.Promotion().load({"promotion_id": 1})
+promotion = client.Promotion().load({"id": 1})
 ```
 
 #### Example: List
@@ -807,7 +796,7 @@ Create an instance: `service = client.Service()`
 #### Example: Load
 
 ```python
-service = client.Service().load({"service_id": 1})
+service = client.Service().load({"id": 1})
 ```
 
 #### Example: List
@@ -817,15 +806,15 @@ services = client.Service().list()
 ```
 
 
-### StatementInquiry
+### Statement
 
-Create an instance: `statement_inquiry = client.StatementInquiry()`
+Create an instance: `statement = client.Statement()`
 
 #### Operations
 
 | Method | Description |
 | --- | --- |
-| `list()` | List entities, optionally matching the given criteria. |
+| `create(data)` | Create a new entity with the given data. |
 
 #### Fields
 
@@ -833,17 +822,17 @@ Create an instance: `statement_inquiry = client.StatementInquiry()`
 | --- | --- | --- |
 | `account_number` | `str` | Account number. |
 | `account_qualifier` | `str` |  |
-| `balance` | `dict` |  |
-| `dates` | `dict` |  |
 | `page` | `int` | Page number |
 | `per_page` | `int` | Number of records per page |
 | `product_id` | `int` | Product identifier. |
-| `reference` | `Any` |  |
 
-#### Example: List
+#### Example: Create
 
 ```python
-statement_inquirys = client.StatementInquiry().list()
+statement = client.Statement().create({
+    "account_number": "example_account_number",  # str
+    "product_id": 1,  # int
+})
 ```
 
 
@@ -858,7 +847,6 @@ Create an instance: `transaction = client.Transaction()`
 | `create(data)` | Create a new entity with the given data. |
 | `list()` | List entities, optionally matching the given criteria. |
 | `load(match)` | Load a single entity by match criteria. |
-| `update(data)` | Update an existing entity. |
 
 #### Fields
 
@@ -896,7 +884,7 @@ Create an instance: `transaction = client.Transaction()`
 #### Example: Load
 
 ```python
-transaction = client.Transaction().load({"transaction_id": 1})
+transaction = client.Transaction().load({"id": 1})
 ```
 
 #### Example: List
@@ -929,14 +917,14 @@ above:
 
 | Feature | What it does |
 |---|---|
-| [`debug`](#debug) | Request/response capture ring buffer for debugging |
-| [`idempotency`](#idempotency) | Idempotency keys for safe retries of mutating operations |
-| [`metrics`](#metrics) | Statistics capture: per-operation counters and latency |
-| [`paging`](#paging) | Pagination signals for list operations |
-| [`ratelimit`](#ratelimit) | Client-side rate limiting via a token bucket |
-| [`retry`](#retry) | Automatic retry of transient failures with exponential backoff |
-| [`test`](#test) | In-memory mock transport for testing without a live server |
-| [`timeout`](#timeout) | Per-request timeout with transport abort |
+| [`debug`](#debug) | Debug capture |
+| [`idempotency`](#idempotency) | Idempotency |
+| [`metrics`](#metrics) | Metrics |
+| [`paging`](#paging) | Paging |
+| [`ratelimit`](#ratelimit) | Rate limiting |
+| [`retry`](#retry) | Retry |
+| [`test`](#test) | Test transport |
+| [`timeout`](#timeout) | Timeout |
 
 > **Order matters for `ratelimit`, `retry`, `timeout`.** These wrap the
 > transport, so each one wraps whatever is already installed: the order you
@@ -945,7 +933,7 @@ above:
 
 ### debug
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 | Option | Default |
 |---|---|
@@ -957,7 +945,7 @@ Set `feature.debug.active` to enable it, then override any of the options above.
 
 ### idempotency
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 | Option | Default |
 |---|---|
@@ -970,7 +958,7 @@ Set `feature.idempotency.active` to enable it, then override any of the options 
 
 ### metrics
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 | Option | Default |
 |---|---|
@@ -980,7 +968,7 @@ Set `feature.metrics.active` to enable it, then override any of the options abov
 
 ### paging
 
-Pagination signals for list operations.
+Paging.
 
 | Option | Default |
 |---|---|
@@ -996,7 +984,7 @@ Set `feature.paging.active` to enable it, then override any of the options above
 
 ### ratelimit
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 | Option | Default |
 |---|---|
@@ -1012,7 +1000,7 @@ activated earlier.
 
 ### retry
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 | Option | Default |
 |---|---|
@@ -1031,7 +1019,7 @@ activated earlier.
 
 ### test
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 | Option | Default |
 |---|---|
@@ -1041,7 +1029,7 @@ Set `feature.test.active` to enable it, then override any of the options above.
 
 ### timeout
 
-Per-request timeout with transport abort.
+Timeout.
 
 | Option | Default |
 |---|---|
@@ -1093,14 +1081,14 @@ with hook methods named after pipeline stages (e.g. `PrePoint`,
 
 The SDK ships with built-in features:
 
-- **DebugFeature**: Request/response capture ring buffer for debugging
-- **IdempotencyFeature**: Idempotency keys for safe retries of mutating operations
-- **MetricsFeature**: Statistics capture: per-operation counters and latency
-- **PagingFeature**: Pagination signals for list operations
-- **RatelimitFeature**: Client-side rate limiting via a token bucket
-- **RetryFeature**: Automatic retry of transient failures with exponential backoff
-- **TestFeature**: In-memory mock transport for testing without a live server
-- **TimeoutFeature**: Per-request timeout with transport abort
+- **DebugFeature**: Debug capture
+- **IdempotencyFeature**: Idempotency
+- **MetricsFeature**: Metrics
+- **PagingFeature**: Paging
+- **RatelimitFeature**: Rate limiting
+- **RetryFeature**: Retry
+- **TestFeature**: Test transport
+- **TimeoutFeature**: Timeout
 
 Features are initialized in order. Hooks fire in the order features
 were added, so later features can override earlier ones.
@@ -1120,6 +1108,7 @@ Use `helpers.to_map()` to safely validate that a value is a dict.
 py/
 ├── dtone_sdk.py         -- Main SDK module
 ├── config.py                    -- Configuration
+├── schema.py                    -- Generated option + entity specs
 ├── features.py                  -- Feature factory
 ├── core/                        -- Core types and context
 ├── entity/                      -- Entity implementations
@@ -1137,11 +1126,11 @@ Entity instances are stateful. After a successful `list`, the entity
 stores the returned data and match criteria internally.
 
 ```python
-balance = client.Balance()
-balance.list()
+operator = client.Operator()
+operator.list()
 
-# balance.data_get() now returns the balance data from the last list
-# balance.match_get() returns the last match criteria
+# operator.data_get() now returns the operator data from the last list
+# operator.match_get() returns the last match criteria
 ```
 
 Call `make()` to create a fresh instance with the same configuration

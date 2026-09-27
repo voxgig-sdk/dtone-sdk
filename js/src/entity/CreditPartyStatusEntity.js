@@ -21,15 +21,16 @@ class CreditPartyStatusEntity extends DtoneEntityBase {
 
 
 
+
+
   /**
-   * @param {CreditPartyStatusLoadMatch} [reqmatch]
+   * @param {CreditPartyStatusCreateData} [reqdata]
    * @param {Object} [ctrl]
    * @returns {Promise<CreditPartyStatus>}
    */
-  async load(reqmatch, ctrl) {
+  async create(reqdata, ctrl) {
 
     const utility = this._utility
-
     const {
       makeContext,
       done,
@@ -46,11 +47,11 @@ class CreditPartyStatusEntity extends DtoneEntityBase {
     let fres = undefined
 
     let ctx = makeContext({
-      opname: 'load',
+      opname: 'create',
       ctrl,
       match: this._match,
       data: this._data,
-      reqmatch
+      reqdata
     }, this._entctx)
 
     try {
@@ -109,10 +110,6 @@ class CreditPartyStatusEntity extends DtoneEntityBase {
       if (fres instanceof Promise) { await fres }
 
       if (null != ctx.result) {
-        if (null != ctx.result.resmatch) {
-          this._match = ctx.result.resmatch
-        }
-
         if (null != ctx.result.resdata) {
           this._data = ctx.result.resdata
         }
@@ -143,8 +140,6 @@ class CreditPartyStatusEntity extends DtoneEntityBase {
       }
     }
   }
-
-
 
 
 

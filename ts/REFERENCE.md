@@ -122,9 +122,9 @@ Create a new `CreditPartyStatus` entity instance.
 
 **Returns:** `CreditPartyStatusEntity` instance.
 
-#### `MobileNumberLookup(data?: object)`
+#### `MobileNumber(data?: object)`
 
-Create a new `MobileNumberLookup` entity instance.
+Create a new `MobileNumber` entity instance.
 
 **Parameters:**
 
@@ -132,7 +132,7 @@ Create a new `MobileNumberLookup` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `MobileNumberLookupEntity` instance.
+**Returns:** `MobileNumberEntity` instance.
 
 #### `Operator(data?: object)`
 
@@ -182,9 +182,9 @@ Create a new `Service` entity instance.
 
 **Returns:** `ServiceEntity` instance.
 
-#### `StatementInquiry(data?: object)`
+#### `Statement(data?: object)`
 
-Create a new `StatementInquiry` entity instance.
+Create a new `Statement` entity instance.
 
 **Parameters:**
 
@@ -192,7 +192,7 @@ Create a new `StatementInquiry` entity instance.
 | --- | --- | --- |
 | `data` | `object` | Initial entity data. |
 
-**Returns:** `StatementInquiryEntity` instance.
+**Returns:** `StatementEntity` instance.
 
 #### `Transaction(data?: object)`
 
@@ -390,7 +390,7 @@ const results = await client.Campaign().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Campaign().load({ campaign_id: 1 })
+const result = await client.Campaign().load({ id: 1 })
 ```
 
 ### Common Methods
@@ -431,6 +431,7 @@ const country = client.Country()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | No |  |
 | `iso_code` | `string` | Yes | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` | `string` | Yes |  |
 | `regions` | `any[]` | Yes |  |
@@ -450,7 +451,7 @@ const results = await client.Country().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Country().load({ country_iso_code: 'country_iso_code' })
+const result = await client.Country().load({ id: 'country_id' })
 ```
 
 ### Common Methods
@@ -491,25 +492,22 @@ const credit_party_benefit = client.CreditPartyBenefit()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `number` | Yes | Remaining benefit amount. |
-| `country` | `Record<string, any>` | Yes |  |
 | `credit_party_identifier` | `Record<string, any>` | Yes |  |
-| `expiration_date` | `string` | Yes | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | `number` | No | Page number |
 | `per_page` | `number` | No | Number of records per page |
 | `service_id` | `number` | Yes | Service identifier. |
-| `type` | `string` | Yes |  |
-| `unit` | `string` | Yes |  |
-| `unit_type` | `string` | Yes |  |
 
 ### Operations
 
-#### `list(match: object, ctrl?: object)`
+#### `create(data: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+Create a new entity with the given data.
 
 ```ts
-const results = await client.CreditPartyBenefit().list()
+const result = await client.CreditPartyBenefit().create({
+  credit_party_identifier: {},
+  service_id: 1,
+})
 ```
 
 ### Common Methods
@@ -557,12 +555,17 @@ const credit_party_status = client.CreditPartyStatus()
 
 ### Operations
 
-#### `load(match: object, ctrl?: object)`
+#### `create(data: object, ctrl?: object)`
 
-Load a single entity matching the given criteria.
+Create a new entity with the given data.
 
 ```ts
-const result = await client.CreditPartyStatus().load()
+const result = await client.CreditPartyStatus().create({
+  activation_date: 'example_activation_date',
+  credit_party_identifier: {},
+  installation_date: 'example_installation_date',
+  service_id: 1,
+})
 ```
 
 ### Common Methods
@@ -593,33 +596,39 @@ Return a copy of the entity options.
 
 ---
 
-## MobileNumberLookupEntity
+## MobileNumberEntity
 
 ```ts
-const mobile_number_lookup = client.MobileNumberLookup()
+const mobile_number = client.MobileNumber()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country` | `Record<string, any>` | Yes |  |
-| `id` | `number` | Yes | Operator identifier. |
-| `identified` | `boolean` | Yes | Indicates whether operator was identified as a direct match |
+| `id` | `string` | No |  |
 | `mobile_number` | `string` | Yes | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` | `string` | Yes |  |
 | `page` | `number` | No | Page number |
 | `per_page` | `number` | No | Number of records per page |
-| `regions` | `any[]` | Yes |  |
 
 ### Operations
 
-#### `list(match: object, ctrl?: object)`
+#### `create(data: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+Create a new entity with the given data.
 
 ```ts
-const results = await client.MobileNumberLookup().list({ mobile_number: "example" })
+const result = await client.MobileNumber().create({
+  mobile_number: 'example_mobile_number',
+})
+```
+
+#### `load(match: object, ctrl?: object)`
+
+Load a single entity matching the given criteria.
+
+```ts
+const result = await client.MobileNumber().load({ id: 'mobile_number_id' })
 ```
 
 ### Common Methods
@@ -636,7 +645,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `MobileNumberLookupEntity` instance with the same client and
+Create a new `MobileNumberEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -680,7 +689,7 @@ const results = await client.Operator().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Operator().load({ operator_id: 1 })
+const result = await client.Operator().load({ id: 1 })
 ```
 
 ### Common Methods
@@ -717,6 +726,12 @@ Return a copy of the entity options.
 const product = client.Product()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `list(match: object, ctrl?: object)`
@@ -732,7 +747,7 @@ const results = await client.Product().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Product().load({ product_id: 1 })
+const result = await client.Product().load({ id: 1 })
 ```
 
 ### Common Methods
@@ -797,7 +812,7 @@ const results = await client.Promotion().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Promotion().load({ promotion_id: 1 })
+const result = await client.Promotion().load({ id: 1 })
 ```
 
 ### Common Methods
@@ -857,7 +872,7 @@ const results = await client.Service().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Service().load({ service_id: 1 })
+const result = await client.Service().load({ id: 1 })
 ```
 
 ### Common Methods
@@ -888,10 +903,10 @@ Return a copy of the entity options.
 
 ---
 
-## StatementInquiryEntity
+## StatementEntity
 
 ```ts
-const statement_inquiry = client.StatementInquiry()
+const statement = client.Statement()
 ```
 
 ### Fields
@@ -900,21 +915,21 @@ const statement_inquiry = client.StatementInquiry()
 | --- | --- | --- | --- |
 | `account_number` | `string` | Yes | Account number. |
 | `account_qualifier` | `string` | No |  |
-| `balance` | `Record<string, any>` | Yes |  |
-| `dates` | `Record<string, any>` | Yes |  |
 | `page` | `number` | No | Page number |
 | `per_page` | `number` | No | Number of records per page |
 | `product_id` | `number` | Yes | Product identifier. |
-| `reference` | `any` | Yes |  |
 
 ### Operations
 
-#### `list(match: object, ctrl?: object)`
+#### `create(data: object, ctrl?: object)`
 
-List entities matching the given criteria. Returns an array.
+Create a new entity with the given data.
 
 ```ts
-const results = await client.StatementInquiry().list()
+const result = await client.Statement().create({
+  account_number: 'example_account_number',
+  product_id: 1,
+})
 ```
 
 ### Common Methods
@@ -931,7 +946,7 @@ Get or set the entity match criteria. Works the same as `data()`.
 
 #### `make()`
 
-Create a new `StatementInquiryEntity` instance with the same client and
+Create a new `StatementEntity` instance with the same client and
 options.
 
 #### `client()`
@@ -992,18 +1007,16 @@ remaining keys are sent as that action's payload.
 
 | Action | Route | Call |
 | --- | --- | --- |
-| `asyncCreate` | `/async/transactions` | `client.Transaction().create({ $action: 'asyncCreate', ... })` |
-| `syncCreate` | `/sync/transactions` | `client.Transaction().create({ $action: 'syncCreate', ... })` |
-| `cancel` | `/transactions/{transaction_id}/cancel` | `client.Transaction().update({ $action: 'cancel', ... })` |
-| `confirmAsync` | `/async/transactions/{transaction_id}/confirm` | `client.Transaction().update({ $action: 'confirmAsync', ... })` |
-| `confirmSync` | `/sync/transactions/{transaction_id}/confirm` | `client.Transaction().update({ $action: 'confirmSync', ... })` |
+| `cancel` | `/transactions/{transaction_id}/cancel` | `client.Transaction().create({ $action: 'cancel', ... })` |
+| `confirm` | `/async/transactions/{transaction_id}/confirm` | `client.Transaction().create({ $action: 'confirm', ... })` |
+| `confirm` | `/sync/transactions/{transaction_id}/confirm` | `client.Transaction().create({ $action: 'confirm', ... })` |
 
 An action returns that action's OWN response, which is not necessarily a
 Transaction record — check the API definition for its shape.
 
 ```ts
 const result = await client.Transaction().create({
-  $action: 'asyncCreate',
+  $action: 'cancel',
   /* ...the action's own arguments */
 })
 ```
@@ -1038,18 +1051,7 @@ const results = await client.Transaction().list()
 Load a single entity matching the given criteria.
 
 ```ts
-const result = await client.Transaction().load({ transaction_id: 1 })
-```
-
-#### `update(data: object, ctrl?: object)`
-
-Update an existing entity. The data must include the entity `id`.
-
-```ts
-const result = await client.Transaction().update({
-  transaction_id: 1,
-  // Fields to update
-})
+const result = await client.Transaction().load({ id: 1 })
 ```
 
 ### Common Methods
@@ -1084,14 +1086,14 @@ Return a copy of the entity options.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1137,7 +1139,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1168,7 +1170,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1199,7 +1201,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1227,7 +1229,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1262,7 +1264,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -1293,7 +1295,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -1327,7 +1329,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -1358,7 +1360,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

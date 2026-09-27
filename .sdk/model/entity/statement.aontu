@@ -1,0 +1,79 @@
+# Entity: statement
+
+main: kit: entity: statement: {
+
+  alias: field: {}
+
+  fields: {
+    account_number: {
+      h: "Account Number"
+      n: "account_number"
+      r: true
+      sh: "Account number."
+      t: "`$STRING`"
+    }
+    account_qualifier: {
+      h: "Account Qualifier"
+      n: "account_qualifier"
+      r: false
+      t: "`$STRING`"
+    }
+    page: {
+      fo: "int32"
+      h: "Page"
+      n: "page"
+      r: false
+      sh: "Page number"
+      t: "`$INTEGER`"
+    }
+    per_page: {
+      fo: "int32"
+      h: "Per Page"
+      n: "per_page"
+      r: false
+      sh: "Number of records per page"
+      t: "`$INTEGER`"
+    }
+    product_id: {
+      fo: "int32"
+      h: "Product Id"
+      n: "product_id"
+      r: true
+      sh: "Product identifier."
+      t: "`$INTEGER`"
+    }
+  }
+
+  name: "statement"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /lookup/statement-inquiry"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/lookup/statement-inquiry"
+          s: [
+            {
+              lit: "lookup"
+            }
+            {
+              lit: "statement-inquiry"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

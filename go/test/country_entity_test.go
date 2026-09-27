@@ -121,13 +121,19 @@ func TestCountryEntity(t *testing.T) {
 		}
 
 		// LOAD
-		countryRef01MatchDt0 := map[string]any{}
+		countryRef01MatchDt0 := map[string]any{
+			"id": countryRef01Data["id"],
+		}
 		countryRef01DataDt0Loaded, err := countryRef01Ent.Load(countryRef01MatchDt0, nil)
 		if err != nil {
 			t.Fatalf("load failed: %v", err)
 		}
-		if countryRef01DataDt0Loaded == nil {
-			t.Fatal("expected load result to be non-nil")
+		countryRef01DataDt0LoadResult := core.ToMapAny(entityData(countryRef01DataDt0Loaded))
+		if countryRef01DataDt0LoadResult == nil {
+			t.Fatal("expected load result to be a map")
+		}
+		if countryRef01DataDt0LoadResult["id"] != countryRef01Data["id"] {
+			t.Fatal("expected load result id to match")
 		}
 
 	})

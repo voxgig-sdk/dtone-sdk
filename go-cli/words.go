@@ -9,18 +9,6 @@ import (
 	sdk "github.com/voxgig-sdk/dtone-sdk/go"
 )
 
-// registerSDKWords installs three native boru words bound to the SDK:
-// list / load / update. Each is declared with two overloads matching
-// the signature  [query?:(Node or Scalar) entity:atom]:
-//
-//   [entity:Atom]            — no query (e.g. `list book`)
-//   [query:Any entity:Atom]  — query is any Node or Scalar (e.g.
-//                              `load {id:1} book`, `load 1 book`)
-//
-// The entity slot is /q-quoted so a bareword `book` parses as the
-// Atom "book" rather than dispatching as an undefined word. Both
-// overloads are all-forward (BarrierAllForward), so args are collected
-// from the tokens following the word.
 func registerSDKWords(r *eng.Registry, client *sdk.DtoneSDK) {
 	for _, op := range []string{"list", "load", "update"} {
 		op := op
@@ -101,8 +89,8 @@ func entityFor(client *sdk.DtoneSDK, name string) (sdk.DtoneEntity, error) {
 		return client.CreditPartyBenefit(nil), nil
 	case "credit_party_status":
 		return client.CreditPartyStatus(nil), nil
-	case "mobile_number_lookup":
-		return client.MobileNumberLookup(nil), nil
+	case "mobile_number":
+		return client.MobileNumber(nil), nil
 	case "operator":
 		return client.Operator(nil), nil
 	case "product":
@@ -111,8 +99,8 @@ func entityFor(client *sdk.DtoneSDK, name string) (sdk.DtoneEntity, error) {
 		return client.Promotion(nil), nil
 	case "service":
 		return client.Service(nil), nil
-	case "statement_inquiry":
-		return client.StatementInquiry(nil), nil
+	case "statement":
+		return client.Statement(nil), nil
 	case "transaction":
 		return client.Transaction(nil), nil
 

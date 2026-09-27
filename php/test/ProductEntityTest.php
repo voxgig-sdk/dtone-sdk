@@ -93,9 +93,13 @@ class ProductEntityTest extends TestCase
         $this->assertIsArray($product_ref01_list_result);
 
         // LOAD
-        $product_ref01_match_dt0 = [];
+        $product_ref01_match_dt0 = [
+            "id" => $product_ref01_data["id"],
+        ];
         $product_ref01_data_dt0_loaded = $product_ref01_ent->load($product_ref01_match_dt0, null);
-        $this->assertNotNull($product_ref01_data_dt0_loaded);
+        $product_ref01_data_dt0_load_result = Helpers::to_map(is_object($product_ref01_data_dt0_loaded) && method_exists($product_ref01_data_dt0_loaded, 'data_get') ? $product_ref01_data_dt0_loaded->data_get() : $product_ref01_data_dt0_loaded);
+        $this->assertNotNull($product_ref01_data_dt0_load_result);
+        $this->assertEquals($product_ref01_data_dt0_load_result["id"], $product_ref01_data["id"]);
 
     }
 }

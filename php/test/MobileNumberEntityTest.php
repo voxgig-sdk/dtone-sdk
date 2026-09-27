@@ -46,11 +46,16 @@ class MobileNumberEntityTest extends TestCase
         $mobile_number_ref01_data_result = $mobile_number_ref01_ent->create($mobile_number_ref01_data, null);
         $mobile_number_ref01_data = Helpers::to_map(is_object($mobile_number_ref01_data_result) && method_exists($mobile_number_ref01_data_result, 'data_get') ? $mobile_number_ref01_data_result->data_get() : $mobile_number_ref01_data_result);
         $this->assertNotNull($mobile_number_ref01_data);
+        $this->assertNotNull($mobile_number_ref01_data["id"]);
 
         // LOAD
-        $mobile_number_ref01_match_dt0 = [];
+        $mobile_number_ref01_match_dt0 = [
+            "id" => $mobile_number_ref01_data["id"],
+        ];
         $mobile_number_ref01_data_dt0_loaded = $mobile_number_ref01_ent->load($mobile_number_ref01_match_dt0, null);
-        $this->assertNotNull($mobile_number_ref01_data_dt0_loaded);
+        $mobile_number_ref01_data_dt0_load_result = Helpers::to_map(is_object($mobile_number_ref01_data_dt0_loaded) && method_exists($mobile_number_ref01_data_dt0_loaded, 'data_get') ? $mobile_number_ref01_data_dt0_loaded->data_get() : $mobile_number_ref01_data_dt0_loaded);
+        $this->assertNotNull($mobile_number_ref01_data_dt0_load_result);
+        $this->assertEquals($mobile_number_ref01_data_dt0_load_result["id"], $mobile_number_ref01_data["id"]);
 
     }
 }
@@ -84,7 +89,7 @@ function mobile_number_basic_setup($extra)
         "DTONE_TEST_MOBILE_NUMBER_ENTID" => $idmap,
         "DTONE_TEST_LIVE" => "FALSE",
         "DTONE_TEST_EXPLAIN" => "FALSE",
-        "DTONE_APIKEY" => "NONE",
+        "DTONE_APIKEY" => "",
     ]);
 
     $idmap_resolved = Helpers::to_map(
@@ -95,12 +100,27 @@ function mobile_number_basic_setup($extra)
 
     if ($env["DTONE_TEST_LIVE"] === "TRUE") {
         $merged_opts = Vs::merge([
+            // FIRST, so the generated fields below win: sdk-test-control.json's
+            // test.client.options adds to the live client, it does not redirect it.
+            Runner::live_client_options(),
             [
                 "apikey" => $env["DTONE_APIKEY"],
             ],
-            $extra ?? [],
+            // ismap, not a plain "?? []" default: an empty PHP array is a
+            // LIST, and a non-map later entry REPLACES the accumulated map in
+            // merge - so the no-extras call discarded live_client_options()
+            // and the apikey/server map above it.
+            Vs::ismap($extra) ? $extra : new \stdClass(),
         ]);
-        $client = new DtoneSDK(Helpers::to_map($merged_opts));
+        // "?? []" because merge legitimately answers with a stdClass when every
+        // contributing entry is an EMPTY map - an SDK with no apikey and no
+        // server variables generates an empty middle entry, so that is the
+        // common case, not the edge one. to_map returns null for a non-array by
+        // design, and the constructor takes a non-nullable array, so without the
+        // fallback every such SDK died on "must be of type array, null given"
+        // the moment live mode was switched on. Offline mode never reaches this
+        // branch, which is why the offline suite stayed green.
+        $client = new DtoneSDK(Helpers::to_map($merged_opts) ?? []);
     }
 
     $live = $env["DTONE_TEST_LIVE"] === "TRUE";

@@ -68,11 +68,11 @@ describe("TransactionDirect", function()
     local params = {}
     local query = {}
     if not setup.live then
-      params["transaction_id"] = "direct01"
+      params["id"] = "direct01"
     end
 
     local result, err = client:direct({
-      path = "transactions/{transaction_id}",
+      path = "transactions/{id}",
       method = "GET",
       params = params,
       query = query,

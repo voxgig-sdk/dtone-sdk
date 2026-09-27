@@ -66,9 +66,9 @@ Create a new `CreditPartyBenefitEntity` instance. Pass `None` for no initial dat
 
 Create a new `CreditPartyStatusEntity` instance. Pass `None` for no initial data.
 
-#### `MobileNumberLookup(data=None)`
+#### `MobileNumber(data=None)`
 
-Create a new `MobileNumberLookupEntity` instance. Pass `None` for no initial data.
+Create a new `MobileNumberEntity` instance. Pass `None` for no initial data.
 
 #### `Operator(data=None)`
 
@@ -86,9 +86,9 @@ Create a new `PromotionEntity` instance. Pass `None` for no initial data.
 
 Create a new `ServiceEntity` instance. Pass `None` for no initial data.
 
-#### `StatementInquiry(data=None)`
+#### `Statement(data=None)`
 
-Create a new `StatementInquiryEntity` instance. Pass `None` for no initial data.
+Create a new `StatementEntity` instance. Pass `None` for no initial data.
 
 #### `Transaction(data=None)`
 
@@ -272,7 +272,7 @@ for campaign in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Campaign().load({"campaign_id": 1})
+result = client.Campaign().load({"id": 1})
 ```
 
 ### Common Methods
@@ -314,6 +314,7 @@ country = client.Country()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `str` | No |  |
 | `iso_code` | `str` | Yes | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` | `str` | Yes |  |
 | `regions` | `list` | Yes |  |
@@ -335,7 +336,7 @@ for country in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Country().load({"country_iso_code": "country_iso_code"})
+result = client.Country().load({"id": "country_id"})
 ```
 
 ### Common Methods
@@ -377,27 +378,22 @@ credit_party_benefit = client.CreditPartyBenefit()
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `float` | Yes | Remaining benefit amount. |
-| `country` | `dict` | Yes |  |
 | `credit_party_identifier` | `dict` | Yes |  |
-| `expiration_date` | `str` | Yes | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | `int` | No | Page number |
 | `per_page` | `int` | No | Number of records per page |
 | `service_id` | `int` | Yes | Service identifier. |
-| `type` | `str` | Yes |  |
-| `unit` | `str` | Yes |  |
-| `unit_type` | `str` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `create(reqdata, ctrl=None) -> dict`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-results = client.CreditPartyBenefit().list()
-for credit_party_benefit in results:
-    print(credit_party_benefit)
+result = client.CreditPartyBenefit().create({
+    "credit_party_identifier": {},  # dict
+    "service_id": 1,  # int
+})
 ```
 
 ### Common Methods
@@ -446,12 +442,17 @@ credit_party_status = client.CreditPartyStatus()
 
 ### Operations
 
-#### `load(reqmatch, ctrl=None) -> dict`
+#### `create(reqdata, ctrl=None) -> dict`
 
-Load a single entity matching the given criteria. Returns the entity data and raises on error.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-result = client.CreditPartyStatus().load()
+result = client.CreditPartyStatus().create({
+    "activation_date": "example_activation_date",  # str
+    "credit_party_identifier": {},  # dict
+    "installation_date": "example_installation_date",  # str
+    "service_id": 1,  # int
+})
 ```
 
 ### Common Methods
@@ -483,35 +484,39 @@ Return the entity name.
 
 ---
 
-## MobileNumberLookupEntity
+## MobileNumberEntity
 
 ```python
-mobile_number_lookup = client.MobileNumberLookup()
+mobile_number = client.MobileNumber()
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country` | `dict` | Yes |  |
-| `id` | `int` | Yes | Operator identifier. |
-| `identified` | `bool` | Yes | Indicates whether operator was identified as a direct match |
+| `id` | `str` | No |  |
 | `mobile_number` | `str` | Yes | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` | `str` | Yes |  |
 | `page` | `int` | No | Page number |
 | `per_page` | `int` | No | Number of records per page |
-| `regions` | `list` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `create(reqdata, ctrl=None) -> dict`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-results = client.MobileNumberLookup().list({"mobile_number": "example"})
-for mobile_number_lookup in results:
-    print(mobile_number_lookup)
+result = client.MobileNumber().create({
+    "mobile_number": "example_mobile_number",  # str
+})
+```
+
+#### `load(reqmatch, ctrl=None) -> dict`
+
+Load a single entity matching the given criteria. Returns the entity data and raises on error.
+
+```python
+result = client.MobileNumber().load({"id": "mobile_number_id"})
 ```
 
 ### Common Methods
@@ -534,7 +539,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `MobileNumberLookupEntity` instance with the same options.
+Create a new `MobileNumberEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -575,7 +580,7 @@ for operator in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Operator().load({"operator_id": 1})
+result = client.Operator().load({"id": 1})
 ```
 
 ### Common Methods
@@ -613,6 +618,12 @@ Return the entity name.
 product = client.Product()
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `str` | No |  |
+
 ### Operations
 
 #### `list(reqmatch=None, ctrl=None) -> list`
@@ -630,7 +641,7 @@ for product in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Product().load({"product_id": 1})
+result = client.Product().load({"id": 1})
 ```
 
 ### Common Methods
@@ -698,7 +709,7 @@ for promotion in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Promotion().load({"promotion_id": 1})
+result = client.Promotion().load({"id": 1})
 ```
 
 ### Common Methods
@@ -761,7 +772,7 @@ for service in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Service().load({"service_id": 1})
+result = client.Service().load({"id": 1})
 ```
 
 ### Common Methods
@@ -793,10 +804,10 @@ Return the entity name.
 
 ---
 
-## StatementInquiryEntity
+## StatementEntity
 
 ```python
-statement_inquiry = client.StatementInquiry()
+statement = client.Statement()
 ```
 
 ### Fields
@@ -805,23 +816,21 @@ statement_inquiry = client.StatementInquiry()
 | --- | --- | --- | --- |
 | `account_number` | `str` | Yes | Account number. |
 | `account_qualifier` | `str` | No |  |
-| `balance` | `dict` | Yes |  |
-| `dates` | `dict` | Yes |  |
 | `page` | `int` | No | Page number |
 | `per_page` | `int` | No | Number of records per page |
 | `product_id` | `int` | Yes | Product identifier. |
-| `reference` | `Any` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch=None, ctrl=None) -> list`
+#### `create(reqdata, ctrl=None) -> dict`
 
-List entities matching the given criteria. The match is optional — call `list()` with no argument to list all records. Returns a list and raises on error.
+Create a new entity with the given data. Returns the created entity data and raises on error.
 
 ```python
-results = client.StatementInquiry().list()
-for statement_inquiry in results:
-    print(statement_inquiry)
+result = client.Statement().create({
+    "account_number": "example_account_number",  # str
+    "product_id": 1,  # int
+})
 ```
 
 ### Common Methods
@@ -844,7 +853,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `StatementInquiryEntity` instance with the same options.
+Create a new `StatementEntity` instance with the same options.
 
 #### `get_name() -> str`
 
@@ -924,18 +933,7 @@ for transaction in results:
 Load a single entity matching the given criteria. Returns the entity data and raises on error.
 
 ```python
-result = client.Transaction().load({"transaction_id": 1})
-```
-
-#### `update(reqdata, ctrl=None) -> dict`
-
-Update an existing entity. The data must include the entity `id`. Returns the updated entity data and raises on error.
-
-```python
-result = client.Transaction().update({
-    "transaction_id": 1,
-    # Fields to update
-})
+result = client.Transaction().load({"id": 1})
 ```
 
 ### Common Methods
@@ -971,14 +969,14 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1024,7 +1022,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1055,7 +1053,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1086,7 +1084,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1114,7 +1112,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1149,7 +1147,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -1180,7 +1178,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -1214,7 +1212,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -1245,7 +1243,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

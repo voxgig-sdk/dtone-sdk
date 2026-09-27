@@ -437,15 +437,15 @@ function DtoneSDK:CreditPartyStatus(data)
 end
 
 
--- Idiomatic facade: client:MobileNumberLookup():list() / client:MobileNumberLookup():load({ id = ... })
+-- Idiomatic facade: client:MobileNumber():list() / client:MobileNumber():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function DtoneSDK:MobileNumberLookup(data)
-  local EntityMod = require("entity.mobile_number_lookup_entity")
+function DtoneSDK:MobileNumber(data)
+  local EntityMod = require("entity.mobile_number_entity")
   if data == nil then
-    if self._mobile_number_lookup == nil then
-      self._mobile_number_lookup = EntityMod.new(self, nil)
+    if self._mobile_number == nil then
+      self._mobile_number = EntityMod.new(self, nil)
     end
-    return self._mobile_number_lookup
+    return self._mobile_number
   end
   return EntityMod.new(self, data)
 end
@@ -507,15 +507,15 @@ function DtoneSDK:Service(data)
 end
 
 
--- Idiomatic facade: client:StatementInquiry():list() / client:StatementInquiry():load({ id = ... })
+-- Idiomatic facade: client:Statement():list() / client:Statement():load({ id = ... })
 -- Entity access is capitalised (PascalCase) for parity with the other SDKs.
-function DtoneSDK:StatementInquiry(data)
-  local EntityMod = require("entity.statement_inquiry_entity")
+function DtoneSDK:Statement(data)
+  local EntityMod = require("entity.statement_entity")
   if data == nil then
-    if self._statement_inquiry == nil then
-      self._statement_inquiry = EntityMod.new(self, nil)
+    if self._statement == nil then
+      self._statement = EntityMod.new(self, nil)
     end
-    return self._statement_inquiry
+    return self._statement
   end
   return EntityMod.new(self, data)
 end

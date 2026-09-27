@@ -65,9 +65,9 @@ Create a new `CreditPartyBenefit` entity instance. Pass `nil` for no initial dat
 
 Create a new `CreditPartyStatus` entity instance. Pass `nil` for no initial data.
 
-#### `MobileNumberLookup(data)`
+#### `MobileNumber(data)`
 
-Create a new `MobileNumberLookup` entity instance. Pass `nil` for no initial data.
+Create a new `MobileNumber` entity instance. Pass `nil` for no initial data.
 
 #### `Operator(data)`
 
@@ -85,9 +85,9 @@ Create a new `Promotion` entity instance. Pass `nil` for no initial data.
 
 Create a new `Service` entity instance. Pass `nil` for no initial data.
 
-#### `StatementInquiry(data)`
+#### `Statement(data)`
 
-Create a new `StatementInquiry` entity instance. Pass `nil` for no initial data.
+Create a new `Statement` entity instance. Pass `nil` for no initial data.
 
 #### `Transaction(data)`
 
@@ -271,7 +271,7 @@ local results, err = client:Campaign():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Campaign():load({ campaign_id = 1 })
+local result, err = client:Campaign():load({ id = 1 })
 ```
 
 ### Common Methods
@@ -314,6 +314,7 @@ local country = client:Country(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
+| `id` | `string` | No |  |
 | `iso_code` | `string` | Yes | Country code in [ISO 3166](https://www.iso.org/iso-3166-country-codes.html) format. |
 | `name` | `string` | Yes |  |
 | `regions` | `table` | Yes |  |
@@ -333,7 +334,7 @@ local results, err = client:Country():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Country():load({ country_iso_code = "country_iso_code" })
+local result, err = client:Country():load({ id = "country_id" })
 ```
 
 ### Common Methods
@@ -376,25 +377,22 @@ local credit_party_benefit = client:CreditPartyBenefit(nil)
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `amount` | `number` | Yes | Remaining benefit amount. |
-| `country` | `table` | Yes |  |
 | `credit_party_identifier` | `table` | Yes |  |
-| `expiration_date` | `string` | Yes | A `null` value denotes either no expiration applies or that the product benefit has not yet been activated. |
 | `page` | `number` | No | Page number |
 | `per_page` | `number` | No | Number of records per page |
 | `service_id` | `number` | Yes | Service identifier. |
-| `type` | `string` | Yes |  |
-| `unit` | `string` | Yes |  |
-| `unit_type` | `string` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> any, err`
+#### `create(reqdata, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+Create a new entity with the given data.
 
 ```lua
-local results, err = client:CreditPartyBenefit():list()
+local result, err = client:CreditPartyBenefit():create({
+  credit_party_identifier = --[[ table ]],
+  service_id = --[[ number ]],
+})
 ```
 
 ### Common Methods
@@ -444,12 +442,17 @@ local credit_party_status = client:CreditPartyStatus(nil)
 
 ### Operations
 
-#### `load(reqmatch, ctrl) -> any, err`
+#### `create(reqdata, ctrl) -> any, err`
 
-Load a single entity matching the given criteria.
+Create a new entity with the given data.
 
 ```lua
-local result, err = client:CreditPartyStatus():load()
+local result, err = client:CreditPartyStatus():create({
+  activation_date = --[[ string ]],
+  credit_party_identifier = --[[ table ]],
+  installation_date = --[[ string ]],
+  service_id = --[[ number ]],
+})
 ```
 
 ### Common Methods
@@ -482,33 +485,39 @@ Return the entity name.
 
 ---
 
-## MobileNumberLookupEntity
+## MobileNumberEntity
 
 ```lua
-local mobile_number_lookup = client:MobileNumberLookup(nil)
+local mobile_number = client:MobileNumber(nil)
 ```
 
 ### Fields
 
 | Field | Type | Required | Description |
 | --- | --- | --- | --- |
-| `country` | `table` | Yes |  |
-| `id` | `number` | Yes | Operator identifier. |
-| `identified` | `boolean` | Yes | Indicates whether operator was identified as a direct match |
+| `id` | `string` | No |  |
 | `mobile_number` | `string` | Yes | Mobile number in [E.164](https://en.wikipedia.org/wiki/E.164) format. |
-| `name` | `string` | Yes |  |
 | `page` | `number` | No | Page number |
 | `per_page` | `number` | No | Number of records per page |
-| `regions` | `table` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> any, err`
+#### `create(reqdata, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+Create a new entity with the given data.
 
 ```lua
-local results, err = client:MobileNumberLookup():list()
+local result, err = client:MobileNumber():create({
+  mobile_number = --[[ string ]],
+})
+```
+
+#### `load(reqmatch, ctrl) -> any, err`
+
+Load a single entity matching the given criteria.
+
+```lua
+local result, err = client:MobileNumber():load({ id = "mobile_number_id" })
 ```
 
 ### Common Methods
@@ -531,7 +540,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `MobileNumberLookupEntity` instance with the same client and
+Create a new `MobileNumberEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -571,7 +580,7 @@ local results, err = client:Operator():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Operator():load({ operator_id = 1 })
+local result, err = client:Operator():load({ id = 1 })
 ```
 
 ### Common Methods
@@ -610,6 +619,12 @@ Return the entity name.
 local product = client:Product(nil)
 ```
 
+### Fields
+
+| Field | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id` | `string` | No |  |
+
 ### Operations
 
 #### `list(reqmatch, ctrl) -> any, err`
@@ -625,7 +640,7 @@ local results, err = client:Product():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Product():load({ product_id = 1 })
+local result, err = client:Product():load({ id = 1 })
 ```
 
 ### Common Methods
@@ -692,7 +707,7 @@ local results, err = client:Promotion():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Promotion():load({ promotion_id = 1 })
+local result, err = client:Promotion():load({ id = 1 })
 ```
 
 ### Common Methods
@@ -754,7 +769,7 @@ local results, err = client:Service():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Service():load({ service_id = 1 })
+local result, err = client:Service():load({ id = 1 })
 ```
 
 ### Common Methods
@@ -787,10 +802,10 @@ Return the entity name.
 
 ---
 
-## StatementInquiryEntity
+## StatementEntity
 
 ```lua
-local statement_inquiry = client:StatementInquiry(nil)
+local statement = client:Statement(nil)
 ```
 
 ### Fields
@@ -799,21 +814,21 @@ local statement_inquiry = client:StatementInquiry(nil)
 | --- | --- | --- | --- |
 | `account_number` | `string` | Yes | Account number. |
 | `account_qualifier` | `string` | No |  |
-| `balance` | `table` | Yes |  |
-| `dates` | `table` | Yes |  |
 | `page` | `number` | No | Page number |
 | `per_page` | `number` | No | Number of records per page |
 | `product_id` | `number` | Yes | Product identifier. |
-| `reference` | `any` | Yes |  |
 
 ### Operations
 
-#### `list(reqmatch, ctrl) -> any, err`
+#### `create(reqdata, ctrl) -> any, err`
 
-List entities matching the given criteria. Returns an array.
+Create a new entity with the given data.
 
 ```lua
-local results, err = client:StatementInquiry():list()
+local result, err = client:Statement():create({
+  account_number = --[[ string ]],
+  product_id = --[[ number ]],
+})
 ```
 
 ### Common Methods
@@ -836,7 +851,7 @@ Set the entity match criteria.
 
 #### `make() -> Entity`
 
-Create a new `StatementInquiryEntity` instance with the same client and
+Create a new `StatementEntity` instance with the same client and
 options.
 
 #### `get_name() -> string`
@@ -915,18 +930,7 @@ local results, err = client:Transaction():list()
 Load a single entity matching the given criteria.
 
 ```lua
-local result, err = client:Transaction():load({ transaction_id = 1 })
-```
-
-#### `update(reqdata, ctrl) -> any, err`
-
-Update an existing entity. The data must include the entity `id`.
-
-```lua
-local result, err = client:Transaction():update({
-  transaction_id = 1,
-  -- Fields to update
-})
+local result, err = client:Transaction():load({ id = 1 })
 ```
 
 ### Common Methods
@@ -963,14 +967,14 @@ Return the entity name.
 
 | Feature | Version | Description |
 | --- | --- | --- |
-| `debug` | 0.0.1 | Request/response capture ring buffer for debugging |
-| `idempotency` | 0.0.1 | Idempotency keys for safe retries of mutating operations |
-| `metrics` | 0.0.1 | Statistics capture: per-operation counters and latency |
-| `paging` | 0.0.1 | Pagination signals for list operations |
-| `ratelimit` | 0.0.1 | Client-side rate limiting via a token bucket |
-| `retry` | 0.0.1 | Automatic retry of transient failures with exponential backoff |
-| `test` | 0.0.1 | In-memory mock transport for testing without a live server |
-| `timeout` | 0.0.1 | Per-request timeout with transport abort |
+| `debug` | 0.0.1 | Debug capture |
+| `idempotency` | 0.0.1 | Idempotency |
+| `metrics` | 0.0.1 | Metrics |
+| `paging` | 0.0.1 | Paging |
+| `ratelimit` | 0.0.1 | Rate limiting |
+| `retry` | 0.0.1 | Retry |
+| `test` | 0.0.1 | Test transport |
+| `timeout` | 0.0.1 | Timeout |
 
 
 Features are activated via the `feature` option:
@@ -1016,7 +1020,7 @@ rather than the transport, so their order does not affect what they observe.
 
 #### `debug`
 
-Request/response capture ring buffer for debugging.
+Debug capture.
 
 **Configuration**
 
@@ -1047,7 +1051,7 @@ its default unless you name it.
 
 #### `idempotency`
 
-Idempotency keys for safe retries of mutating operations.
+Idempotency.
 
 **Configuration**
 
@@ -1078,7 +1082,7 @@ its default unless you name it.
 
 #### `metrics`
 
-Statistics capture: per-operation counters and latency.
+Metrics.
 
 **Configuration**
 
@@ -1106,7 +1110,7 @@ its default unless you name it.
 
 #### `paging`
 
-Pagination signals for list operations.
+Paging.
 
 **Configuration**
 
@@ -1141,7 +1145,7 @@ its default unless you name it.
 
 #### `ratelimit`
 
-Client-side rate limiting via a token bucket.
+Rate limiting.
 
 **Configuration**
 
@@ -1172,7 +1176,7 @@ its default unless you name it.
 
 #### `retry`
 
-Automatic retry of transient failures with exponential backoff.
+Retry.
 
 **Configuration**
 
@@ -1206,7 +1210,7 @@ its default unless you name it.
 
 #### `test`
 
-In-memory mock transport for testing without a live server.
+Test transport.
 
 **Configuration**
 
@@ -1237,7 +1241,7 @@ its default unless you name it.
 
 #### `timeout`
 
-Per-request timeout with transport abort.
+Timeout.
 
 **Configuration**
 

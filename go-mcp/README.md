@@ -153,7 +153,7 @@ JSON schemas are emitted by the SDK from the `Args` struct's `json` /
 
 The 13 entities valid as the `entity` argument:
 
-balance | benefit_type | campaign | country | credit_party_benefit | credit_party_status | mobile_number_lookup | operator | product | promotion | service | statement_inquiry | transaction
+balance | benefit_type | campaign | country | credit_party_benefit | credit_party_status | mobile_number | operator | product | promotion | service | statement | transaction
 
 ### Smoke test via HTTP (raw JSON-RPC)
 

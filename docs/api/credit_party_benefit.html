@@ -12,12 +12,12 @@
 <a href="../api/country.html">Country</a>
 <a aria-current="page" href="../api/credit_party_benefit.html">CreditPartyBenefit</a><div class="nav-sections"><a class="nav-section" href="#post-lookupcredit-party-benefits">POST /lookup/credit-party-benefits</a></div>
 <a href="../api/credit_party_status.html">CreditPartyStatus</a>
-<a href="../api/mobile_number_lookup.html">MobileNumberLookup</a>
+<a href="../api/mobile_number.html">MobileNumber</a>
 <a href="../api/operator.html">Operator</a>
 <a href="../api/product.html">Product</a>
 <a href="../api/promotion.html">Promotion</a>
 <a href="../api/service.html">Service</a>
-<a href="../api/statement_inquiry.html">StatementInquiry</a>
+<a href="../api/statement.html">Statement</a>
 <a href="../api/transaction.html">Transaction</a></details>
 <details><summary>Guides</summary><a href="../guides/authentication.html">Authentication</a>
 <a href="../guides/first-call.html">Make your first API call</a>
@@ -32,14 +32,14 @@
 <a href="../sdks/ts.html">TypeScript</a></details>
 <details><summary>Tools</summary><a href="../tools/go-cli.html">Go CLI</a>
 <a href="../tools/go-mcp.html">Go MCP server</a></details>
-<details><summary>Features</summary><a href="../features/debug.html">Request/response capture ring buffer for debugging</a>
-<a href="../features/idempotency.html">Idempotency keys for safe retries of mutating operations</a>
-<a href="../features/metrics.html">Statistics capture: per-operation counters and latency</a>
-<a href="../features/paging.html">Pagination signals for list operations</a>
-<a href="../features/ratelimit.html">Client-side rate limiting via a token bucket</a>
-<a href="../features/retry.html">Automatic retry of transient failures with exponential backoff</a>
-<a href="../features/test.html">In-memory mock transport for testing without a live server</a>
-<a href="../features/timeout.html">Per-request timeout with transport abort</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="creditpartybenefit">CreditPartyBenefit</h1>
+<details><summary>Features</summary><a href="../features/debug.html">Debug capture</a>
+<a href="../features/idempotency.html">Idempotency</a>
+<a href="../features/metrics.html">Metrics</a>
+<a href="../features/paging.html">Paging</a>
+<a href="../features/ratelimit.html">Rate limiting</a>
+<a href="../features/retry.html">Retry</a>
+<a href="../features/test.html">Test transport</a>
+<a href="../features/timeout.html">Timeout</a></details></nav><main id="content"><div class="page-context"><span class="section-dot" aria-hidden="true"></span>API</div><h1 id="creditpartybenefit">CreditPartyBenefit</h1>
 <h2 id="operations">Operations</h2>
 <p>Every route this entity exposes. Each route links to its own reference on this page.</p>
 <table>
@@ -55,11 +55,41 @@
 <tr>
 <td><code>POST</code></td>
 <td><a href="#post-lookupcredit-party-benefits"><code>/lookup/credit-party-benefits</code></a></td>
-<td><code>list</code></td>
+<td><code>create</code></td>
 <td>successful operation</td>
 </tr>
 </tbody>
 </table>
+<h2 id="examples">Examples</h2>
+<p>One example per SDK, generated from the API model. The argument names are the parameters and fields of this entity, and the values are placeholders. The examples are not compiled or executed.</p>
+<h3 id="golang">Golang</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/go.html#set-up-the-client">Golang setup</a>, then call the operations:</p>
+<pre><code class="language-go">created, err := client.CreditPartyBenefit(nil).Create(map[string]any{&quot;credit_party_identifier&quot;: map[string]any{}, &quot;service_id&quot;: 1}, nil)
+if err != nil {
+    panic(err)
+}
+fmt.Println(created)
+</code></pre>
+<h3 id="javascript">JavaScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/js.html#set-up-the-client">JavaScript setup</a>, then call the operations:</p>
+<pre><code class="language-js">const created = await client.CreditPartyBenefit().create({ credit_party_identifier: {}, service_id: 1 })
+</code></pre>
+<h3 id="lua">Lua</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/lua.html#set-up-the-client">Lua setup</a>, then call the operations:</p>
+<pre><code class="language-lua">local created, err = client:CreditPartyBenefit():create({ credit_party_identifier = {}, service_id = 1 })
+</code></pre>
+<h3 id="php">PHP</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/php.html#set-up-the-client">PHP setup</a>, then call the operations:</p>
+<pre><code class="language-php">$created = $client-&gt;CreditPartyBenefit()-&gt;create([&quot;credit_party_identifier&quot; =&gt; [], &quot;service_id&quot; =&gt; 1]);
+</code></pre>
+<h3 id="python">Python</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/py.html#set-up-the-client">Python setup</a>, then call the operations:</p>
+<pre><code class="language-py">created = client.CreditPartyBenefit().create({ &quot;credit_party_identifier&quot;: {}, &quot;service_id&quot;: 1 })
+</code></pre>
+<h3 id="typescript">TypeScript</h3>
+<p>Construct <code>client</code> as shown in the <a href="../sdks/ts.html#set-up-the-client">TypeScript setup</a>, then call the operations:</p>
+<pre><code class="language-ts">const created = await client.CreditPartyBenefit().create({ credit_party_identifier: {}, service_id: 1 })
+</code></pre>
 <h2 id="fields">Fields</h2>
 <table>
 <thead>
@@ -72,28 +102,10 @@
 </thead>
 <tbody>
 <tr>
-<td><code>amount</code></td>
-<td><code>number</code></td>
-<td>Yes</td>
-<td>Remaining benefit amount.</td>
-</tr>
-<tr>
-<td><code>country</code></td>
-<td><code>object</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
 <td><code>credit_party_identifier</code></td>
 <td><code>object</code></td>
 <td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>expiration_date</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td>A <code>null</code> value denotes either no expiration applies or that the product benefit has not yet been activated.</td>
+<td>Credit Party Identifier</td>
 </tr>
 <tr>
 <td><code>page</code></td>
@@ -113,27 +125,9 @@
 <td>Yes</td>
 <td>Service identifier.</td>
 </tr>
-<tr>
-<td><code>type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>unit</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
-<tr>
-<td><code>unit_type</code></td>
-<td><code>string</code></td>
-<td>Yes</td>
-<td></td>
-</tr>
 </tbody>
 </table>
-<h2 id="list">list</h2>
+<h2 id="create">create</h2>
 <h3 id="post-lookupcredit-party-benefits" class="operation" data-method="post"><code>POST</code> /lookup/credit-party-benefits</h3>
 <p>Operation ID: <code>postLookupCreditPartyBenefits</code>.</p>
 <p>Authentication: basic token (<code>BasicAuth</code>).</p>

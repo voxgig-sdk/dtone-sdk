@@ -16,10 +16,9 @@ import type {
 
 import type {
   CreditPartyStatus,
-  CreditPartyStatusLoadMatch,
+  CreditPartyStatusCreateData,
 } from '../DtoneTypes'
 
-// TODO: needs Entity superclass
 class CreditPartyStatusEntity extends DtoneEntityBase<CreditPartyStatus> {
 
   constructor(client: DtoneSDK, entopts: any) {
@@ -36,10 +35,11 @@ class CreditPartyStatusEntity extends DtoneEntityBase<CreditPartyStatus> {
 
 
 
-  async load(this: any, reqmatch?: CreditPartyStatusLoadMatch, ctrl?: Control): Promise<CreditPartyStatusEntity> {
+
+
+  async create(this: any, reqdata?: CreditPartyStatusCreateData, ctrl?: Control): Promise<CreditPartyStatusEntity> {
 
     const utility = this._utility
-
     const {
       makeContext,
       done,
@@ -56,11 +56,11 @@ class CreditPartyStatusEntity extends DtoneEntityBase<CreditPartyStatus> {
     let fres: Promise<any> | undefined = undefined
 
     let ctx: Context = makeContext({
-      opname: 'load',
+      opname: 'create',
       ctrl,
       match: this._match,
       data: this._data,
-      reqmatch
+      reqdata
     }, this._entctx)
 
     try {
@@ -119,10 +119,6 @@ class CreditPartyStatusEntity extends DtoneEntityBase<CreditPartyStatus> {
       if (fres instanceof Promise) { await fres }
 
       if (null != ctx.result) {
-        if (null != ctx.result.resmatch) {
-          this._match = ctx.result.resmatch
-        }
-
         if (null != ctx.result.resdata) {
           this._data = ctx.result.resdata
         }
@@ -130,12 +126,6 @@ class CreditPartyStatusEntity extends DtoneEntityBase<CreditPartyStatus> {
 
       const out = done(ctx)
 
-      // An operation resolves to the ENTITY, not the raw data — the record
-      // has just been absorbed into this instance and is reached through
-      // data(). `done` still runs: it completes the pipeline and raises on
-      // failure, and when throwing is disabled it hands back the error
-      // payload, which passes through unchanged. See AGENTS.md "Entity
-      // operations return ENTITIES".
       return (ctx.result && ctx.result.ok) ? this : out
     }
     catch (err: any) {
@@ -155,8 +145,6 @@ class CreditPartyStatusEntity extends DtoneEntityBase<CreditPartyStatus> {
       }
     }
   }
-
-
 
 
 

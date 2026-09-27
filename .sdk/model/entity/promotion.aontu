@@ -1,0 +1,213 @@
+# Entity: promotion
+
+main: kit: entity: promotion: {
+
+  alias: field: {}
+
+  fields: {
+    description: {
+      h: "Description"
+      n: "description"
+      r: true
+      t: "`$STRING`"
+    }
+    end_date: {
+      fo: "date-time"
+      h: "End Date"
+      n: "end_date"
+      r: true
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: true
+      t: "`$INTEGER`"
+    }
+    operator: {
+      h: "Operator"
+      n: "operator"
+      r: true
+      t: "`$OBJECT`"
+    }
+    products: {
+      h: "Products"
+      n: "products"
+      r: true
+      t: "`$ARRAY`"
+    }
+    start_date: {
+      fo: "date-time"
+      h: "Start Date"
+      n: "start_date"
+      r: true
+      t: "`$STRING`"
+    }
+    terms: {
+      h: "Terms"
+      n: "terms"
+      r: true
+      t: "`$STRING`"
+    }
+    title: {
+      h: "Title"
+      n: "title"
+      r: true
+      t: "`$STRING`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "promotion"
+  op: {
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /promotions"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                ex: "es"
+                k: "header"
+                n: "accept_language"
+                or: "accept_language"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+            query: [
+              {
+                k: "query"
+                n: "country_iso_code"
+                or: "country_iso_code"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "operator_id"
+                or: "operator_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "product_id"
+                or: "product_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/promotions"
+          q: {
+            exist: [
+              "accept_language"
+              "country_iso_code"
+              "operator_id"
+              "page"
+              "per_page"
+              "product_id"
+            ]
+          }
+          s: [
+            {
+              lit: "promotions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /promotions/{promotion_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            header: [
+              {
+                ex: "es"
+                k: "header"
+                n: "accept_language"
+                or: "accept_language"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "promotion_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/promotions/{promotion_id}"
+          q: {
+            exist: [
+              "accept_language"
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              promotion_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "promotions"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

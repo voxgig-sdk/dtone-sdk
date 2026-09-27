@@ -1,0 +1,143 @@
+# Generated from the API definition and overwritten on every build: do not
+# edit this file. Put customizations in the guide entry file, which includes
+# this one and overrides its defaults:
+#   guide.aontu
+
+guide: {
+  metrics: count: entity: 13
+  metrics: count: path: 26
+  metrics: count: method: 26
+
+  entity: balance: {
+    path: "/balances": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: benefit_type: {
+    path: "/benefit-types": {
+      op: list: method: *GET
+    }
+  }
+
+  entity: campaign: {
+    path: "/campaigns": {
+      op: list: method: *GET
+    }
+    path: "/campaigns/{campaign_id}": {
+      rename: param: "campaign_id": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: country: {
+    path: "/countries": {
+      op: list: method: *GET
+    }
+    path: "/countries/{country_iso_code}": {
+      rename: param: "country_iso_code": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: credit_party_benefit: {
+    path: "/lookup/credit-party-benefits": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: credit_party_status: {
+    path: "/lookup/credit-party-status": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: mobile_number: {
+    path: "/lookup/mobile-number": {
+      op: create: method: *POST
+      op: create: transform: req: "mobile_number": *("`reqdata`")|top
+    }
+    path: "/lookup/mobile-number/{mobile_number}": {
+      rename: param: "mobile_number": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: operator: {
+    path: "/operators": {
+      op: list: method: *GET
+    }
+    path: "/operators/{operator_id}": {
+      rename: param: "operator_id": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: product: {
+    path: "/products": {
+      op: list: method: *GET
+    }
+    path: "/products/{product_id}": {
+      rename: param: "product_id": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: promotion: {
+    path: "/promotions": {
+      op: list: method: *GET
+    }
+    path: "/promotions/{promotion_id}": {
+      rename: param: "promotion_id": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: service: {
+    path: "/services": {
+      op: list: method: *GET
+    }
+    path: "/services/{service_id}": {
+      rename: param: "service_id": *"id"
+      op: load: method: *GET
+    }
+  }
+
+  entity: statement: {
+    path: "/lookup/statement-inquiry": {
+      op: create: method: *POST
+    }
+  }
+
+  entity: transaction: {
+    path: "/async/transactions": {
+      op: create: method: *POST
+    }
+    path: "/async/transactions/{transaction_id}/confirm": {
+      action: "confirm": {}
+      rename: param: "transaction_id": *"id"
+      op: create: method: *POST
+    }
+    path: "/sync/transactions": {
+      op: create: method: *POST
+    }
+    path: "/sync/transactions/{transaction_id}/confirm": {
+      action: "confirm": {}
+      rename: param: "transaction_id": *"id"
+      op: create: method: *POST
+    }
+    path: "/transactions": {
+      op: list: method: *GET
+    }
+    path: "/transactions/{transaction_id}": {
+      rename: param: "transaction_id": *"id"
+      op: load: method: *GET
+    }
+    path: "/transactions/{transaction_id}/cancel": {
+      action: "cancel": {}
+      rename: param: "transaction_id": *"id"
+      op: create: method: *POST
+    }
+  }
+
+}

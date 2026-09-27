@@ -60,7 +60,7 @@ describe("TransactionEntity", function()
     local setup = transaction_basic_setup(nil)
     -- Per-op sdk-test-control.json skip.
     local _live = setup.live or false
-    for _, _op in ipairs({"create", "list", "update", "load"}) do
+    for _, _op in ipairs({"create", "list", "load"}) do
       local _should_skip, _reason = runner.is_control_skipped("entityOp", "transaction." .. _op, _live and "live" or "unit")
       if _should_skip then
         pending(_reason or "skipped via sdk-test-control.json")
@@ -97,22 +97,6 @@ describe("TransactionEntity", function()
       runner.entity_list_to_data(transaction_ref01_list_result),
       { id = transaction_ref01_data["id"] })
     assert.is_false(vs.isempty(found_item))
-
-    -- UPDATE
-    local transaction_ref01_data_up0_up = {
-      id = transaction_ref01_data["id"],
-    }
-
-    local transaction_ref01_markdef_up0_name = "callback_url"
-    local transaction_ref01_markdef_up0_value = "Mark01-transaction_ref01_" .. tostring(setup.now)
-    transaction_ref01_data_up0_up[transaction_ref01_markdef_up0_name] = transaction_ref01_markdef_up0_value
-
-    local transaction_ref01_resdata_up0_result, err = transaction_ref01_ent:update(transaction_ref01_data_up0_up, nil)
-    assert.is_nil(err)
-    local transaction_ref01_resdata_up0 = helpers.to_map(type(transaction_ref01_resdata_up0_result) == 'table' and transaction_ref01_resdata_up0_result.data_get and transaction_ref01_resdata_up0_result:data_get() or transaction_ref01_resdata_up0_result)
-    assert.is_not_nil(transaction_ref01_resdata_up0)
-    assert.are.equal(transaction_ref01_resdata_up0["id"], transaction_ref01_data_up0_up["id"])
-    assert.are.equal(transaction_ref01_resdata_up0[transaction_ref01_markdef_up0_name], transaction_ref01_markdef_up0_value)
 
     -- LOAD
     local transaction_ref01_match_dt0 = {

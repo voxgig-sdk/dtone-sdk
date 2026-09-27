@@ -68,11 +68,11 @@ describe("CountryDirect", function()
     local params = {}
     local query = {}
     if not setup.live then
-      params["country_iso_code"] = "direct01"
+      params["id"] = "direct01"
     end
 
     local result, err = client:direct({
-      path = "countries/{country_iso_code}",
+      path = "countries/{id}",
       method = "GET",
       params = params,
       query = query,

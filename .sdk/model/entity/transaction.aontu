@@ -1,0 +1,602 @@
+# Entity: transaction
+
+main: kit: entity: transaction: {
+
+  alias: field: {}
+
+  fields: {
+    additional_identifier: {
+      h: "Additional Identifier"
+      n: "additional_identifier"
+      r: false
+      sh: "Additional details for a transaction."
+      t: "`$OBJECT`"
+    }
+    adjusted_values: {
+      h: "Adjusted Values"
+      n: "adjusted_values"
+      r: false
+      ro: true
+      t: "`$OBJECT`"
+    }
+    auto_confirm: {
+      h: "Auto Confirm"
+      n: "auto_confirm"
+      r: false
+      sh: "Determines whether a transaction will be automatically confirmed upon creation or not."
+      t: "`$BOOLEAN`"
+      wo: true
+    }
+    beneficiary: {
+      h: "Beneficiary"
+      n: "beneficiary"
+      r: false
+      sh: "Beneficiary details for a transaction."
+      t: "`$OBJECT`"
+    }
+    benefits: {
+      h: "Benefits"
+      n: "benefits"
+      r: false
+      ro: true
+      t: "`$ARRAY`"
+      union: {
+        branches: 2
+        count: 1
+        depth: 1
+      }
+    }
+    calculation_mode: {
+      h: "Calculation Mode"
+      n: "calculation_mode"
+      r: false
+      t: "`$ANY`"
+    }
+    callback_url: {
+      fo: "uri"
+      h: "Callback Url"
+      n: "callback_url"
+      r: false
+      sh: "Transaction status updates will be sent to this endpoint."
+      t: "`$STRING`"
+    }
+    confirmation_date: {
+      fo: "date-time"
+      h: "Confirmation Date"
+      n: "confirmation_date"
+      r: false
+      ro: true
+      t: "`$STRING`"
+    }
+    confirmation_expiration_date: {
+      fo: "date-time"
+      h: "Confirmation Expiration Date"
+      n: "confirmation_expiration_date"
+      r: false
+      ro: true
+      t: "`$STRING`"
+    }
+    creation_date: {
+      fo: "date-time"
+      h: "Creation Date"
+      n: "creation_date"
+      r: false
+      ro: true
+      t: "`$STRING`"
+    }
+    credit_party_identifier: {
+      h: "Credit Party Identifier"
+      n: "credit_party_identifier"
+      r: false
+      sh: "Receiving account details for a transaction."
+      t: "`$OBJECT`"
+    }
+    debit_party_identifier: {
+      h: "Debit Party Identifier"
+      n: "debit_party_identifier"
+      r: false
+      sh: "Sending account details for a transaction."
+      t: "`$OBJECT`"
+    }
+    destination: {
+      h: "Destination"
+      n: "destination"
+      r: true
+      sh: "Required for ranged value products and when `calculation_mode` is set to `DESTINATION_AMOUNT`"
+      t: "`$OBJECT`"
+      wo: true
+    }
+    external_id: {
+      h: "External Id"
+      n: "external_id"
+      r: true
+      t: "`$STRING`"
+    }
+    id: {
+      h: "Id"
+      n: "id"
+      r: false
+      ro: true
+      t: "`$STRING`"
+    }
+    metadata: {
+      h: "Metadata"
+      n: "metadata"
+      r: false
+      sh: "Optional metadata related to the transaction."
+      t: "`$OBJECT`"
+    }
+    operator_reference: {
+      h: "Operator Reference"
+      n: "operator_reference"
+      r: false
+      ro: true
+      t: "`$STRING`"
+    }
+    pin: {
+      h: "Pin"
+      n: "pin"
+      r: true
+      ro: true
+      t: "`$OBJECT`"
+    }
+    prices: {
+      h: "Prices"
+      n: "prices"
+      r: true
+      ro: true
+      t: "`$OBJECT`"
+    }
+    product: {
+      h: "Product"
+      n: "product"
+      r: false
+      t: "`$ANY`"
+    }
+    product_id: {
+      h: "Product Id"
+      n: "product_id"
+      r: true
+      t: "`$STRING`"
+      wo: true
+    }
+    promotions: {
+      h: "Promotions"
+      n: "promotions"
+      r: false
+      ro: true
+      t: "`$ARRAY`"
+    }
+    rates: {
+      h: "Rates"
+      n: "rates"
+      r: false
+      t: "`$ANY`"
+    }
+    requested_values: {
+      h: "Requested Values"
+      n: "requested_values"
+      r: false
+      ro: true
+      t: "`$OBJECT`"
+    }
+    sender: {
+      h: "Sender"
+      n: "sender"
+      r: false
+      sh: "Sender details for a transaction."
+      t: "`$OBJECT`"
+    }
+    source: {
+      h: "Source"
+      n: "source"
+      r: true
+      sh: "Required for ranged value products and when `calculation_mode` is set to `SOURCE_AMOUNT`"
+      t: "`$OBJECT`"
+      wo: true
+    }
+    statement_identifier: {
+      h: "Statement Identifier"
+      n: "statement_identifier"
+      r: false
+      sh: "Qualifying statement details for a payment transaction."
+      t: "`$OBJECT`"
+    }
+    status: {
+      h: "Status"
+      n: "status"
+      r: false
+      ro: true
+      t: "`$OBJECT`"
+    }
+  }
+
+  id: {
+    field: "id"
+    name: "id"
+  }
+
+  name: "transaction"
+  op: {
+    create: {
+      name: "create"
+      points: [
+        {
+          co: {
+            id: "POST /transactions/{transaction_id}/cancel"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "transaction_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/transactions/{transaction_id}/cancel"
+          q: {
+            "$action": "cancel"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              transaction_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "transactions"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "cancel"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /async/transactions/{transaction_id}/confirm"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "transaction_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/async/transactions/{transaction_id}/confirm"
+          q: {
+            "$action": "confirm"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              transaction_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "async"
+            }
+            {
+              lit: "transactions"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "confirm"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /sync/transactions/{transaction_id}/confirm"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "transaction_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "POST"
+          o: "/sync/transactions/{transaction_id}/confirm"
+          q: {
+            "$action": "confirm"
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              transaction_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "sync"
+            }
+            {
+              lit: "transactions"
+            }
+            {
+              var: "id"
+            }
+            {
+              lit: "confirm"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /async/transactions"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/async/transactions"
+          s: [
+            {
+              lit: "async"
+            }
+            {
+              lit: "transactions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+        {
+          co: {
+            id: "POST /sync/transactions"
+            source: "openapi3"
+            version: 2
+          }
+          m: "POST"
+          o: "/sync/transactions"
+          s: [
+            {
+              lit: "sync"
+            }
+            {
+              lit: "transactions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    list: {
+      name: "list"
+      points: [
+        {
+          co: {
+            id: "GET /transactions"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            query: [
+              {
+                k: "query"
+                n: "country_iso_code"
+                or: "country_iso_code"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "credit_party_account_number"
+                or: "credit_party_account_number"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "credit_party_mobile_number"
+                or: "credit_party_mobile_number"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "external_id"
+                or: "external_id"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                ex: "1970-01-01T00:00:00.000000Z"
+                k: "query"
+                n: "from_date"
+                or: "from_date"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "operator_id"
+                or: "operator_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 1
+                k: "query"
+                n: "page"
+                or: "page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: 50
+                k: "query"
+                n: "per_page"
+                or: "per_page"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "product_type"
+                or: "product_type"
+                r: false
+                t: "`$STRING`"
+              }
+              {
+                k: "query"
+                n: "service_id"
+                or: "service_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "status_id"
+                or: "status_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                k: "query"
+                n: "subservice_id"
+                or: "subservice_id"
+                r: false
+                t: "`$INTEGER`"
+              }
+              {
+                ex: "2020-02-02T14:00:00.022220+08:00"
+                k: "query"
+                n: "to_date"
+                or: "to_date"
+                r: false
+                t: "`$STRING`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/transactions"
+          q: {
+            exist: [
+              "country_iso_code"
+              "credit_party_account_number"
+              "credit_party_mobile_number"
+              "external_id"
+              "from_date"
+              "operator_id"
+              "page"
+              "per_page"
+              "product_type"
+              "service_id"
+              "status_id"
+              "subservice_id"
+              "to_date"
+            ]
+          }
+          s: [
+            {
+              lit: "transactions"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+    load: {
+      name: "load"
+      points: [
+        {
+          co: {
+            id: "GET /transactions/{transaction_id}"
+            source: "openapi3"
+            version: 2
+          }
+          g: {
+            params: [
+              {
+                k: "param"
+                n: "id"
+                or: "transaction_id"
+                r: true
+                t: "`$INTEGER`"
+              }
+            ]
+          }
+          m: "GET"
+          o: "/transactions/{transaction_id}"
+          q: {
+            exist: [
+              "id"
+            ]
+          }
+          r: {
+            param: {
+              transaction_id: "id"
+            }
+          }
+          s: [
+            {
+              lit: "transactions"
+            }
+            {
+              var: "id"
+            }
+          ]
+          t: {
+            req: "`reqdata`"
+            res: "`body`"
+          }
+        }
+      ]
+    }
+  }
+
+
+
+}

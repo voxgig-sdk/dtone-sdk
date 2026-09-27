@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BalanceEntity = void 0;
 const DtoneEntityBase_1 = require("../DtoneEntityBase");
-// TODO: needs Entity superclass
 class BalanceEntity extends DtoneEntityBase_1.DtoneEntityBase {
     constructor(client, entopts) {
         super(client, entopts);

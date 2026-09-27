@@ -8,10 +8,6 @@ const node_assert_1 = __importDefault(require("node:assert"));
 const live_runner_1 = require("../../live-runner");
 const __1 = require("../../..");
 const utility_1 = require("../../utility");
-// AFTER the imports on purpose: TypeScript hoists `import` above any
-// statement in the emitted CommonJS, so a loader placed above them would
-// run only after every imported module had already been evaluated - and
-// anything reading process.env at module scope would miss these values.
 (0, utility_1.loadEnvLocal)(__dirname + '/../../../.env.local');
 (0, node_test_1.describe)('ServiceDirect', async () => {
     // Per-test live pacing. Delay is read from sdk-test-control.json's
@@ -19,9 +15,6 @@ const utility_1 = require("../../utility");
     (0, node_test_1.afterEach)((0, utility_1.liveDelay)('DTONE_TEST_LIVE'));
     (0, node_test_1.test)('direct-exists', async () => {
         const sdk = new __1.DtoneSDK({
-            // Concrete base: a live construction must satisfy any server
-            // variables a templated base URL declares; overriding base with a
-            // literal (as the direct flow tests do) sidesteps the requirement.
             base: 'http://localhost:8080',
             system: { fetch: async () => ({}) }
         });
@@ -35,8 +28,6 @@ const utility_1 = require("../../utility");
         }
         const setup = directSetup({ id: 'direct01' });
         if ((0, utility_1.maybeSkipControl)(t, 'direct', 'direct-load-service', setup.live))
-            return;
-        if ((0, utility_1.skipIfMissingIds)(t, setup, ["service01"]))
             return;
         const { client, calls } = setup;
         const params = {};
@@ -52,18 +43,17 @@ const utility_1 = require("../../utility");
             if (null == listArr || listArr.length === 0) {
                 throw new Error('Live load blocked: discovery returned no entities');
             }
-            const candidateId = listArr[0]?.service_id ?? listArr[0]?.id;
+            const candidateId = listArr[0]?.id ?? listArr[0]?.id;
             if (null == candidateId) {
                 throw new Error('Live load blocked: discovery returned no usable identity');
             }
-            params.service_id = candidateId;
-            params.service_id = setup.idmap['service01'];
+            params.id = candidateId;
         }
         else {
-            params.service_id = 'direct01';
+            params.id = 'direct01';
         }
         const result = await client.direct({
-            path: 'services/{service_id}',
+            path: 'services/{id}',
             method: 'GET',
             params,
             query,

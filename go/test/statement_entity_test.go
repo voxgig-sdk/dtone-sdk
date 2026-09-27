@@ -52,7 +52,7 @@ func TestStatementEntity(t *testing.T) {
 		// CREATE
 		statementRef01Ent := client.Statement(nil)
 		statementRef01Data := core.ToMapAny(vs.GetProp(
-			vs.GetPath([]any{"new", "statement"}, setup.data), "statement_ref01"))
+			vs.GetPath(setup.data, []any{"new", "statement"}), "statement_ref01"))
 
 		statementRef01DataResult, err := statementRef01Ent.Create(statementRef01Data, nil)
 		if err != nil {
@@ -90,7 +90,7 @@ func statementBasicSetup(extra map[string]any) *entityTestSetup {
 	client := sdk.TestSDK(options, extra)
 
 	// Generate idmap via transform, matching TS pattern.
-	idmap := vs.Transform(
+	idmap, _ := vs.Transform(
 		[]any{"statement01", "statement02", "statement03"},
 		map[string]any{
 			"`$PACK`": []any{"", map[string]any{
@@ -110,7 +110,7 @@ func statementBasicSetup(extra map[string]any) *entityTestSetup {
 		"DTONE_TEST_STATEMENT_ENTID": idmap,
 		"DTONE_TEST_LIVE":      "FALSE",
 		"DTONE_TEST_EXPLAIN":   "FALSE",
-		"DTONE_APIKEY":         "NONE",
+		"DTONE_APIKEY":         "",
 	})
 
 	idmapResolved := core.ToMapAny(env["DTONE_TEST_STATEMENT_ENTID"])
@@ -119,11 +119,23 @@ func statementBasicSetup(extra map[string]any) *entityTestSetup {
 	}
 
 	if env["DTONE_TEST_LIVE"] == "TRUE" {
+		// An empty map, not a nil one: Merge returns nil when its last entry
+		// is nil, and BasicSetup is normally called with no extras - so a
+		// bare nil silently discarded the apikey and server values below.
+		extraOpts := extra
+		if extraOpts == nil {
+			extraOpts = map[string]any{}
+		}
+
 		mergedOpts := vs.Merge([]any{
+			// liveClientOptions() FIRST, so the generated fields below win:
+			// sdk-test-control.json's test.client.options adds to the live
+			// client, it does not redirect it.
+			liveClientOptions(),
 			map[string]any{
 				"apikey": env["DTONE_APIKEY"],
 			},
-			extra,
+			extraOpts,
 		})
 		client = sdk.NewDtoneSDK(core.ToMapAny(mergedOpts))
 	}

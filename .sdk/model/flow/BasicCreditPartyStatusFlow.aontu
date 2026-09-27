@@ -1,0 +1,18 @@
+# BasicCreditPartyStatusFlow
+
+main: kit: flow: BasicCreditPartyStatusFlow:
+{
+  entity: "credit_party_status",
+  kind: "basic",
+  name: "BasicCreditPartyStatusFlow",
+  step: [
+    {
+      i: {
+        ref: "credit_party_status_ref01"
+      }
+
+      o: "create"
+    }
+  ],
+  "key$": "BasicCreditPartyStatusFlow"
+}
